@@ -1,0 +1,34 @@
+name: Commit Message Check
+
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+
+jobs:
+  check-commit-message:
+    name: Check Commit Message Format
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Check commit messages
+        run: |
+          # Get all commit messages in the PR
+          commit_messages=$(git log --format=%s origin/${{ github.base_ref }}..${{ github.event.pull_request.head.sha }})
+          
+          # Check each commit message
+          echo "$commit_messages" | while read -r msg; do
+            if ! [[ "$msg" =~ ^FA-[0-9]+[a-zA-Z0-9]+:\ .+ ]]; then
+              echo "ERROR: Invalid commit message format: $msg"
+              echo "Required format: FA-Nr_task: msg"
+              echo "Example: FA-123_login: implement user authentication"
+              exit 1
+            fi
+          done
