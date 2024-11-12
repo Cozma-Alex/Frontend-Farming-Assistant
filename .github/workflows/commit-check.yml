@@ -1,5 +1,4 @@
 name: Commit Message Check
-
 on:
   pull_request:
     types:
@@ -21,14 +20,17 @@ jobs:
       - name: Check commit messages
         run: |
           # Get all commit messages in the PR
-          commit_messages=$(git log --format=%s origin/${{ github.base_ref }}..${{ github.event.pull_request.head.sha }})
+          git fetch origin ${{ github.base_ref }}
+          commits=$(git log --format=%s origin/${{ github.base_ref }}..${{ github.event.pull_request.head.sha }})
           
           # Check each commit message
-          echo "$commit_messages" | while read -r msg; do
-            if ! [[ "$msg" =~ ^FA-[0-9]+[a-zA-Z0-9]+:\ .+ ]]; then
-              echo "ERROR: Invalid commit message format: $msg"
-              echo "Required format: FA-Nr_task: msg"
-              echo "Example: FA-123_login: implement user authentication"
-              exit 1
+          echo "$commits" | while IFS= read -r msg; do
+            if [ -n "$msg" ]; then  # Skip empty lines
+              if ! [[ "$msg" =~ ^FA-[0-9]+:\ .+ ]]; then
+                echo "❌ Error: Invalid commit message format: $msg"
+                echo "✨ Required format: FA-<number>: <message>"
+                echo "📝 Example: FA-123: Add login feature"
+                exit 1
+              fi
             fi
           done
