@@ -56,20 +56,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       Text(
                         'Manage resources efficiently',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge
-                            ?.copyWith(
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                               color: Theme.of(context).colorScheme.onSurface,
                               fontWeight: FontWeight.bold,
                             ),
                       ),
                       Text(
                         'Keep track of your farm',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge
-                            ?.copyWith(
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                               color: Theme.of(context).colorScheme.onSurface,
                               fontWeight: FontWeight.bold,
                             ),
@@ -89,7 +83,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Text(
                       'Log In',
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurface),
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -100,9 +95,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           .textTheme
                           .bodyLarge
                           ?.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurfaceVariant),
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant,
+                          ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -118,9 +113,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           .textTheme
                           .bodyLarge
                           ?.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurfaceVariant),
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant,
+                          ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -134,10 +129,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       onTap: () {},
                       child: Text(
                         'Forgot password?',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium
-                            ?.copyWith(color: Colors.blue),
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: Colors.blue,
+                            ),
                       ),
                     ),
                   ),
@@ -200,7 +194,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Text(
                         'Create an account',
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurface),
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
                       ),
                     ),
                   ),
