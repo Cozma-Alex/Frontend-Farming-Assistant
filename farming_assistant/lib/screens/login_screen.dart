@@ -1,3 +1,4 @@
+import 'package:farming_assistant/widgets/register_widget.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -8,6 +9,18 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  void _openRegisterWidget() {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      showDragHandle: true,
+      useSafeArea: true,
+      context: context,
+      builder: (BuildContext context) {
+        return const RegisterWidget();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double containerHeight = 200;
@@ -34,7 +47,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: containerHeight,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const Image(
                         image: AssetImage("assets/images/logo.png"),
@@ -90,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 20),
                   TextField(
                     decoration: InputDecoration(
-                      hintText: 'Mail...',
+                      hintText: 'Email...',
                       hintStyle: Theme.of(context)
                           .textTheme
                           .bodyLarge
@@ -184,7 +196,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     width: 220,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: _openRegisterWidget,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.primary,
                         shape: RoundedRectangleBorder(
