@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -12,12 +10,11 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double containerHeight = max(150, height * 0.27);
+    double containerHeight = 200;
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
           children: [
             Stack(
@@ -35,49 +32,49 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(
                   width: double.infinity,
                   height: containerHeight,
-                  child: FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Image(
-                          image: AssetImage("assets/images/logo.png"),
-                          width: 100,
-                          height: 100,
-                        ),
-                        Text(
-                          'Farming assistant',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineMedium
-                              ?.copyWith(
-                                  color:
-                                      Theme.of(context).colorScheme.onSurface),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          'Manage resources efficiently',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge
-                              ?.copyWith(
-                                  color:
-                                      Theme.of(context).colorScheme.onSurface),
-                        ),
-                        Text(
-                          'Keep track of your farm',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge
-                              ?.copyWith(
-                                  color:
-                                      Theme.of(context).colorScheme.onSurface),
-                        ),
-                      ],
-                    ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Image(
+                        image: AssetImage("assets/images/logo.png"),
+                        width: 100,
+                        height: 100,
+                      ),
+                      Text(
+                        'Farming assistant',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineMedium
+                            ?.copyWith(
+                              color: Theme.of(context).colorScheme.onSurface,
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        'Manage resources efficiently',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyLarge
+                            ?.copyWith(
+                              color: Theme.of(context).colorScheme.onSurface,
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
+                      Text(
+                        'Keep track of your farm',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyLarge
+                            ?.copyWith(
+                              color: Theme.of(context).colorScheme.onSurface,
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
+                    ],
                   ),
                 ),
               ],
