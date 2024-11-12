@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Farming assistant',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
@@ -24,7 +25,9 @@ class MyApp extends StatelessWidget {
           secondaryContainer: const Color(0xFFFFD2B1),
           tertiaryContainer: const Color(0xFF88D0E2),
           surface: const Color(0xFFFFF9E6), // background color
-          onSurface: const Color(0xFF4B4B4B), // text color
+          // onSurface: const Color(0xFF4B4B4B), // text color
+          onSurface: Colors.black,
+          onSurfaceVariant: const Color(0xFF6A6A6A),
         ),
         useMaterial3: true,
       ),
