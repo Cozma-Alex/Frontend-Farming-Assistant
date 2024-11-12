@@ -1,5 +1,4 @@
 name: Commit Message Check
-
 on:
   pull_request:
     types:
@@ -11,7 +10,7 @@ jobs:
   check-commit-message:
     name: Check Commit Message Format
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -23,12 +22,36 @@ jobs:
           # Get all commit messages in the PR
           commit_messages=$(git log --format=%s origin/${{ github.base_ref }}..${{ github.event.pull_request.head.sha }})
           
-          # Check each commit message
-          echo "$commit_messages" | while read -r msg; do
-            if ! [[ "$msg" =~ ^FA-[0-9]+[a-zA-Z0-9]+:\ .+ ]]; then
-              echo "ERROR: Invalid commit message format: $msg"
-              echo "Required format: FA-Nr_task: msg"
-              echo "Example: FA-123_login: implement user authentication"
-              exit 1
+          # Function to check commit message
+          check_commit_message() {
+            local msg="$1"
+            # Skip merge commits
+            if [[ "$msg" == "Merge "* ]]; then
+              return 0
             fi
-          done
+          
+            # Check the format with proper regex
+            if ! [[ "$msg" =~ ^FA-[0-9]+:\ .+ ]]; then
+              echo "ERROR: Invalid commit message format: $msg"
+              echo "Required format: FA- :  "
+              echo "Examples:"
+              echo "FA-123: Add login feature"
+              echo "FA-456: Fix navigation bug"
+              return 1
+            fi
+          }
+          
+          # Process each commit message
+          exit_code=0
+          while IFS= read -r msg; do
+            if [ -n "$msg" ]; then  # Only process non-empty messages
+              if ! check_commit_message "$msg"; then
+                exit_code=1
+              fi
+            fi
+          done  "$commit_messages"
+          
+          # If any checks failed, exit with error
+          if [ $exit_code -ne 0 ]; then
+            exit 1
+          fi
