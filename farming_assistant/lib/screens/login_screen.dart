@@ -1,4 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import '../models/user.dart';
+import  '../utils/config.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -8,6 +13,10 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     double containerHeight = 200;
@@ -89,6 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 20),
                   TextField(
+                    controller : emailController,
                     decoration: InputDecoration(
                       hintText: 'Mail...',
                       hintStyle: Theme.of(context)
@@ -105,6 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 15),
                   TextField(
+                    controller : passwordController,
                     obscureText: true,
                     obscuringCharacter: '*',
                     decoration: InputDecoration(
@@ -160,7 +171,21 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     width: 220,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      //Basic login API call.
+                      //TODO: Actual implementation of page navigation and display failed login
+                      onPressed: () {
+                        String username = emailController.text;
+                        String password = passwordController.text;
+                        var userData = loginAPI(username, password);
+                        userData.then((value) {
+                          if (value.statusCode == 200) {
+                            var jsonData = jsonDecode(value.body);
+                            var user = User.fromJson(jsonData);
+                          } else {
+                            print('${value.statusCode} - error');
+                          }
+                        });
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.primary,
                         shape: RoundedRectangleBorder(
@@ -206,5 +231,26 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+}
+
+Future<http.Response> loginAPI(String email, String password) async {
+  final uri = Uri.parse('${APIConfig.baseURI}/users/auth');
+
+  try {
+    final response = await http.post(
+      uri,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        'email': email,
+        'password_hash': password,
+      }),
+    );
+
+    return response;
+  } catch (e) {
+    throw Exception('Failed to login: $e');
   }
 }
