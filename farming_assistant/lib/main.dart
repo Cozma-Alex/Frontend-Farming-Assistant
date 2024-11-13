@@ -32,6 +32,9 @@ class MyApp extends StatelessWidget {
           onSurface: Colors.black,
           onSurfaceVariant: const Color(0xFF6A6A6A),
         ),
+        bottomSheetTheme: const BottomSheetThemeData(
+          backgroundColor: Color(0xFFFFF9E6),
+        ),
         useMaterial3: true,
       ),
       home: const LoginScreen(),
