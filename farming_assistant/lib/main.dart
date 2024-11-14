@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
           tertiary: const Color(0xFFC29E76),
           primaryContainer: const Color(0xFFF2F2F2),
           secondaryContainer: const Color(0xFFCDC5AD),
-          tertiaryContainer: const Color(0xFF88D0E2),
+          tertiaryContainer: const Color(0x55C5C5C5),
           surface: const Color(0xFFFFF9E6), // background color
           // onSurface: const Color(0xFF4B4B4B), // text color
           onSurface: Colors.black, // better visibility

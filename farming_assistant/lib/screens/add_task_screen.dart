@@ -105,11 +105,12 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                         ),
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: TextFormField(
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           labelText: 'Task name...',
                           border: InputBorder.none,
+                          filled: true,
+                          fillColor: Theme.of(context).colorScheme.tertiaryContainer,
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -128,12 +129,14 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                         ),
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      // padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: TextFormField(
                         maxLines: 5,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           labelText: 'Task description...',
                           border: InputBorder.none,
+                          filled: true,
+                          fillColor: Theme.of(context).colorScheme.tertiaryContainer,
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
