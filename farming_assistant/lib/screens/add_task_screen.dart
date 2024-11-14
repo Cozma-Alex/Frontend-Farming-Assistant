@@ -20,6 +20,36 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     });
   }
 
+  DateTime _selectedDate = DateTime.timestamp();
+
+  TimeOfDay _selectedTime = TimeOfDay.now();
+
+  Future<void>? _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate,
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2101),
+    );
+    if (picked != null && picked != _selectedDate) {
+      setState(() {
+        _selectedDate = picked;
+      });
+    }
+  }
+
+  Future<void>? _selectTime(BuildContext context) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: _selectedTime,
+    );
+    if (picked != null && picked != _selectedTime) {
+      setState(() {
+        _selectedTime = picked;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -223,18 +253,14 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                     const SizedBox(height: 16),
                     Container(
                       height: 70,
-                      /*decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.black54,
-                          width: 1,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),*/
                       padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Text(
-                            'Deadline:',
+                            _selectedRecurrence == Recurrence.none
+                                ? 'Deadline'
+                                : 'Start date',
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyLarge
@@ -243,25 +269,88 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                       Theme.of(context).colorScheme.onSurface,
                                 ),
                           ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: InputDatePickerFormField(
-                              fieldLabelText: "Enter date (MM/DD/YYYY)",
-                              firstDate: DateTime.timestamp(),
-                              lastDate: DateTime(DateTime.timestamp().year + 2),
-                              initialDate: DateTime.timestamp(),
-                              onDateSubmitted: (DateTime value) {},
+                          InkWell(
+                            mouseCursor: SystemMouseCursors.click,
+                            onTap: () {
+                              _selectDate(context);
+                            },
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Icon(
+                                  Icons.calendar_month,
+                                  color:
+                                      Theme.of(context).colorScheme.onSurface,
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  _selectedDate.toString().split(' ')[0],
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSurface,
+                                      ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          InkWell(
+                            mouseCursor: SystemMouseCursors.click,
+                            onTap: () {
+                              _selectTime(context);
+                            },
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Icon(
+                                  Icons.access_time,
+                                  color:
+                                      Theme.of(context).colorScheme.onSurface,
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  _selectedTime.format(context),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSurface,
+                                      ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
                       ),
                     ),
                     const SizedBox(height: 16),
-                    ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {}
-                      },
-                      child: const Text('Add Task'),
+                    SizedBox(
+                      width: 180,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {}
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primary,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        child: Text(
+                          'Add Task',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
