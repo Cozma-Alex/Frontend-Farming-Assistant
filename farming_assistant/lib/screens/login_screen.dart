@@ -35,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
     double containerHeight = 200;
 
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       body: SingleChildScrollView(
         child: Column(
           children: [

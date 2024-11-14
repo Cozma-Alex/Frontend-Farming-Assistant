@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
           onSurfaceVariant: const Color(0xFF6A6A6A),
         ),
         bottomSheetTheme: const BottomSheetThemeData(
-          backgroundColor: Color(0xFFFFF9E6),
+          backgroundColor: Color(0xFFF2F2F2),
         ),
         useMaterial3: true,
       ),
