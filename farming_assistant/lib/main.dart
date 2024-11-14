@@ -25,15 +25,15 @@ class MyApp extends StatelessWidget {
           secondary: const Color(0xFFFFE57E),
           tertiary: const Color(0xFFC29E76),
           primaryContainer: const Color(0xFFF2F2F2),
-          secondaryContainer: const Color(0xFFFFD2B1),
-          tertiaryContainer: const Color(0xFF88D0E2),
+          secondaryContainer: const Color(0xFFCDC5AD),
+          tertiaryContainer: const Color(0x55C5C5C5),
           surface: const Color(0xFFFFF9E6), // background color
           // onSurface: const Color(0xFF4B4B4B), // text color
-          onSurface: Colors.black,
+          onSurface: Colors.black, // better visibility
           onSurfaceVariant: const Color(0xFF6A6A6A),
         ),
         bottomSheetTheme: const BottomSheetThemeData(
-          backgroundColor: Color(0xFFFFF9E6),
+          backgroundColor: Color(0xFFF2F2F2),
         ),
         useMaterial3: true,
       ),

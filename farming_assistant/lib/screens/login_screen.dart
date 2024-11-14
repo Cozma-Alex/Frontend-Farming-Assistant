@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:farming_assistant/widgets/register_widget.dart';
 import 'package:farming_assistant/screens/homepage_screen.dart'; // Add this line
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import '../models/user.dart';
+import  '../utils/config.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -10,6 +15,12 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  final TextEditingController _registerNameController = TextEditingController();
+  final TextEditingController _registerFarmNameController = TextEditingController();
+
   void _openRegisterWidget() {
     showModalBottomSheet(
       isScrollControlled: true,
@@ -17,7 +28,12 @@ class _LoginScreenState extends State<LoginScreen> {
       useSafeArea: true,
       context: context,
       builder: (BuildContext context) {
-        return const RegisterWidget();
+        return RegisterWidget(
+          emailController: _emailController,
+          passwordController: _passwordController,
+          nameController: _registerNameController,
+          farmNameController: _registerFarmNameController,
+        );
       },
     );
   }
@@ -34,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
     double containerHeight = 200;
 
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -109,6 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 20),
                   TextField(
+                    controller : _emailController,
                     decoration: InputDecoration(
                       hintText: 'Email...',
                       hintStyle: Theme.of(context)
@@ -121,10 +138,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
+                      filled: true,
+                      fillColor: Theme.of(context).colorScheme.tertiaryContainer,
                     ),
                   ),
                   const SizedBox(height: 15),
                   TextField(
+                    controller : _passwordController,
                     obscureText: true,
                     obscuringCharacter: '*',
                     decoration: InputDecoration(
@@ -139,6 +159,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
+                      filled: true,
+                      fillColor: Theme.of(context).colorScheme.tertiaryContainer,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -181,6 +203,22 @@ class _LoginScreenState extends State<LoginScreen> {
                       width: 220,
                       child: ElevatedButton(
                         onPressed: _signIn, 
+                      //TODO implement CORS
+                      //TODO apply loginAPI call
+                      //DO NOT DELETE THIS
+                      //   onPressed: () {
+                      //   String username = _emailController.text;
+                      //   String password = _passwordController.text;
+                      //   var userData = loginAPI(username, password);
+                      //   userData.then((value) {
+                      //     if (value.statusCode == 200) {
+                      //       var jsonData = jsonDecode(value.body);
+                      //       var user = User.fromJson(jsonData);
+                      //     } else {
+                      //       print('${value.statusCode} - error');
+                      //     }
+                      //   });
+                      // },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Theme.of(context).colorScheme.primary,
                           shape: RoundedRectangleBorder(
@@ -226,5 +264,26 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+}
+
+Future<http.Response> loginAPI(String email, String password) async {
+  final uri = Uri.parse('${APIConfig.baseURI}/users/auth');
+
+  try {
+    final response = await http.post(
+      uri,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        'email': email,
+        'password_hash': password,
+      }),
+    );
+
+    return response;
+  } catch (e) {
+    throw Exception('Failed to login: $e');
   }
 }
