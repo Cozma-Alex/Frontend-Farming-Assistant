@@ -14,9 +14,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  final TextEditingController _registerNameController = TextEditingController();
+  final TextEditingController _registerFarmNameController = TextEditingController();
 
   void _openRegisterWidget() {
     showModalBottomSheet(
@@ -25,7 +27,12 @@ class _LoginScreenState extends State<LoginScreen> {
       useSafeArea: true,
       context: context,
       builder: (BuildContext context) {
-        return const RegisterWidget();
+        return RegisterWidget(
+          emailController: _emailController,
+          passwordController: _passwordController,
+          nameController: _registerNameController,
+          farmNameController: _registerFarmNameController,
+        );
       },
     );
   }
@@ -35,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
     double containerHeight = 200;
 
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -110,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 20),
                   TextField(
-                    controller : emailController,
+                    controller : _emailController,
                     decoration: InputDecoration(
                       hintText: 'Email...',
                       hintStyle: Theme.of(context)
@@ -123,11 +130,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
+                      filled: true,
+                      fillColor: Theme.of(context).colorScheme.tertiaryContainer,
                     ),
                   ),
                   const SizedBox(height: 15),
                   TextField(
-                    controller : passwordController,
+                    controller : _passwordController,
                     obscureText: true,
                     obscuringCharacter: '*',
                     decoration: InputDecoration(
@@ -142,6 +151,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
+                      filled: true,
+                      fillColor: Theme.of(context).colorScheme.tertiaryContainer,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -186,8 +197,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       //Basic login API call.
                       //TODO: Actual implementation of page navigation and display failed login
                       onPressed: () {
-                        String username = emailController.text;
-                        String password = passwordController.text;
+                        String username = _emailController.text;
+                        String password = _passwordController.text;
                         var userData = loginAPI(username, password);
                         userData.then((value) {
                           if (value.statusCode == 200) {
