@@ -13,60 +13,61 @@ class HomePageScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Home Page"),
       ),
-      body: Column(
-        children: [
-          SizedBox(
-            height: containerHeight,
-            child: Stack(
-              children: [
-                Container(
-                  width: double.infinity,
-                  height: containerHeight,
-                  color: Theme.of(context).colorScheme.surface,
-                ),
-                Container(
-                  width: double.infinity,
-                  height: containerHeight,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage(
-                          "assets/images/home_background_top(2).png"),
-                      fit: BoxFit.cover,
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              height: containerHeight,
+              child: Stack(
+                children: [
+                  Container(
+                    width: double.infinity,
+                    height: containerHeight,
+                    color: Theme.of(context).colorScheme.surface,
+                  ),
+                  Container(
+                    width: double.infinity,
+                    height: containerHeight,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(
+                            "assets/images/home_background_top(2).png"),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                ),
-                Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Welcome Back!',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineMedium
-                            ?.copyWith(
-                              color: Theme.of(context).colorScheme.onSurface,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 40,
-                            ),
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        'Ready for a productive day?',
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                              color: Theme.of(context).colorScheme.onSurface,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                      ),
-                    ],
+                  Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Welcome Back!',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineMedium
+                              ?.copyWith(
+                            color: Theme.of(context).colorScheme.onSurface,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 40,
+                          ),
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          'Ready for a productive day?',
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            color: Theme.of(context).colorScheme.onSurface,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Expanded(
-            child: Container(
+            Container(
               color: const Color(0xFFCEB08A),
               child: Stack(
                 children: [
@@ -104,8 +105,8 @@ class HomePageScreen extends StatelessWidget {
                                     .textTheme
                                     .bodyMedium
                                     ?.copyWith(
-                                      color: Colors.white,
-                                    ),
+                                  color: Colors.white,
+                                ),
                                 textAlign: TextAlign.left,
                               ),
                             ),
@@ -124,9 +125,9 @@ class HomePageScreen extends StatelessWidget {
                                     .textTheme
                                     .bodyMedium
                                     ?.copyWith(
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                    ),
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                ),
                                 textAlign: TextAlign.center,
                               ),
                             ),
@@ -145,8 +146,8 @@ class HomePageScreen extends StatelessWidget {
                                     .textTheme
                                     .bodyMedium
                                     ?.copyWith(
-                                      color: Colors.white,
-                                    ),
+                                  color: Colors.white,
+                                ),
                                 textAlign: TextAlign.right,
                               ),
                             ),
@@ -222,8 +223,8 @@ class HomePageScreen extends StatelessWidget {
                 ],
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
