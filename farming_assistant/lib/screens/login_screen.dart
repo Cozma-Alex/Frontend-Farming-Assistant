@@ -1,4 +1,5 @@
 import 'package:farming_assistant/widgets/register_widget.dart';
+import 'package:farming_assistant/screens/homepage_screen.dart'; // Add this line
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -18,6 +19,13 @@ class _LoginScreenState extends State<LoginScreen> {
       builder: (BuildContext context) {
         return const RegisterWidget();
       },
+    );
+  }
+
+  void _signIn() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const HomePageScreen()),
     );
   }
 
@@ -170,22 +178,22 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 20),
                   SizedBox(
-                    width: 220,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
+                      width: 220,
+                      child: ElevatedButton(
+                        onPressed: _signIn, 
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Theme.of(context).colorScheme.primary,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        child: Text(
+                          'Sign In',
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              color: Theme.of(context).colorScheme.onSurface),
                         ),
                       ),
-                      child: Text(
-                        'Sign In',
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurface),
-                      ),
                     ),
-                  ),
                   const SizedBox(height: 15),
                   Text(
                     'or',

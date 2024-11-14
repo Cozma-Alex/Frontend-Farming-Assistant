@@ -19,6 +19,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                 'Sign Up',
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       color: Theme.of(context).colorScheme.onSurface,
+                      
                     ),
               ),
               const SizedBox(height: 20),
