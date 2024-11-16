@@ -1,3 +1,4 @@
+import 'package:farming_assistant/utils/config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -6,6 +7,7 @@ import 'screens/login_screen.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+  APIConfig.resolveHostname();
   runApp(const MyApp());
 }
 
