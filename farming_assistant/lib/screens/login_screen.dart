@@ -203,7 +203,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       width: 220,
                       child: ElevatedButton(
                         onPressed: _signIn, 
-                      //TODO implement CORS
                       //TODO apply loginAPI call
                       //DO NOT DELETE THIS
                       //   onPressed: () {
