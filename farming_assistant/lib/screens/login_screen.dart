@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:farming_assistant/widgets/register_widget.dart';
+import 'package:farming_assistant/screens/homepage_screen.dart'; // Add this line
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../models/user.dart';
@@ -34,6 +35,13 @@ class _LoginScreenState extends State<LoginScreen> {
           farmNameController: _registerFarmNameController,
         );
       },
+    );
+  }
+
+  void _signIn() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const HomePageScreen()),
     );
   }
 
@@ -192,36 +200,37 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 20),
                   SizedBox(
-                    width: 220,
-                    child: ElevatedButton(
-                      //Basic login API call.
-                      //TODO: Actual implementation of page navigation and display failed login
-                      onPressed: () {
-                        String username = _emailController.text;
-                        String password = _passwordController.text;
-                        var userData = loginAPI(username, password);
-                        userData.then((value) {
-                          if (value.statusCode == 200) {
-                            var jsonData = jsonDecode(value.body);
-                            var user = User.fromJson(jsonData);
-                          } else {
-                            print('${value.statusCode} - error');
-                          }
-                        });
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
+                      width: 220,
+                      child: ElevatedButton(
+                        onPressed: _signIn, 
+                      //TODO apply loginAPI call
+                      //DO NOT DELETE THIS
+                      //   onPressed: () {
+                      //   String username = _emailController.text;
+                      //   String password = _passwordController.text;
+                      //   var userData = loginAPI(username, password);
+                      //   userData.then((value) {
+                      //     if (value.statusCode == 200) {
+                      //       var jsonData = jsonDecode(value.body);
+                      //       var user = User.fromJson(jsonData);
+                      //     } else {
+                      //       print('${value.statusCode} - error');
+                      //     }
+                      //   });
+                      // },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Theme.of(context).colorScheme.primary,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        child: Text(
+                          'Sign In',
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              color: Theme.of(context).colorScheme.onSurface),
                         ),
                       ),
-                      child: Text(
-                        'Sign In',
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurface),
-                      ),
                     ),
-                  ),
                   const SizedBox(height: 15),
                   Text(
                     'or',
