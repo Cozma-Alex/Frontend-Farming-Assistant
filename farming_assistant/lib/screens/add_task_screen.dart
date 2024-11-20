@@ -194,56 +194,57 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                       padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      child: Column(
                         children: [
-                          Expanded(
-                            child: Row(
-                              children: [
-                                Radio<Recurrence>(
-                                  value: Recurrence.none,
-                                  groupValue: _selectedRecurrence,
-                                  onChanged: _selectRecurrence,
-                                ),
-                                const Text('No'),
-                              ],
-                            ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Row(
+                                children: [
+                                  Radio<Recurrence>(
+                                    value: Recurrence.none,
+                                    groupValue: _selectedRecurrence,
+                                    onChanged: _selectRecurrence,
+                                  ),
+                                  const Text('No'),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Radio<Recurrence>(
+                                    value: Recurrence.daily,
+                                    groupValue: _selectedRecurrence,
+                                    onChanged: _selectRecurrence,
+                                  ),
+                                  const Text('Daily'),
+                                ],
+                              ),
+                            ],
                           ),
-                          Expanded(
-                            child: Row(
-                              children: [
-                                Radio<Recurrence>(
-                                  value: Recurrence.daily,
-                                  groupValue: _selectedRecurrence,
-                                  onChanged: _selectRecurrence,
-                                ),
-                                const Text('Daily'),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: Row(
-                              children: [
-                                Radio<Recurrence>(
-                                  value: Recurrence.weekly,
-                                  groupValue: _selectedRecurrence,
-                                  onChanged: _selectRecurrence,
-                                ),
-                                const Text('Weekly'),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: Row(
-                              children: [
-                                Radio<Recurrence>(
-                                  value: Recurrence.monthly,
-                                  groupValue: _selectedRecurrence,
-                                  onChanged: _selectRecurrence,
-                                ),
-                                const Text('Monthly'),
-                              ],
-                            ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Row(
+                                children: [
+                                  Radio<Recurrence>(
+                                    value: Recurrence.weekly,
+                                    groupValue: _selectedRecurrence,
+                                    onChanged: _selectRecurrence,
+                                  ),
+                                  const Text('Weekly'),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Radio<Recurrence>(
+                                    value: Recurrence.monthly,
+                                    groupValue: _selectedRecurrence,
+                                    onChanged: _selectRecurrence,
+                                  ),
+                                  const Text('Monthly'),
+                                ],
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -257,80 +258,83 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                     Container(
                       height: 70,
                       padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(
-                            _selectedRecurrence == Recurrence.none
-                                ? 'Deadline'
-                                : 'Start date',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge
-                                ?.copyWith(
-                                  color:
-                                      Theme.of(context).colorScheme.onSurface,
-                                ),
-                          ),
-                          InkWell(
-                            mouseCursor: SystemMouseCursors.click,
-                            onTap: () {
-                              _selectDate(context);
-                            },
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Icon(
-                                  Icons.calendar_month,
-                                  color:
-                                      Theme.of(context).colorScheme.onSurface,
-                                ),
-                                const SizedBox(width: 8),
-                                Text(
-                                  _selectedDate.toString().split(' ')[0],
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge
-                                      ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSurface,
-                                      ),
-                                ),
-                              ],
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text(
+                              _selectedRecurrence == Recurrence.none
+                                  ? 'Deadline'
+                                  : 'Start date',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge
+                                  ?.copyWith(
+                                    color:
+                                        Theme.of(context).colorScheme.onSurface,
+                                  ),
                             ),
-                          ),
-                          InkWell(
-                            mouseCursor: SystemMouseCursors.click,
-                            onTap: () {
-                              _selectTime(context);
-                            },
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Icon(
-                                  Icons.access_time,
-                                  color:
-                                      Theme.of(context).colorScheme.onSurface,
-                                ),
-                                const SizedBox(width: 8),
-                                Text(
-                                  _selectedTime.format(context),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge
-                                      ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSurface,
-                                      ),
-                                ),
-                              ],
+                            InkWell(
+                              mouseCursor: SystemMouseCursors.click,
+                              onTap: () {
+                                _selectDate(context);
+                              },
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Icon(
+                                    Icons.calendar_month,
+                                    color:
+                                        Theme.of(context).colorScheme.onSurface,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    _selectedDate.toString().split(' ')[0],
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge
+                                        ?.copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurface,
+                                        ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                            InkWell(
+                              mouseCursor: SystemMouseCursors.click,
+                              onTap: () {
+                                _selectTime(context);
+                              },
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Icon(
+                                    Icons.access_time,
+                                    color:
+                                        Theme.of(context).colorScheme.onSurface,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    _selectedTime.format(context),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge
+                                        ?.copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurface,
+                                        ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     const SizedBox(height: 16),
