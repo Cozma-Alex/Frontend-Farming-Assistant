@@ -31,6 +31,8 @@ dependencies:
   flutter:
     sdk: flutter
   http: ^1.2.2
+  weather: ^3.1.1
+  geolocator: ^13.0.2
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -63,6 +65,7 @@ flutter:
   assets:
     - assets/images/
     - assets/navigation_icons/
+    - assets/weather_icons/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
