@@ -30,6 +30,12 @@ class _RegisterWidgetState extends State<RegisterWidget> {
   }
 
   @override
+  void dispose() {
+    _passwordConfirmController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
