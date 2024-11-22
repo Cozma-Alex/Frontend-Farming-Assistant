@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:weather/weather.dart';
+
+import 'package:farming_assistant/utils/location_utils.dart';
 
 class WeatherWidget extends StatefulWidget {
   const WeatherWidget({super.key});
@@ -38,11 +41,14 @@ class _WeatherWidgetState extends State<WeatherWidget> {
     return "assets/weather_icons/cloudy_moon.png";
   }
 
-  WeatherFactory wf = WeatherFactory("API_KEY",
-      language: Language.ENGLISH);
+  WeatherFactory wf = WeatherFactory("", language: Language.ENGLISH);
 
   Future<Weather> _getWeather() async {
-    Weather weather = await wf.currentWeatherByLocation(46.77, 23.59);
+    Position position = await detectPosition();
+    Weather weather = await wf.currentWeatherByLocation(
+        position.latitude, position.longitude);
+
+    // Weather weather = await wf.currentWeatherByLocation(46.77, 23.59);
     return weather;
   }
 
@@ -63,7 +69,13 @@ class _WeatherWidgetState extends State<WeatherWidget> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CircularProgressIndicator();
         } else if (snapshot.hasError) {
-          return const Text("Error");
+          return Text(
+            "Weather unavailable",
+            style: Theme.of(context)
+                .textTheme
+                .bodyLarge
+                ?.copyWith(color: Theme.of(context).colorScheme.onSurface),
+          );
         } else if (snapshot.hasData) {
           final weather = snapshot.data!;
           final location = weather.areaName ?? "Location unknown";
@@ -97,7 +109,13 @@ class _WeatherWidgetState extends State<WeatherWidget> {
             ],
           );
         } else {
-          return const Text("No data");
+          return Text(
+            "No weather data",
+            style: Theme.of(context)
+                .textTheme
+                .bodyLarge
+                ?.copyWith(color: Theme.of(context).colorScheme.onSurface),
+          );
         }
       },
     );
