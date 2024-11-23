@@ -1,6 +1,5 @@
 import 'package:farming_assistant/screens/tasks_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:farming_assistant/widgets/homepage_button.dart';
 import 'package:farming_assistant/widgets/bottom_bar_widget.dart';
 
 const double containerHeight = 200.0;
@@ -41,7 +40,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
     final List<Widget> _screens = [
       const Center(child: Text('Stats Screen')),
       const Center(child: Text('Map Screen')),
-      HomeContent(onNavigate: _onNavBarTapped),
+      const HomeContent(),
       const TasksScreen(),
     ];
 
@@ -60,15 +59,13 @@ class _HomePageScreenState extends State<HomePageScreen> {
 }
 
 class HomeContent extends StatelessWidget {
-  final Function(int) onNavigate;
-
-  const HomeContent({
-    super.key,
-    required this.onNavigate,
-  });
+  const HomeContent({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final containerWidth = screenWidth * 0.85; // 85% of screen width
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Home Page"),
@@ -127,13 +124,11 @@ class HomeContent extends StatelessWidget {
               color: const Color(0xFFCEB08A),
               child: Stack(
                 children: [
-                  Positioned(
-                    top: containerHeight - 190,
-                    left: 0,
-                    right: 0,
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20, bottom: 40),
                     child: Center(
                       child: Container(
-                        width: 312,
+                        width: containerWidth,
                         height: 83,
                         decoration: BoxDecoration(
                           color: const Color(0xFF5F603E),
@@ -201,66 +196,6 @@ class HomeContent extends StatelessWidget {
                           ],
                         ),
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 120),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            CustomIconButton(
-                              title: 'To-Do List',
-                              imagePath: 'assets/images/tasks_icon.png',
-                              buttonText: 'To-Do text',
-                              onPressed: () => onNavigate(3), // Navigate to Tasks screen
-                            ),
-                            CustomIconButton(
-                              title: 'Crop Management',
-                              imagePath: 'assets/images/crops_icon.png',
-                              buttonText: 'Crop text',
-                              onPressed: () {},
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            CustomIconButton(
-                              title: 'Tool Management',
-                              imagePath: 'assets/images/tools_icon.png',
-                              buttonText: 'Tool text',
-                              onPressed: () {},
-                            ),
-                            CustomIconButton(
-                              title: 'Farm Map',
-                              imagePath: 'assets/images/map_icon.png',
-                              buttonText: 'Farm text',
-                              onPressed: () => onNavigate(1), // Navigate to Map screen
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            CustomIconButton(
-                              title: 'Animal Management',
-                              imagePath: 'assets/images/cow_icon.png',
-                              buttonText: 'Animal text',
-                              onPressed: () {},
-                            ),
-                            CustomIconButton(
-                              title: 'Analytics',
-                              imagePath: 'assets/images/analytics_icon.png',
-                              buttonText: 'Analytics text',
-                              onPressed: () => onNavigate(0), // Navigate to Stats screen
-                            ),
-                          ],
-                        ),
-                      ],
                     ),
                   ),
                 ],
