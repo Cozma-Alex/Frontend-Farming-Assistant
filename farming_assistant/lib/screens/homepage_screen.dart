@@ -1,6 +1,9 @@
-import 'package:farming_assistant/screens/tasks_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:farming_assistant/widgets/bottom_bar_widget.dart';
+import 'package:provider/provider.dart';  // Add this
+import '../widgets/bottom_bar_widget.dart';
+import '../widgets/property_map_view.dart';  // Add this
+import '../utils/providers/farm_state_provider.dart';  // Add this
+import 'tasks_screen.dart';
 
 const double containerHeight = 200.0;
 
@@ -37,9 +40,15 @@ class _HomePageScreenState extends State<HomePageScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> _screens = [
+    final List<Widget> screens = [
       const Center(child: Text('Stats Screen')),
-      const Center(child: Text('Map Screen')),
+      // Wrap PropertyMapView with a Scaffold
+      Scaffold(
+        body: ChangeNotifierProvider(
+          create: (_) => FarmStateProvider(),
+          child: const PropertyMapView(),
+        ),
+      ),
       const HomeContent(),
       const TasksScreen(),
     ];
@@ -48,7 +57,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
       body: PageView(
         controller: _pageController,
         onPageChanged: _onPageChanged,
-        children: _screens,
+        children: screens,
       ),
       bottomNavigationBar: BottomNavBar(
         currentIndex: _currentIndex,

@@ -12,9 +12,9 @@ class AddTaskScreen extends StatefulWidget {
 class _AddTaskScreenState extends State<AddTaskScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  Section? _selectedSection = null;
+  Section? _selectedSection;
 
-  List<String> _locationNames = [
+  final List<String> _locationNames = [
     "None",
     "Location name 1",
     "Location name 2",
