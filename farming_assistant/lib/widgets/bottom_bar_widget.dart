@@ -58,7 +58,7 @@ class _BottomNavBarState extends State<BottomNavBar> with SingleTickerProviderSt
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 60,
+      height: 65,
       decoration: const BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -103,7 +103,7 @@ class _BottomNavBarState extends State<BottomNavBar> with SingleTickerProviderSt
                     children: [
                       SizedBox(width: _positionAnimation.value * (MediaQuery.of(context).size.width / 4) + (MediaQuery.of(context).size.width / 4 - 50) / 2),
                       Container(
-                        width: 50, // Increased to 50px
+                        width: 50,
                         height: 3,
                         color: const Color(0xFF31511E),
                       ),
@@ -121,10 +121,10 @@ class _BottomNavBarState extends State<BottomNavBar> with SingleTickerProviderSt
   BottomNavigationBarItem _buildNavItem(IconData icon, String label) {
     return BottomNavigationBarItem(
       icon: Container(
-        padding: const EdgeInsets.symmetric(vertical: 8),
+        padding: const EdgeInsets.symmetric(vertical: 12),
         child: Container(
-          width: 40,
-          height: 40,
+          width: 38,
+          height: 38,
           decoration: const BoxDecoration(
             color: Color(0xFF31511E),
             shape: BoxShape.circle,
@@ -132,7 +132,7 @@ class _BottomNavBarState extends State<BottomNavBar> with SingleTickerProviderSt
           child: Icon(
             icon,
             color: Colors.white,
-            size: 24,
+            size: 23,
           ),
         ),
       ),

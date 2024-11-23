@@ -12,7 +12,7 @@ class HomePageScreen extends StatefulWidget {
 }
 
 class _HomePageScreenState extends State<HomePageScreen> {
-  int _currentIndex = 2; // Start with Home (index 2) selected
+  int _currentIndex = 2;
   final PageController _pageController = PageController(initialPage: 2);
 
   @override
@@ -64,7 +64,7 @@ class HomeContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final containerWidth = screenWidth * 0.85; // 85% of screen width
+    final containerWidth = screenWidth * 0.85;
 
     return Scaffold(
       appBar: AppBar(
