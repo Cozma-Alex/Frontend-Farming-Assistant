@@ -1,11 +1,71 @@
 import 'package:farming_assistant/screens/tasks_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:farming_assistant/widgets/homepage_button.dart';
+import 'package:farming_assistant/widgets/bottom_bar_widget.dart';
 
 const double containerHeight = 200.0;
 
-class HomePageScreen extends StatelessWidget {
+class HomePageScreen extends StatefulWidget {
   const HomePageScreen({super.key});
+
+  @override
+  State<HomePageScreen> createState() => _HomePageScreenState();
+}
+
+class _HomePageScreenState extends State<HomePageScreen> {
+  int _currentIndex = 2; // Start with Home (index 2) selected
+  final PageController _pageController = PageController(initialPage: 2);
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  void _onPageChanged(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
+
+  void _onNavBarTapped(int index) {
+    _pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final List<Widget> _screens = [
+      const Center(child: Text('Stats Screen')),
+      const Center(child: Text('Map Screen')),
+      HomeContent(onNavigate: _onNavBarTapped),
+      const TasksScreen(),
+    ];
+
+    return Scaffold(
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: _onPageChanged,
+        children: _screens,
+      ),
+      bottomNavigationBar: BottomNavBar(
+        currentIndex: _currentIndex,
+        onTap: _onNavBarTapped,
+      ),
+    );
+  }
+}
+
+class HomeContent extends StatelessWidget {
+  final Function(int) onNavigate;
+
+  const HomeContent({
+    super.key,
+    required this.onNavigate,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +91,7 @@ class HomePageScreen extends StatelessWidget {
                     height: containerHeight,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage(
-                            "assets/images/home_background_top(2).png"),
+                        image: AssetImage("assets/images/home_background_top(2).png"),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -43,10 +102,7 @@ class HomePageScreen extends StatelessWidget {
                       children: [
                         Text(
                           'Welcome Back!',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineMedium
-                              ?.copyWith(
+                          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                             color: Theme.of(context).colorScheme.onSurface,
                             fontWeight: FontWeight.bold,
                             fontSize: 40,
@@ -101,10 +157,7 @@ class HomePageScreen extends StatelessWidget {
                               flex: 1,
                               child: Text(
                                 'Mood\n Text',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium
-                                    ?.copyWith(
+                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                   color: Colors.white,
                                 ),
                                 textAlign: TextAlign.left,
@@ -121,10 +174,7 @@ class HomePageScreen extends StatelessWidget {
                               flex: 2,
                               child: Text(
                                 'Nov 23, 2024\n22:35',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium
-                                    ?.copyWith(
+                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                   color: Colors.white,
                                   fontSize: 20,
                                 ),
@@ -142,10 +192,7 @@ class HomePageScreen extends StatelessWidget {
                               flex: 1,
                               child: Text(
                                 'Weather\n Text',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium
-                                    ?.copyWith(
+                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                   color: Colors.white,
                                 ),
                                 textAlign: TextAlign.right,
@@ -157,8 +204,7 @@ class HomePageScreen extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 120),
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 120),
                     child: Column(
                       children: [
                         Row(
@@ -168,10 +214,7 @@ class HomePageScreen extends StatelessWidget {
                               title: 'To-Do List',
                               imagePath: 'assets/images/tasks_icon.png',
                               buttonText: 'To-Do text',
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (ctx) => const TasksScreen()));
-                              },
+                              onPressed: () => onNavigate(3), // Navigate to Tasks screen
                             ),
                             CustomIconButton(
                               title: 'Crop Management',
@@ -195,7 +238,7 @@ class HomePageScreen extends StatelessWidget {
                               title: 'Farm Map',
                               imagePath: 'assets/images/map_icon.png',
                               buttonText: 'Farm text',
-                              onPressed: () {},
+                              onPressed: () => onNavigate(1), // Navigate to Map screen
                             ),
                           ],
                         ),
@@ -213,7 +256,7 @@ class HomePageScreen extends StatelessWidget {
                               title: 'Analytics',
                               imagePath: 'assets/images/analytics_icon.png',
                               buttonText: 'Analytics text',
-                              onPressed: () {},
+                              onPressed: () => onNavigate(0), // Navigate to Stats screen
                             ),
                           ],
                         ),
