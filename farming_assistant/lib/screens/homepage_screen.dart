@@ -1,14 +1,71 @@
 import 'package:farming_assistant/screens/tasks_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:farming_assistant/widgets/homepage_button.dart';
+import 'package:farming_assistant/widgets/bottom_bar_widget.dart';
 
 const double containerHeight = 200.0;
 
-class HomePageScreen extends StatelessWidget {
+class HomePageScreen extends StatefulWidget {
   const HomePageScreen({super.key});
 
   @override
+  State<HomePageScreen> createState() => _HomePageScreenState();
+}
+
+class _HomePageScreenState extends State<HomePageScreen> {
+  int _currentIndex = 2;
+  final PageController _pageController = PageController(initialPage: 2);
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  void _onPageChanged(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
+
+  void _onNavBarTapped(int index) {
+    _pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final List<Widget> _screens = [
+      const Center(child: Text('Stats Screen')),
+      const Center(child: Text('Map Screen')),
+      const HomeContent(),
+      const TasksScreen(),
+    ];
+
+    return Scaffold(
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: _onPageChanged,
+        children: _screens,
+      ),
+      bottomNavigationBar: BottomNavBar(
+        currentIndex: _currentIndex,
+        onTap: _onNavBarTapped,
+      ),
+    );
+  }
+}
+
+class HomeContent extends StatelessWidget {
+  const HomeContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final containerWidth = screenWidth * 0.85;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Home Page"),
@@ -31,8 +88,7 @@ class HomePageScreen extends StatelessWidget {
                     height: containerHeight,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage(
-                            "assets/images/home_background_top(2).png"),
+                        image: AssetImage("assets/images/home_background_top(2).png"),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -43,10 +99,7 @@ class HomePageScreen extends StatelessWidget {
                       children: [
                         Text(
                           'Welcome Back!',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineMedium
-                              ?.copyWith(
+                          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                             color: Theme.of(context).colorScheme.onSurface,
                             fontWeight: FontWeight.bold,
                             fontSize: 40,
@@ -71,13 +124,11 @@ class HomePageScreen extends StatelessWidget {
               color: const Color(0xFFCEB08A),
               child: Stack(
                 children: [
-                  Positioned(
-                    top: containerHeight - 190,
-                    left: 0,
-                    right: 0,
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20, bottom: 40),
                     child: Center(
                       child: Container(
-                        width: 312,
+                        width: containerWidth,
                         height: 83,
                         decoration: BoxDecoration(
                           color: const Color(0xFF5F603E),
@@ -101,10 +152,7 @@ class HomePageScreen extends StatelessWidget {
                               flex: 1,
                               child: Text(
                                 'Mood\n Text',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium
-                                    ?.copyWith(
+                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                   color: Colors.white,
                                 ),
                                 textAlign: TextAlign.left,
@@ -121,10 +169,7 @@ class HomePageScreen extends StatelessWidget {
                               flex: 2,
                               child: Text(
                                 'Nov 23, 2024\n22:35',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium
-                                    ?.copyWith(
+                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                   color: Colors.white,
                                   fontSize: 20,
                                 ),
@@ -142,10 +187,7 @@ class HomePageScreen extends StatelessWidget {
                               flex: 1,
                               child: Text(
                                 'Weather\n Text',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium
-                                    ?.copyWith(
+                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                   color: Colors.white,
                                 ),
                                 textAlign: TextAlign.right,
@@ -154,70 +196,6 @@ class HomePageScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 120),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            CustomIconButton(
-                              title: 'To-Do List',
-                              imagePath: 'assets/images/tasks_icon.png',
-                              buttonText: 'To-Do text',
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (ctx) => const TasksScreen()));
-                              },
-                            ),
-                            CustomIconButton(
-                              title: 'Crop Management',
-                              imagePath: 'assets/images/crops_icon.png',
-                              buttonText: 'Crop text',
-                              onPressed: () {},
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            CustomIconButton(
-                              title: 'Tool Management',
-                              imagePath: 'assets/images/tools_icon.png',
-                              buttonText: 'Tool text',
-                              onPressed: () {},
-                            ),
-                            CustomIconButton(
-                              title: 'Farm Map',
-                              imagePath: 'assets/images/map_icon.png',
-                              buttonText: 'Farm text',
-                              onPressed: () {},
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            CustomIconButton(
-                              title: 'Animal Management',
-                              imagePath: 'assets/images/cow_icon.png',
-                              buttonText: 'Animal text',
-                              onPressed: () {},
-                            ),
-                            CustomIconButton(
-                              title: 'Analytics',
-                              imagePath: 'assets/images/analytics_icon.png',
-                              buttonText: 'Analytics text',
-                              onPressed: () {},
-                            ),
-                          ],
-                        ),
-                      ],
                     ),
                   ),
                 ],
