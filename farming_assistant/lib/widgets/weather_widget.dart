@@ -24,7 +24,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
       return "assets/weather_icons/snow.png";
     }
     if (weatherConditionCode ~/ 100 == 7) {
-      return "assets/images/weather_icons/mist.png";
+      return "assets/weather_icons/mist.png";
     }
     if (weatherConditionCode == 800) {
       if (TimeOfDay.now().hour >= sunrise.hour &&

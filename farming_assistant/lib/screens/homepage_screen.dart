@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';  // Add this
+import 'package:provider/provider.dart'; 
 import '../widgets/bottom_bar_widget.dart';
-import '../widgets/property_map_view.dart';  // Add this
-import '../utils/providers/farm_state_provider.dart';  // Add this
+import '../widgets/property_map_view.dart'; 
+import '../utils/providers/farm_state_provider.dart';
 import 'tasks_screen.dart';
 
 const double containerHeight = 200.0;
@@ -42,7 +42,6 @@ class _HomePageScreenState extends State<HomePageScreen> {
   Widget build(BuildContext context) {
     final List<Widget> screens = [
       const Center(child: Text('Stats Screen')),
-      // Wrap PropertyMapView with a Scaffold
       Scaffold(
         body: ChangeNotifierProvider(
           create: (_) => FarmStateProvider(),
