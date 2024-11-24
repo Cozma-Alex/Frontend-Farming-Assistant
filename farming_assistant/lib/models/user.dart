@@ -1,4 +1,4 @@
-import 'dart:nativewrappers/_internal/vm/lib/typed_data_patch.dart';
+import "dart:typed_data";
 
 class User {
   String id;
