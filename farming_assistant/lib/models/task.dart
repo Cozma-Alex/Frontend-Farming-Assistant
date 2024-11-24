@@ -1,23 +1,8 @@
-enum Section {
-  crops,
-  animals,
-  tools,
-  inventory,
-  other,
-}
+import 'package:farming_assistant/models/user.dart';
 
-enum Priority {
-  low,
-  medium,
-  high,
-}
-
-enum Recurrence {
-  none,
-  daily,
-  weekly,
-  monthly,
-}
+import 'enums/priority.dart';
+import 'enums/recurrence.dart';
+import 'enums/sections.dart';
 
 class Task {
   final String id;
@@ -27,6 +12,7 @@ class Task {
   final Priority priority;
   final Recurrence recurrence;
   final DateTime deadline;
+  final User user;
 
   Task({
     required this.id,
@@ -36,5 +22,20 @@ class Task {
     required this.priority,
     required this.recurrence,
     required this.deadline,
+    required this.user,
   });
+
+  static fromJson(jsonData) {
+    return Task(
+      id: jsonData['id'],
+      name: jsonData['name'],
+      description: jsonData['description'],
+      section: Section.values[jsonData['section']],
+      priority: Priority.values[jsonData['priority']],
+      recurrence: Recurrence.values[jsonData['type']],
+      deadline: DateTime.parse(jsonData['deadline']),
+      user: User.fromJson(jsonData['user']),
+    );
+  }
+
 }

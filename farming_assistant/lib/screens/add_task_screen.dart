@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:farming_assistant/models/task.dart';
 
+import '../models/enums/recurrence.dart';
+import '../models/enums/sections.dart';
+
 class AddTaskScreen extends StatefulWidget {
   const AddTaskScreen({super.key});
 
