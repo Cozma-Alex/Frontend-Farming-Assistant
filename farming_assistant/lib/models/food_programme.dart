@@ -21,4 +21,14 @@ class FoodProgramme {
     );
   }
 
+  static toJson(FoodProgramme foodProgramme) {
+    return {
+      'id': foodProgramme.id,
+      'start_hour': foodProgramme.startHour.toString(),
+      'end_hour': foodProgramme.endHour.toString(),
+      'animal': Animal.toJson(foodProgramme.animal),
+      'food': Food.toJson(foodProgramme.food),
+    };
+  }
+
 }

@@ -12,4 +12,13 @@ class Budget{
       jsonData['expenses'],
     );
   }
+
+  static toJson(Budget budget) {
+    return {
+      'id': budget.id,
+      'revenue': budget.revenue,
+      'expenses': budget.expenses,
+    };
+  }
+
 }

@@ -18,4 +18,14 @@ class Tool{
       User.fromJson(jsonData['user']),
     );
   }
+
+  static toJson(Tool tool) {
+    return {
+      'id': tool.id,
+      'name': tool.name,
+      'description': tool.description,
+      'quantity': tool.quantity,
+      'user': User.toJson(tool.user),
+    };
+  }
 }

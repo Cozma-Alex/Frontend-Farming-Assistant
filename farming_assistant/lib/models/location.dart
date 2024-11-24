@@ -17,4 +17,12 @@ class Location{
     );
   }
 
+  static toJson(Location location) {
+    return {
+      'id': location.id,
+      'type': location.type.toString(),
+      'user': User.toJson(location.user),
+    };
+  }
+
 }

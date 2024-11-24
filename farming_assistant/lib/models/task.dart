@@ -32,10 +32,23 @@ class Task {
       description: jsonData['description'],
       section: Section.values[jsonData['section']],
       priority: Priority.values[jsonData['priority']],
-      recurrence: Recurrence.values[jsonData['type']],
+      recurrence: Recurrence.values[jsonData['recurrence']],
       deadline: DateTime.parse(jsonData['deadline']),
       user: User.fromJson(jsonData['user']),
     );
+  }
+
+  static toJson(Task task) {
+    return {
+      'id': task.id,
+      'name': task.name,
+      'description': task.description,
+      'section': task.section.toString(),
+      'priority': task.priority.toString(),
+      'recurrence': task.recurrence.toString(),
+      'deadline': task.deadline.toString(),
+      'user': User.toJson(task.user),
+    };
   }
 
 }

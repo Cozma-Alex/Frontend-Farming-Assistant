@@ -19,4 +19,14 @@ class Fertilizer{
       User.fromJson(jsonData['user']),
     );
   }
+
+  static toJson(Fertilizer fertilizer) {
+    return {
+      'id': fertilizer.id,
+      'name': fertilizer.name,
+      'description': fertilizer.description,
+      'quantity': fertilizer.quantity,
+      'user': User.toJson(fertilizer.user),
+    };
+  }
 }

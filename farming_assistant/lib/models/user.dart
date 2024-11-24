@@ -21,6 +21,17 @@ class User {
     );
   }
 
+  static toJson(User user) {
+    return {
+      'id': user.id,
+      'email': user.email,
+      'password_hash': user.password,
+      'farm_name': user.farmName,
+      'name': user.name,
+      'image_data': user.imageData,
+    };
+  }
+
   @override
   String toString() {
     return 'User{id: $id, email: $email, password: $password, farmName: $farmName, name: $name}';

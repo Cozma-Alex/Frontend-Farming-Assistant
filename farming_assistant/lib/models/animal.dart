@@ -10,10 +10,9 @@ class Animal {
   Uint8List imageData;
   String health_profile;
   Location location;
-  Uint8List image_data;
 
 
-  Animal(this.id, this.name, this.description, this.age, this.imageData, this.health_profile, this.location, this.image_data);
+  Animal(this.id, this.name, this.description, this.age, this.imageData, this.health_profile, this.location);
 
 
   static fromJson(jsonData) {
@@ -24,9 +23,20 @@ class Animal {
       DateTime.parse(jsonData['age']),
       jsonData['image_data'],
       jsonData['health_profile'],
-      Location.fromJson(jsonData['location']),
-      jsonData['image_data'],
+      Location.fromJson(jsonData['location'])
     );
+  }
+
+  static toJson(Animal animal) {
+    return {
+      'id': animal.id,
+      'name': animal.name,
+      'description': animal.description,
+      'age': animal.age.toString(),
+      'image_data': animal.imageData,
+      'health_profile': animal.health_profile,
+      'location': Location.toJson(animal.location),
+    };
   }
 
 

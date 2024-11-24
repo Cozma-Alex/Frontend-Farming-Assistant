@@ -18,4 +18,14 @@ class Seeds{
       User.fromJson(jsonData['user']),
     );
   }
+
+  static toJson(Seeds seeds) {
+    return {
+      'id': seeds.id,
+      'name': seeds.name,
+      'description': seeds.description,
+      'quantity': seeds.quantity,
+      'user': User.toJson(seeds.user),
+    };
+  }
 }

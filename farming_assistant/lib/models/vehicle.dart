@@ -29,4 +29,19 @@ class Vehicle{
     );
   }
 
+  static toJson(Vehicle vehicle) {
+    return {
+      'id': vehicle.id,
+      'name': vehicle.name,
+      'description': vehicle.description,
+      'model': vehicle.model,
+      'brand': vehicle.brand,
+      'year': vehicle.year,
+      'price': vehicle.price,
+      'kilometers': vehicle.kilometers,
+      'acquisition_date': vehicle.acquisitionDate,
+      'user': User.toJson(vehicle.user),
+    };
+  }
+
 }

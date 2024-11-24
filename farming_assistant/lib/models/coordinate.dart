@@ -18,4 +18,14 @@ class Coordinate{
       Location.fromJson(jsonData['location']),
     );
   }
+
+  static toJson(Coordinate coordinate) {
+    return {
+      'id': coordinate.id,
+      'latitude': coordinate.latitude,
+      'longitude': coordinate.longitude,
+      'position': coordinate.position,
+      'location': Location.toJson(coordinate.location),
+    };
+  }
 }

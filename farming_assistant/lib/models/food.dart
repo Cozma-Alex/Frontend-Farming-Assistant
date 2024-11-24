@@ -18,4 +18,14 @@ class Food{
       User.fromJson(jsonData['user']),
     );
   }
+
+  static toJson(Food food) {
+    return {
+      'id': food.id,
+      'name': food.name,
+      'description': food.description,
+      'quantity': food.quantity,
+      'user': User.toJson(food.user),
+    };
+  }
 }
