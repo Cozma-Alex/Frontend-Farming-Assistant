@@ -14,7 +14,7 @@ class Vehicle{
 
   Vehicle(this.id, this.name, this.description, this.model, this.brand, this.year, this.price, this.kilometers, this.acquisitionDate, this.user);
 
-  static fromJson(jsonData) {
+  static fromJson(Map <String, dynamic> jsonData) {
     return Vehicle(
       jsonData['id'],
       jsonData['name'],

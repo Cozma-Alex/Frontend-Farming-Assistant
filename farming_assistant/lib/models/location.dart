@@ -9,7 +9,7 @@ class Location{
 
   Location(this.id, this.type, this.user);
 
-  static fromJson(jsonData) {
+  static fromJson(Map <String, dynamic> jsonData) {
     return Location(
       jsonData['id'],
       LocationType.values[jsonData['type']],

@@ -9,7 +9,7 @@ class Food{
 
   Food(this.id, this.name, this.description, this.quantity, this.user);
 
-  static fromJson(jsonData) {
+  static fromJson(Map <String, dynamic> jsonData) {
     return Food(
       jsonData['id'],
       jsonData['name'],

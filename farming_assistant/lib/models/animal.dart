@@ -15,7 +15,7 @@ class Animal {
   Animal(this.id, this.name, this.description, this.age, this.imageData, this.health_profile, this.location);
 
 
-  static fromJson(jsonData) {
+  static fromJson(Map <String, dynamic> jsonData) {
     return Animal(
       jsonData['id'],
       jsonData['name'],

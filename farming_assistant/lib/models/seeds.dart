@@ -9,7 +9,7 @@ class Seeds{
 
   Seeds(this.id, this.name, this.description, this.quantity, this.user);
 
-  static fromJson(jsonData) {
+  static fromJson(Map <String, dynamic> jsonData) {
     return Seeds(
       jsonData['id'],
       jsonData['name'],

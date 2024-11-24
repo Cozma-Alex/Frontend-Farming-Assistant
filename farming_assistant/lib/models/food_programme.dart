@@ -11,7 +11,7 @@ class FoodProgramme {
 
   FoodProgramme(this.id, this.startHour, this.endHour, this.animal, this.food);
 
-  static fromJson(jsonData) {
+  static fromJson(Map <String, dynamic> jsonData) {
     return FoodProgramme(
       jsonData['id'],
       DateTime.parse(jsonData['start_hour']),

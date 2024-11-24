@@ -5,7 +5,7 @@ class Budget{
 
   Budget(this.id, this.revenue, this.expenses);
 
-  static fromJson(jsonData) {
+  static fromJson(Map <String, dynamic> jsonData) {
     return Budget(
       jsonData['id'],
       jsonData['revenue'],

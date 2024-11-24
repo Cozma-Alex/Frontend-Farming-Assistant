@@ -10,7 +10,7 @@ class Fertilizer{
 
   Fertilizer(this.id, this.name, this.description, this.quantity, this.user);
 
-  static fromJson(jsonData) {
+  static fromJson(Map <String, dynamic> jsonData) {
     return Fertilizer(
       jsonData['id'],
       jsonData['name'],

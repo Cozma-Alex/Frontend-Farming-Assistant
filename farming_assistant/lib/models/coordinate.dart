@@ -9,7 +9,7 @@ class Coordinate{
 
   Coordinate(this.id, this.latitude, this.longitude, this.position, this.location);
 
-  static fromJson(jsonData) {
+  static fromJson(Map <String, dynamic> jsonData) {
     return Coordinate(
       jsonData['id'],
       jsonData['latitude'],

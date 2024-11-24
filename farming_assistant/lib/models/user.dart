@@ -10,7 +10,7 @@ class User {
 
   User(this.id, this.email, this.password, this.farmName, this.name, this.imageData);
 
-  static fromJson(jsonData) {
+  static fromJson(Map <String, dynamic> jsonData) {
     return User(
       jsonData['id'],
       jsonData['email'],

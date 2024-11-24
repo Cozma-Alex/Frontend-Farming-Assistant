@@ -25,7 +25,7 @@ class Task {
     required this.user,
   });
 
-  static fromJson(jsonData) {
+  static fromJson(Map <String, dynamic> jsonData) {
     return Task(
       id: jsonData['id'],
       name: jsonData['name'],

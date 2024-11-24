@@ -9,7 +9,7 @@ class Tool{
 
   Tool(this.id, this.name, this.description, this.quantity, this.user);
 
-  static fromJson(jsonData) {
+  static fromJson(Map <String, dynamic> jsonData) {
     return Tool(
       jsonData['id'],
       jsonData['name'],
