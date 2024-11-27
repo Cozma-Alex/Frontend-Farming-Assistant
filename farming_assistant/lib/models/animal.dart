@@ -1,5 +1,6 @@
 import 'dart:nativewrappers/_internal/vm/lib/typed_data_patch.dart';
 
+import '../utils/date_time_formater.dart';
 import 'location.dart';
 
 class Animal {
@@ -32,7 +33,7 @@ class Animal {
       'id': animal.id,
       'name': animal.name,
       'description': animal.description,
-      'age': animal.age.toString(),
+      'age':  formatDateTimeString(animal.age),
       'image_data': animal.imageData,
       'health_profile': animal.health_profile,
       'location': Location.toJson(animal.location),

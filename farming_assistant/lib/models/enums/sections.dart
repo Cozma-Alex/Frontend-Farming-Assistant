@@ -3,5 +3,11 @@ enum Section {
   animals,
   tools,
   inventory,
-  other,
+  other
+}
+
+extension SectionExtension on Section {
+  String get jsonValue {
+    return this.name.toUpperCase();
+  }
 }

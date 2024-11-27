@@ -3,3 +3,9 @@ enum Priority {
   medium,
   high,
 }
+
+extension SectionExtension on Priority {
+  String get jsonValue {
+    return this.name.toUpperCase();
+  }
+}

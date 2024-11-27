@@ -20,7 +20,7 @@ class Location{
   static toJson(Location location) {
     return {
       'id': location.id,
-      'type': location.type.toString(),
+      'type': location.type.jsonValue,
       'user': User.toJson(location.user),
     };
   }
