@@ -6,7 +6,9 @@ import 'weather_widget.dart';
 /// Needs vertical limit because of a VerticalDivider
 /// Example at the bottom of the file
 class WeatherTimeWidget extends StatefulWidget {
-  const WeatherTimeWidget({super.key});
+  const WeatherTimeWidget({super.key, this.textColor = Colors.black});
+
+  final Color textColor;
 
   @override
   State<WeatherTimeWidget> createState() => _WeatherTimeWidgetState();
@@ -61,13 +63,13 @@ class _WeatherTimeWidgetState extends State<WeatherTimeWidget> {
             Text(
               '$monthName $day, $year',
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurface,
+                    color: widget.textColor,
                   ),
             ),
             Text(
               time,
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurface,
+                    color: widget.textColor,
                   ),
             ),
           ],
@@ -78,7 +80,7 @@ class _WeatherTimeWidgetState extends State<WeatherTimeWidget> {
           indent: 10,
           endIndent: 10,
         ),
-        const WeatherWidget(),
+        WeatherWidget(textColor: widget.textColor),
       ],
     );
   }
