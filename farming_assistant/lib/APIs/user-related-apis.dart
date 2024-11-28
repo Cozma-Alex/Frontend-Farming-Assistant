@@ -13,7 +13,6 @@ Future<User> loginAPI(User user) async {
       uri,
       headers: {
         'Content-Type': 'application/json',
-        //Login does not require an authorization header
       },
       body: jsonEncode({
         'email': user.email,

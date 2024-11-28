@@ -8,7 +8,6 @@ import '../models/task.dart';
 import '../models/user.dart';
 import '../utils/config.dart';
 
-//PROVIDE EITHER THE ARGUMENTS OR THE TASK, NOT BOTH
 Future<Task> saveTaskAPI(Task task) async {
   final uri = Uri.parse('${APIConfig.baseURI}/tasks');
 
