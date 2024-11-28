@@ -52,7 +52,12 @@ class _WeatherTimeWidgetState extends State<WeatherTimeWidget> {
     final monthName = _getMonthName(date.month);
     final day = date.day.toString();
     final year = date.year.toString();
-    final time = '${TimeOfDay.now().hour}:${TimeOfDay.now().minute}';
+
+    String minute = TimeOfDay.now().minute < 10
+        ? '0${TimeOfDay.now().minute}'
+        : '${TimeOfDay.now().minute}';
+
+    final time = '${TimeOfDay.now().hour}:$minute';
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -86,21 +91,3 @@ class _WeatherTimeWidgetState extends State<WeatherTimeWidget> {
   }
 }
 
-/*
-Example of using WeatherTimeWidget:
-Padding(
-          padding: const EdgeInsets.all(16),
-          child: Container(
-            height: 100,
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Colors.black54,
-                width: 1,
-              ),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: const WeatherTimeWidget(),
-          ),
-        ),
- */

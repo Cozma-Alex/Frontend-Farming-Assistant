@@ -2,6 +2,8 @@ import 'package:farming_assistant/screens/tasks_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:farming_assistant/widgets/bottom_bar_widget.dart';
 
+import '../widgets/weather_time_widget.dart';
+
 const double containerHeight = 200.0;
 
 class HomePageScreen extends StatefulWidget {
@@ -88,7 +90,8 @@ class HomeContent extends StatelessWidget {
                     height: containerHeight,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage("assets/images/home_background_top(2).png"),
+                        image: AssetImage(
+                            "assets/images/home_background_top(2).png"),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -99,20 +102,26 @@ class HomeContent extends StatelessWidget {
                       children: [
                         Text(
                           'Welcome Back!',
-                          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurface,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 40,
-                          ),
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineMedium
+                              ?.copyWith(
+                                color: Theme.of(context).colorScheme.onSurface,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 40,
+                              ),
                         ),
                         const SizedBox(height: 5),
                         Text(
                           'Ready for a productive day?',
-                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurface,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge
+                              ?.copyWith(
+                                color: Theme.of(context).colorScheme.onSurface,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
                         ),
                       ],
                     ),
@@ -120,7 +129,7 @@ class HomeContent extends StatelessWidget {
                 ],
               ),
             ),
-            Container(
+            /*Container(
               color: const Color(0xFFCEB08A),
               child: Stack(
                 children: [
@@ -199,6 +208,23 @@ class HomeContent extends StatelessWidget {
                     ),
                   ),
                 ],
+              ),
+            ),*/
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Container(
+                height: 100,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.black54,
+                    width: 1,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: const WeatherTimeWidget(
+                  textColor: Colors.black,
+                ),
               ),
             ),
           ],
