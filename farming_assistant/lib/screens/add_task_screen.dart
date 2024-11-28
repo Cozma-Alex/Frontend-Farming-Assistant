@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:farming_assistant/models/task.dart';
+import '../APIs/task-related-apis.dart';
+import '../models/enums/recurrence.dart';
+import '../models/enums/sections.dart';
+import '../models/user.dart';
 
 class AddTaskScreen extends StatefulWidget {
   const AddTaskScreen({super.key});
@@ -11,6 +14,17 @@ class AddTaskScreen extends StatefulWidget {
 
 class _AddTaskScreenState extends State<AddTaskScreen> {
   final _formKey = GlobalKey<FormState>();
+
+  Section? _selectedSection = null;
+
+  List<String> _locationNames = [
+    "None",
+    "Location name 1",
+    "Location name 2",
+    "Location name 3"
+  ];
+
+  String _selectedLocationName = "";
 
   Recurrence _selectedRecurrence = Recurrence.none;
 
@@ -168,7 +182,11 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                               ),
                             )
                             .toList(),
-                        onChanged: (Section? value) {},
+                        onChanged: (Section? value) {
+                          setState(() {
+                            _selectedSection = value!;
+                          });
+                        },
                         validator: (value) {
                           if (value == null) {
                             return 'Please select a section';
@@ -177,6 +195,50 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                         },
                       ),
                     ),
+                    _selectedSection != null
+                        ? Column(
+                            children: [
+                              const SizedBox(
+                                height: 16,
+                              ),
+                              Container(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.black54,
+                                    width: 1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: DropdownButtonFormField<String>(
+                                  decoration: const InputDecoration(
+                                    labelText: 'Location...',
+                                  ),
+                                  items: _locationNames
+                                      .map(
+                                        (locationName) => DropdownMenuItem(
+                                          value: locationName,
+                                          child: Text(locationName),
+                                        ),
+                                      )
+                                      .toList(),
+                                  onChanged: (String? value) {
+                                    setState(() {
+                                      _selectedLocationName = value!;
+                                    });
+                                  },
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please select a location';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              )
+                            ],
+                          )
+                        : const SizedBox(),
                     const SizedBox(height: 16),
                     Text(
                       "Recurrent task?",
@@ -282,7 +344,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                               },
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Icon(
                                     Icons.calendar_month,
@@ -311,7 +374,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                               },
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Icon(
                                     Icons.access_time,

@@ -5,7 +5,7 @@ import 'package:farming_assistant/screens/homepage_screen.dart'; // Add this lin
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../models/user.dart';
-import  '../utils/config.dart';
+import '../utils/config.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -14,12 +14,16 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<LoginScreen>
+    with SingleTickerProviderStateMixin {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   final TextEditingController _registerNameController = TextEditingController();
-  final TextEditingController _registerFarmNameController = TextEditingController();
+  final TextEditingController _registerFarmNameController =
+      TextEditingController();
+
+  late AnimationController _animationController;
 
   void _openRegisterWidget() {
     showModalBottomSheet(
@@ -27,6 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
       showDragHandle: true,
       useSafeArea: true,
       context: context,
+      transitionAnimationController: _animationController,
       builder: (BuildContext context) {
         return RegisterWidget(
           emailController: _emailController,
@@ -43,6 +48,28 @@ class _LoginScreenState extends State<LoginScreen> {
       context,
       MaterialPageRoute(builder: (context) => const HomePageScreen()),
     );
+  }
+
+  @override
+  void initState() {
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 600),
+      reverseDuration: const Duration(milliseconds: 450),
+    );
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+
+    _emailController.dispose();
+    _passwordController.dispose();
+    _registerNameController.dispose();
+    _registerFarmNameController.dispose();
+
+    super.dispose();
   }
 
   @override
@@ -125,7 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 20),
                   TextField(
-                    controller : _emailController,
+                    controller: _emailController,
                     decoration: InputDecoration(
                       hintText: 'Email...',
                       hintStyle: Theme.of(context)
@@ -139,12 +166,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                       filled: true,
-                      fillColor: Theme.of(context).colorScheme.tertiaryContainer,
+                      fillColor:
+                          Theme.of(context).colorScheme.tertiaryContainer,
                     ),
                   ),
                   const SizedBox(height: 15),
                   TextField(
-                    controller : _passwordController,
+                    controller: _passwordController,
                     obscureText: true,
                     obscuringCharacter: '*',
                     decoration: InputDecoration(
@@ -200,15 +228,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 20),
                   SizedBox(
-                      width: 220,
-                      child: ElevatedButton(
-                        onPressed: _signIn, 
+                    width: 220,
+                    child: ElevatedButton(
+                      onPressed: _signIn,
                       //TODO apply loginAPI call
                       //DO NOT DELETE THIS
                       //   onPressed: () {
                       //   String username = _emailController.text;
                       //   String password = _passwordController.text;
-                      //   var userData = loginAPI(username, password);
+                      //   var userData = loginAPI(User(email : username, password : password));
                       //   userData.then((value) {
                       //     if (value.statusCode == 200) {
                       //       var jsonData = jsonDecode(value.body);
@@ -218,19 +246,19 @@ class _LoginScreenState extends State<LoginScreen> {
                       //     }
                       //   });
                       // },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Theme.of(context).colorScheme.primary,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        child: Text(
-                          'Sign In',
-                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                              color: Theme.of(context).colorScheme.onSurface),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
                         ),
                       ),
+                      child: Text(
+                        'Sign In',
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            color: Theme.of(context).colorScheme.onSurface),
+                      ),
                     ),
+                  ),
                   const SizedBox(height: 15),
                   Text(
                     'or',
@@ -263,26 +291,5 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
-  }
-}
-
-Future<http.Response> loginAPI(String email, String password) async {
-  final uri = Uri.parse('${APIConfig.baseURI}/users/auth');
-
-  try {
-    final response = await http.post(
-      uri,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode({
-        'email': email,
-        'password_hash': password,
-      }),
-    );
-
-    return response;
-  } catch (e) {
-    throw Exception('Failed to login: $e');
   }
 }
