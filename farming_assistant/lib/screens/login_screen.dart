@@ -236,7 +236,7 @@ class _LoginScreenState extends State<LoginScreen>
                       //   onPressed: () {
                       //   String username = _emailController.text;
                       //   String password = _passwordController.text;
-                      //   var userData = loginAPI(username, password);
+                      //   var userData = loginAPI(User(email : username, password : password));
                       //   userData.then((value) {
                       //     if (value.statusCode == 200) {
                       //       var jsonData = jsonDecode(value.body);
@@ -291,26 +291,5 @@ class _LoginScreenState extends State<LoginScreen>
         ),
       ),
     );
-  }
-}
-
-Future<http.Response> loginAPI(String email, String password) async {
-  final uri = Uri.parse('${APIConfig.baseURI}/users/auth');
-
-  try {
-    final response = await http.post(
-      uri,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode({
-        'email': email,
-        'password_hash': password,
-      }),
-    );
-
-    return response;
-  } catch (e) {
-    throw Exception('Failed to login: $e');
   }
 }

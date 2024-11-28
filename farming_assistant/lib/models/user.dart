@@ -1,23 +1,23 @@
 import "dart:typed_data";
 
 class User {
-  String id;
-  String email;
-  String password;
-  String farmName;
-  String name;
-  Uint8List imageData;
+  String? id;
+  String? email;
+  String? password;
+  String? farmName;
+  String? name;
+  Uint8List? imageData;
 
-  User(this.id, this.email, this.password, this.farmName, this.name, this.imageData);
+  User({this.id, this.email, this.password, this.farmName, this.name, this.imageData});
 
   static fromJson(Map <String, dynamic> jsonData) {
     return User(
-      jsonData['id'],
-      jsonData['email'],
-      jsonData['password_hash'],
-      jsonData['farm_name'],
-      jsonData['name'],
-      jsonData['image_data'],
+      id: jsonData['id'],
+      email: jsonData['email'],
+      password: jsonData['password_hash'],
+      farmName: jsonData['farm_name'],
+      name: jsonData['name'],
+      imageData: jsonData['image_data'],
     );
   }
 

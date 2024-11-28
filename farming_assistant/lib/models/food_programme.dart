@@ -1,3 +1,4 @@
+import '../utils/date_time_formater.dart';
 import 'animal.dart';
 import 'food.dart';
 
@@ -24,8 +25,8 @@ class FoodProgramme {
   static toJson(FoodProgramme foodProgramme) {
     return {
       'id': foodProgramme.id,
-      'start_hour': foodProgramme.startHour.toString(),
-      'end_hour': foodProgramme.endHour.toString(),
+      'start_hour': formatDateTimeString(foodProgramme.startHour),
+      'end_hour': formatDateTimeString(foodProgramme.endHour),
       'animal': Animal.toJson(foodProgramme.animal),
       'food': Food.toJson(foodProgramme.food),
     };
