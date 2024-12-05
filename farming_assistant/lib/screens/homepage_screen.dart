@@ -43,20 +43,20 @@ class _HomePageScreenState extends State<HomePageScreen> {
   Widget build(BuildContext context) {
     final List<Widget> screens = [
       const Center(child: Text('Stats Screen')),
-      const MapContent(), // New custom widget
+      const MapContent(),
       const HomeContent(),
       const TasksScreen(),
     ];
 
     return Scaffold(
-      body: PageView(
-        controller: _pageController,
-        onPageChanged: _onPageChanged,
-        children: screens,
-      ),
+      body: screens[_currentIndex],
       bottomNavigationBar: BottomNavBar(
         currentIndex: _currentIndex,
-        onTap: _onNavBarTapped,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
       ),
     );
   }
@@ -71,9 +71,6 @@ class HomeContent extends StatelessWidget {
     final containerWidth = screenWidth * 0.85;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Home Page"),
-      ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,

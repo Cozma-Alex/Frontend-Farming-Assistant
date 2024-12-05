@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 
-enum BuildingType {
+enum LocationType {
   house,
   tractorShed,
   cowBarn,
@@ -11,16 +11,22 @@ enum BuildingType {
   other
 }
 
-extension BuildingTypeExtension on BuildingType {
+extension SectionExtension on LocationType {
+  String get jsonValue {
+    return name.toUpperCase();
+  }
+}
+
+extension BuildingTypeExtension on LocationType {
   String get displayName {
     switch (this) {
-      case BuildingType.tractorShed:
+      case LocationType.tractorShed:
         return 'Tractor Shed';
-      case BuildingType.cowBarn:
+      case LocationType.cowBarn:
         return 'Cow Barn';
-      case BuildingType.chickenCoop:
+      case LocationType.chickenCoop:
         return 'Chicken Coop';
-      case BuildingType.pigPen:
+      case LocationType.pigPen:
         return 'Pig Pen';
       default:
         return name[0].toUpperCase() + name.substring(1);
@@ -29,19 +35,19 @@ extension BuildingTypeExtension on BuildingType {
 
   IconData get icon {
     switch (this) {
-      case BuildingType.house:
+      case LocationType.house:
         return Icons.home;
-      case BuildingType.tractorShed:
+      case LocationType.tractorShed:
         return Icons.agriculture;
-      case BuildingType.cowBarn:
+      case LocationType.cowBarn:
         return Icons.pets;
-      case BuildingType.chickenCoop:
+      case LocationType.chickenCoop:
         return Icons.egg;
-      case BuildingType.pigPen:
+      case LocationType.pigPen:
         return Icons.pets_outlined;
-      case BuildingType.storage:
+      case LocationType.storage:
         return Icons.warehouse;
-      case BuildingType.other:
+      case LocationType.other:
         return Icons.business;
     }
   }

@@ -3,6 +3,7 @@ import 'package:farming_assistant/screens/tools_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../utils/providers/farm_state_provider.dart';
+import '../widgets/locations_section_widget.dart';
 import '../widgets/property_map_view.dart';
 import 'barns_screen.dart';
 import 'fields_screen.dart';
@@ -20,11 +21,11 @@ class MapContent extends StatelessWidget {
             child: Column(
               children: [
                 Container(
-                  height: constraints.maxHeight * 0.6,
+                  height: constraints.maxHeight * 0.5,
                   margin: const EdgeInsets.only(bottom: 25, top: 30),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(30),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.3),
@@ -56,7 +57,7 @@ class MapContent extends StatelessWidget {
                   margin: const EdgeInsets.only(bottom: 25),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(30),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.3),
@@ -69,30 +70,19 @@ class MapContent extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           _buildMapButton('Fields', Icons.eco, context),
                           _buildMapButton('Barns', Icons.pets, context),
                           _buildMapButton('Storage', Icons.restaurant, context),
-                          _buildMapButton('Tools', Icons.handyman_outlined, context),
-                        ]
-                    ),
+                          _buildMapButton(
+                              'Tools', Icons.handyman_outlined, context),
+                        ]),
                   ),
                 ),
                 Container(
-                  height: constraints.maxHeight * 0.16,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.3),
-                        spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: const Offset(0, 3),
-                      ),
-                    ],
-                  ),
+                  height: constraints.maxHeight * 0.26,
+                  child: LocationsSection(height: constraints.maxHeight * 0.26),
                 ),
               ],
             ),

@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math' show cos, pi, sin;
 import '../../../models/farm_element.dart';
-import '../../../models/enums/building_type.dart';
+import '../../../models/enums/location_type.dart';
 import '../../../models/enums/crop_type.dart';
 import '../../../models/enums/animal_type.dart';
 import '../../../models/enums/shape_type.dart';

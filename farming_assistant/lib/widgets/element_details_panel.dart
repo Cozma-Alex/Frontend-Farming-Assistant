@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../utils/providers/farm_state_provider.dart';
 import '../../models/enums/crop_type.dart';
-import '../../models/enums/building_type.dart';
+import '../../models/enums/location_type.dart';
 import '../../models/enums/animal_type.dart';
 import '../../models/enums/shape_type.dart';
 import '../models/farm_element.dart';
@@ -103,13 +103,13 @@ class ElementDetailsPanel extends StatelessWidget {
       FarmElement element,
       FarmStateProvider farmState,
       ) {
-    return DropdownButtonFormField<BuildingType>(
+    return DropdownButtonFormField<LocationType>(
       decoration: const InputDecoration(
         labelText: 'Building Type',
         border: OutlineInputBorder(),
       ),
-      value: element.buildingType ?? BuildingType.other,
-      items: BuildingType.values.map((type) {
+      value: element.buildingType ?? LocationType.other,
+      items: LocationType.values.map((type) {
         return DropdownMenuItem(
           value: type,
           child: Row(
@@ -202,9 +202,9 @@ class ElementDetailsPanel extends StatelessWidget {
     return '${dateTime.day}/${dateTime.month}/${dateTime.year} ${dateTime.hour}:${dateTime.minute.toString().padLeft(2, '0')}';
   }
 
-  bool _isAnimalBuilding(BuildingType? type) {
-    return type == BuildingType.cowBarn ||
-        type == BuildingType.chickenCoop ||
-        type == BuildingType.pigPen;
+  bool _isAnimalBuilding(LocationType? type) {
+    return type == LocationType.cowBarn ||
+        type == LocationType.chickenCoop ||
+        type == LocationType.pigPen;
   }
 }

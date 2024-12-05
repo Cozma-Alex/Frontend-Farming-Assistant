@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'enums/animal_type.dart';
-import 'enums/building_type.dart';
+import 'enums/location_type.dart';
 import 'enums/crop_type.dart';
 import 'enums/shape_type.dart';
 
@@ -12,7 +12,7 @@ class FarmElement {
   Color color;
   bool isSelected;
   CropType? cropType;
-  BuildingType? buildingType;
+  LocationType? buildingType;
   List<AnimalType> animals;
   String? notes;
   DateTime lastUpdated;
@@ -65,7 +65,7 @@ class FarmElement {
       )
           : null,
       buildingType: json['buildingType'] != null
-          ? BuildingType.values.firstWhere(
+          ? LocationType.values.firstWhere(
             (e) => e.toString() == json['buildingType'],
       )
           : null,

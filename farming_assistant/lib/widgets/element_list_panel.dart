@@ -4,7 +4,7 @@ import '../utils/providers/farm_state_provider.dart';
 import '../../models/farm_element.dart';
 import '../models/enums/shape_type.dart';
 import '../models/enums/crop_type.dart';
-import '../models/enums/building_type.dart';
+import '../models/enums/location_type.dart';
 
 
 class ElementListPanel extends StatelessWidget {
