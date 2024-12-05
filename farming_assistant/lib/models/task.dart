@@ -13,8 +13,8 @@ class Task {
   Priority? priority;
   Recurrence? recurrence;
   DateTime? deadline;
-  DateTime? changeToMedium;
-  DateTime? changeToHigh;
+  DateTime? changeToMediumPriority;
+  DateTime? changeToHighPriority;
   User? user;
   bool? done;
 
@@ -26,8 +26,8 @@ class Task {
     this.priority,
     this.recurrence,
     this.deadline,
-    this.changeToMedium,
-    this.changeToHigh,
+    this.changeToMediumPriority,
+    this.changeToHighPriority,
     this.user,
     this.done,
   });
@@ -44,8 +44,8 @@ class Task {
       recurrence: Recurrence.values
           .byName(jsonData['recurrence'].toString().toLowerCase()),
       deadline: DateTime.parse(jsonData['deadline']),
-      changeToMedium: DateTime.parse(jsonData['change_to_medium_priority']),
-      changeToHigh: DateTime.parse(jsonData['change_to_high_priority']),
+      changeToMediumPriority: DateTime.parse(jsonData['changeToMediumPriority']),
+      changeToHighPriority: DateTime.parse(jsonData['changeToHighPriority']),
       user: User.fromJson(jsonData['user']),
       done: jsonData['done'],
     );
@@ -60,8 +60,8 @@ class Task {
       'priority': task.priority!.jsonValue,
       'recurrence': task.recurrence!.jsonValue,
       'deadline': formatDateTimeString(task.deadline!),
-      'change_to_medium_priority': formatDateTimeString(task.changeToMedium!),
-      'change_to_high_priority': formatDateTimeString(task.changeToHigh!),
+      'changeToMediumPriority': formatDateTimeString(task.changeToMediumPriority!),
+      'changeToHighPriority': formatDateTimeString(task.changeToHighPriority!),
       'user': User.toJson(task.user!),
       'done': task.done,
     };
@@ -69,6 +69,6 @@ class Task {
 
   @override
   String toString() {
-    return 'Task{id: $id, name: $name, description: $description, section: $section, priority: $priority, recurrence: $recurrence, deadline: $deadline, changeToMedium: $changeToMedium, changeToHigh: $changeToHigh, user: $user, done: $done}';
+    return 'Task{id: $id, name: $name, description: $description, section: $section, priority: $priority, recurrence: $recurrence, deadline: $deadline, changeToMedium: $changeToMediumPriority, changeToHigh: $changeToHighPriority, user: $user, done: $done}';
   }
 }

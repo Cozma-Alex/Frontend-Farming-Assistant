@@ -15,8 +15,8 @@ class FoodProgramme {
   static fromJson(Map <String, dynamic> jsonData) {
     return FoodProgramme(
       jsonData['id'],
-      DateTime.parse(jsonData['start_hour']),
-      DateTime.parse(jsonData['end_hour']),
+      DateTime.parse(jsonData['startHour']),
+      DateTime.parse(jsonData['endHour']),
       Animal.fromJson(jsonData['animal']),
       Food.fromJson(jsonData['food']),
     );
@@ -25,8 +25,8 @@ class FoodProgramme {
   static toJson(FoodProgramme foodProgramme) {
     return {
       'id': foodProgramme.id,
-      'start_hour': formatDateTimeString(foodProgramme.startHour),
-      'end_hour': formatDateTimeString(foodProgramme.endHour),
+      'startHour': formatDateTimeString(foodProgramme.startHour),
+      'endHour': formatDateTimeString(foodProgramme.endHour),
       'animal': Animal.toJson(foodProgramme.animal),
       'food': Food.toJson(foodProgramme.food),
     };

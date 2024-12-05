@@ -9,11 +9,11 @@ class Animal {
   String description;
   DateTime age;
   Uint8List imageData;
-  String health_profile;
+  String healthProfile;
   Location location;
 
 
-  Animal(this.id, this.name, this.description, this.age, this.imageData, this.health_profile, this.location);
+  Animal(this.id, this.name, this.description, this.age, this.imageData, this.healthProfile, this.location);
 
 
   static fromJson(Map <String, dynamic> jsonData) {
@@ -22,8 +22,8 @@ class Animal {
       jsonData['name'],
       jsonData['description'],
       DateTime.parse(jsonData['age']),
-      jsonData['image_data'],
-      jsonData['health_profile'],
+      jsonData['imageData'],
+      jsonData['healthProfile'],
       Location.fromJson(jsonData['location'])
     );
   }
@@ -34,8 +34,8 @@ class Animal {
       'name': animal.name,
       'description': animal.description,
       'age':  formatDateTimeString(animal.age),
-      'image_data': animal.imageData,
-      'health_profile': animal.health_profile,
+      'imageData': animal.imageData,
+      'healthProfile': animal.healthProfile,
       'location': Location.toJson(animal.location),
     };
   }
