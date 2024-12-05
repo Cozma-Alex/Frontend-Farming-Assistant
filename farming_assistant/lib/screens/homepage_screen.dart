@@ -43,25 +43,11 @@ class _HomePageScreenState extends State<HomePageScreen> {
   Widget build(BuildContext context) {
     final List<Widget> screens = [
       const Center(child: Text('Stats Screen')),
-      Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ChangeNotifierProvider(
-                  create: (_) => FarmStateProvider(),
-                  child: const MapScreen(),
-                ),
-              ),
-            );
-          },
-          child: const Text('Open Map'),
-        ),
-      ),
+      const MapContent(), // New custom widget
       const HomeContent(),
       const TasksScreen(),
     ];
+
     return Scaffold(
       body: PageView(
         controller: _pageController,
