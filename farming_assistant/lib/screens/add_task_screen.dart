@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../APIs/task-related-apis.dart';
+import '../models/enums/priority.dart';
 import '../models/enums/recurrence.dart';
 import '../models/enums/sections.dart';
+import '../models/task.dart';
 import '../models/user.dart';
 
 class AddTaskScreen extends StatefulWidget {
@@ -15,16 +17,11 @@ class AddTaskScreen extends StatefulWidget {
 class _AddTaskScreenState extends State<AddTaskScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  Section? _selectedSection = null;
+  final TextEditingController _taskNameController = TextEditingController();
+  final TextEditingController _taskDescriptionController =
+      TextEditingController();
 
-  List<String> _locationNames = [
-    "None",
-    "Location name 1",
-    "Location name 2",
-    "Location name 3"
-  ];
-
-  String _selectedLocationName = "";
+  Section? _selectedSection;
 
   Recurrence _selectedRecurrence = Recurrence.none;
 
@@ -34,28 +31,27 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     });
   }
 
-  DateTime _selectedDate = DateTime.timestamp();
+  DateTime? _changeToMediumPriorityDate;
+  DateTime? _changeToHighPriorityDate;
 
-  TimeOfDay _selectedTime = TimeOfDay.now();
+  DateTime? _selectedDate;
+  TimeOfDay? _selectedTime;
 
-  Future<void>? _selectDate(BuildContext context) async {
+  Future<DateTime?> _openSelectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: _selectedDate,
       firstDate: DateTime.now(),
-      lastDate: DateTime(2101),
+      lastDate: DateTime.now().add(const Duration(days: 760)),
     );
-    if (picked != null && picked != _selectedDate) {
-      setState(() {
-        _selectedDate = picked;
-      });
-    }
+
+    return picked;
   }
 
   Future<void>? _selectTime(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
-      initialTime: _selectedTime,
+      initialTime: _selectedTime ?? TimeOfDay.now(),
     );
     if (picked != null && picked != _selectedTime) {
       setState(() {
@@ -120,11 +116,13 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: TextFormField(
+                        controller: _taskNameController,
                         decoration: InputDecoration(
                           labelText: 'Task name...',
                           border: InputBorder.none,
                           filled: true,
-                          fillColor: Theme.of(context).colorScheme.tertiaryContainer,
+                          fillColor:
+                              Theme.of(context).colorScheme.tertiaryContainer,
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -145,12 +143,14 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       ),
                       // padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: TextFormField(
+                        controller: _taskDescriptionController,
                         maxLines: 5,
                         decoration: InputDecoration(
                           labelText: 'Task description...',
                           border: InputBorder.none,
                           filled: true,
-                          fillColor: Theme.of(context).colorScheme.tertiaryContainer,
+                          fillColor:
+                              Theme.of(context).colorScheme.tertiaryContainer,
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -195,50 +195,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                         },
                       ),
                     ),
-                    _selectedSection != null
-                        ? Column(
-                            children: [
-                              const SizedBox(
-                                height: 16,
-                              ),
-                              Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.black54,
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: DropdownButtonFormField<String>(
-                                  decoration: const InputDecoration(
-                                    labelText: 'Location...',
-                                  ),
-                                  items: _locationNames
-                                      .map(
-                                        (locationName) => DropdownMenuItem(
-                                          value: locationName,
-                                          child: Text(locationName),
-                                        ),
-                                      )
-                                      .toList(),
-                                  onChanged: (String? value) {
-                                    setState(() {
-                                      _selectedLocationName = value!;
-                                    });
-                                  },
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please select a location';
-                                    }
-                                    return null;
-                                  },
-                                ),
-                              )
-                            ],
-                          )
-                        : const SizedBox(),
                     const SizedBox(height: 16),
                     Text(
                       "Recurrent task?",
@@ -255,7 +211,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                         ),
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: Column(
                         children: [
                           Row(
@@ -317,13 +273,115 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       thickness: 2,
                     ),
                     const SizedBox(height: 16),
+                    Column(
+                      children: [
+                        Text(
+                          'When to change to medium priority? (if needed)',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                              ?.copyWith(
+                                color: Theme.of(context).colorScheme.onSurface,
+                              ),
+                        ),
+                        InkWell(
+                          mouseCursor: SystemMouseCursors.click,
+                          onTap: () {
+                            _openSelectDate(context).then((value) {
+                              if (value != null) {
+                                setState(() {
+                                  _changeToMediumPriorityDate = value;
+                                  print(_changeToMediumPriorityDate);
+                                });
+                              }
+                            });
+                          },
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Icon(
+                                Icons.calendar_month,
+                                color: Theme.of(context).colorScheme.onSurface,
+                              ),
+                              Text(
+                                _changeToMediumPriorityDate == null
+                                    ? 'Select date'
+                                    : _changeToMediumPriorityDate
+                                        .toString()
+                                        .split(' ')[0],
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface,
+                                    ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Text(
+                          'When to change to high priority? (if needed)',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                              ?.copyWith(
+                                color: Theme.of(context).colorScheme.onSurface,
+                              ),
+                        ),
+                        InkWell(
+                          mouseCursor: SystemMouseCursors.click,
+                          onTap: () {
+                            _openSelectDate(context).then((value) {
+                              if (value != null) {
+                                setState(() {
+                                  _changeToHighPriorityDate = value;
+                                  print(_changeToHighPriorityDate);
+                                });
+                              }
+                            });
+                          },
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Icon(
+                                Icons.calendar_month,
+                                color: Theme.of(context).colorScheme.onSurface,
+                              ),
+                              Text(
+                                _changeToHighPriorityDate == null
+                                    ? 'Select date'
+                                    : _changeToHighPriorityDate
+                                        .toString()
+                                        .split(' ')[0],
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface,
+                                    ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    Divider(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      thickness: 2,
+                    ),
                     Container(
-                      height: 70,
                       padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        child: Column(
+                          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Text(
                               _selectedRecurrence == Recurrence.none
@@ -340,7 +398,13 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                             InkWell(
                               mouseCursor: SystemMouseCursors.click,
                               onTap: () {
-                                _selectDate(context);
+                                _openSelectDate(context).then((value) {
+                                  if (value != null) {
+                                    setState(() {
+                                      _selectedDate = value;
+                                    });
+                                  }
+                                });
                               },
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
@@ -352,9 +416,12 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                     color:
                                         Theme.of(context).colorScheme.onSurface,
                                   ),
-                                  const SizedBox(width: 8),
                                   Text(
-                                    _selectedDate.toString().split(' ')[0],
+                                    _selectedDate == null
+                                        ? 'Select date'
+                                        : _selectedDate
+                                            .toString()
+                                            .split(' ')[0],
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge
@@ -382,9 +449,10 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                     color:
                                         Theme.of(context).colorScheme.onSurface,
                                   ),
-                                  const SizedBox(width: 8),
                                   Text(
-                                    _selectedTime.format(context),
+                                    _selectedTime == null
+                                        ? 'Select time'
+                                        : _selectedTime!.format(context),
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge
@@ -406,7 +474,57 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       width: 180,
                       child: ElevatedButton(
                         onPressed: () {
-                          if (_formKey.currentState!.validate()) {}
+                          if (_formKey.currentState!.validate()) {
+                            if (_selectedDate == null) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content:
+                                        Text('Please select a deadline date')),
+                              );
+                              return;
+                            }
+                            if (_selectedTime == null) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content:
+                                        Text('Please select a deadline time')),
+                              );
+                              return;
+                            }
+
+                            final task = Task(
+                              name: _taskNameController.text,
+                              description: _taskDescriptionController.text,
+                              section: _selectedSection,
+                              priority: Priority.low,
+                              recurrence: _selectedRecurrence,
+                              deadline: DateTime(
+                                _selectedDate!.year,
+                                _selectedDate!.month,
+                                _selectedDate!.day,
+                                _selectedTime!.hour,
+                                _selectedTime!.minute,
+                              ),
+                              changeToMedium: _changeToMediumPriorityDate,
+                              changeToHigh: _changeToHighPriorityDate,
+                              user: User(
+                                // asta am eu in db deja un user
+                                id: '0adff34b-9c96-434f-be4f-8bcbac042de6',
+                              ),
+                            );
+
+                            saveTaskAPI(task).then((value) {
+                              if (context.mounted) Navigator.of(context).pop();
+                            }).catchError((e) {
+                              if (context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Failed to add task: $e'),
+                                  ),
+                                );
+                              }
+                            });
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor:
