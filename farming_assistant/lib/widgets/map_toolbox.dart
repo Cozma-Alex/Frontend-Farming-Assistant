@@ -3,37 +3,115 @@ import 'package:provider/provider.dart';
 import '../utils/providers/farm_state_provider.dart';
 import '../models/enums/drawing_mode.dart';
 import '../models/enums/shape_type.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
-class MapToolbox extends StatelessWidget {
+import 'color_picker_overlay.dart';
+
+class MapToolbox extends StatefulWidget {
   const MapToolbox({super.key});
+
+  @override
+  State<MapToolbox> createState() => _MapToolboxState();
+}
+
+class _MapToolboxState extends State<MapToolbox> {
+  bool _showColorPicker = false;
+
+  final List<Color> presetColors = const [
+    // Greens
+    Color(0xFFA7D77C),
+    Color(0xFF69A84F),
+    Color(0xFF2E5A1C),
+    // Blues
+    Color(0xFF7CB5D7),
+    Color(0xFF4F89A8),
+    Color(0xFF1C3D5A),
+    // Earth tones
+    Color(0xFFD7B67C),
+    Color(0xFFA88B4F),
+    Color(0xFF5A421C),
+    // Additional colors
+    Color(0xFFD77C7C), // Red
+    Color(0xFF7C7CD7), // Purple
+    Color(0xFFD7D77C), // Yellow
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Consumer<FarmStateProvider>(
       builder: (context, farmState, child) {
-        return Card(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'Tools',
-                  style: Theme.of(context).textTheme.titleMedium,
+        return Stack(
+          children: [
+            // Original toolbar content
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Tools',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    const SizedBox(height: 8),
+                    _buildDrawingModes(context, farmState),
+                    const SizedBox(height: 16),
+                    Text(
+                      'Shapes',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    const SizedBox(height: 8),
+                    _buildShapeTypes(context, farmState),
+                    const SizedBox(height: 16),
+                    // Add color indicator
+                    Row(
+                      children: [
+                        Text(
+                          'Current Color:',
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        const SizedBox(width: 8),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _showColorPicker = !_showColorPicker;
+                            });
+                          },
+                          child: Container(
+                            width: 32,
+                            height: 32,
+                            decoration: BoxDecoration(
+                              color: farmState.selectedColor,
+                              shape: BoxShape.circle,
+                              border: Border.all(color: Colors.grey),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 8),
-                _buildDrawingModes(context, farmState),
-                const SizedBox(height: 16),
-                Text(
-                  'Shapes',
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                const SizedBox(height: 8),
-                _buildShapeTypes(context, farmState),
-              ],
+              ),
             ),
-          ),
+            // Color picker overlay
+            if (_showColorPicker)
+              ColorPickerOverlay(
+                colors: presetColors,
+                selectedColor: farmState.selectedColor,
+                onColorSelected: (color) {
+                  farmState.setSelectedColor(color);
+                  setState(() {
+                    _showColorPicker = false;
+                  });
+                },
+                onDismiss: () {
+                  setState(() {
+                    _showColorPicker = false;
+                  });
+                },
+              ),
+          ],
         );
       },
     );
@@ -105,6 +183,8 @@ class MapToolbox extends StatelessWidget {
         return Icons.edit;
       case DrawingMode.delete:
         return Icons.delete;
+      case DrawingMode.color:
+        return Icons.color_lens;
     }
   }
 

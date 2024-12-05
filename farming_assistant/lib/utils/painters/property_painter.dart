@@ -74,13 +74,13 @@ class PropertyPainter extends CustomPainter {
 
     // Fill
     final fillPaint = Paint()
-      ..color = element.color.withOpacity(isDraft ? 0.3 : 0.5)
+      ..color = element.color.withOpacity(isDraft ? 0.3 : 0.5) // Use element.color
       ..style = PaintingStyle.fill;
     canvas.drawPath(path, fillPaint);
 
     // Stroke
     final strokePaint = Paint()
-      ..color = isSelected ? Colors.blue : element.color
+      ..color = isSelected ? Colors.blue : element.color // Use element.color
       ..style = PaintingStyle.stroke
       ..strokeWidth = isSelected ? 3 : 2;
     canvas.drawPath(path, strokePaint);

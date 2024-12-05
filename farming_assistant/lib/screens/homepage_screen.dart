@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../widgets/bottom_bar_widget.dart';
 import '../widgets/property_map_view.dart'; 
 import '../utils/providers/farm_state_provider.dart';
+import 'map_screen.dart';
 import 'tasks_screen.dart';
 
 const double containerHeight = 200.0;
@@ -42,16 +43,25 @@ class _HomePageScreenState extends State<HomePageScreen> {
   Widget build(BuildContext context) {
     final List<Widget> screens = [
       const Center(child: Text('Stats Screen')),
-      Scaffold(
-        body: ChangeNotifierProvider(
-          create: (_) => FarmStateProvider(),
-          child: const PropertyMapView(),
+      Center(
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ChangeNotifierProvider(
+                  create: (_) => FarmStateProvider(),
+                  child: const MapScreen(),
+                ),
+              ),
+            );
+          },
+          child: const Text('Open Map'),
         ),
       ),
       const HomeContent(),
       const TasksScreen(),
     ];
-
     return Scaffold(
       body: PageView(
         controller: _pageController,

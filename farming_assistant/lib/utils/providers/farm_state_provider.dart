@@ -30,6 +30,7 @@ class FarmStateProvider with ChangeNotifier {
   }
 
   void addElement(FarmElement element) {
+    element.color = _selectedColor;  // Use the selected color
     _elements.add(element);
     notifyListeners();
   }
@@ -47,6 +48,14 @@ class FarmStateProvider with ChangeNotifier {
     if (_selectedElement?.id == id) {
       _selectedElement = null;
     }
+    notifyListeners();
+  }
+
+  Color _selectedColor = Colors.green;
+  Color get selectedColor => _selectedColor;
+
+  void setSelectedColor(Color color) {
+    _selectedColor = color;
     notifyListeners();
   }
 

@@ -2,7 +2,8 @@ enum DrawingMode {
   view,
   draw,
   edit,
-  delete;
+  delete,
+  color;
 
   String get name {
     switch (this) {
@@ -14,6 +15,8 @@ enum DrawingMode {
         return 'Edit';
       case DrawingMode.delete:
         return 'Delete';
+      case DrawingMode.color:
+        return 'Color';
     }
   }
 }

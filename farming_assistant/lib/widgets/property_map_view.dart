@@ -65,6 +65,40 @@ class _PropertyMapViewState extends State<PropertyMapView> {
                               ? Theme.of(context).primaryColor
                               : null,
                         ),
+                        // Add the new color picker button
+                        IconButton(
+                          icon: const Icon(Icons.color_lens),
+                          onPressed: () {
+                            // Show color picker dialog
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text('Select Color'),
+                                  content: Wrap(
+                                    spacing: 8,
+                                    runSpacing: 8,
+                                    children: [
+                                      _buildColorButton(context, Colors.green, farmState),
+                                      _buildColorButton(context, Colors.blue, farmState),
+                                      _buildColorButton(context, Colors.brown, farmState),
+                                      _buildColorButton(context, Colors.red, farmState),
+                                      _buildColorButton(context, Colors.orange, farmState),
+                                      _buildColorButton(context, Colors.purple, farmState),
+                                    ],
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.of(context).pop(),
+                                      child: const Text('Close'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          color: Theme.of(context).primaryColor,
+                        ),
                       ],
                     ),
                   ),
@@ -80,4 +114,25 @@ class _PropertyMapViewState extends State<PropertyMapView> {
       },
     );
   }
+}
+
+Widget _buildColorButton(BuildContext context, Color color, FarmStateProvider farmState) {
+  return GestureDetector(
+    onTap: () {
+      farmState.setSelectedColor(color);
+      Navigator.of(context).pop();
+    },
+    child: Container(
+      width: 40,
+      height: 40,
+      decoration: BoxDecoration(
+        color: color,
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: farmState.selectedColor == color ? Colors.black : Colors.grey,
+          width: 2,
+        ),
+      ),
+    ),
+  );
 }
