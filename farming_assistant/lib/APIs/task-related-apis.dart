@@ -2,8 +2,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../models/enums/priority.dart';
-import '../models/enums/recurrence.dart';
-import '../models/enums/sections.dart';
 import '../models/task.dart';
 import '../models/user.dart';
 import '../utils/config.dart';
