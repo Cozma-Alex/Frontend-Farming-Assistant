@@ -205,21 +205,18 @@ class HomeContent extends StatelessWidget {
                             ),
                           ],
                         ),
-
                       ),
-
-
                     ),
                   ),
                 ],
-
               ),
             ),*/
             Padding(
               padding: const EdgeInsets.all(16),
               child: Container(
-                height: 100,
+                height: 125,
                 decoration: BoxDecoration(
+                  color: const Color(0xFF5F603E),
                   border: Border.all(
                     color: Colors.black54,
                     width: 1,
@@ -227,8 +224,11 @@ class HomeContent extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: const WeatherTimeWidget(
-                  textColor: Colors.black,
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: WeatherTimeWidget(
+                    textColor: Colors.white,
+                  ),
                 ),
               ),
             ),
@@ -236,17 +236,16 @@ class HomeContent extends StatelessWidget {
               children: [
                 Container(
                   color: const Color(0xFFCEB08A),
-                  child: BoxWithSlider(
+                  child: const BoxWithSlider(
                     isCenteredTitle: true,
                     title: 'Overall Mood',
-
                     progress: 50.0,
                   ),
                 ),
                 //const SizedBox(height: 16.0), // Spacing between duplicates
                 Container(
                   color: const Color(0xFFCEB08A),
-                  child: BoxWithSlider(
+                  child: const BoxWithSlider(
                     isCenteredTitle: false,
                     title: 'Daily tasks progress',
                     subtitle: '65% completed',
@@ -255,7 +254,7 @@ class HomeContent extends StatelessWidget {
                 ),
                 Container(
                   color: const Color(0xFFCEB08A),
-                  child: BoxWithSlider(
+                  child: const BoxWithSlider(
                     isCenteredTitle: false,
                     title: 'Next estimated Harvest',
                     subtitle: 'In 17 days',
@@ -264,7 +263,7 @@ class HomeContent extends StatelessWidget {
                 ),
                 Container(
                   color: const Color(0xFFCEB08A),
-                  child: BoxWithSlider(
+                  child: const BoxWithSlider(
                     isCenteredTitle: false,
                     title: 'Supplies Remaining',
                     subtitle: 'Corn is low',
@@ -273,7 +272,7 @@ class HomeContent extends StatelessWidget {
                 ),
                 Container(
                   color: const Color(0xFFCEB08A),
-                  child: BoxWithSlider(
+                  child: const BoxWithSlider(
                     isCenteredTitle: false,
                     title: 'Animals\' Health',
                     subtitle: 'Cows are sick',
@@ -282,7 +281,7 @@ class HomeContent extends StatelessWidget {
                 ),
                 Container(
                   color: const Color(0xFFCEB08A),
-                  child: BoxWithSlider(
+                  child: const BoxWithSlider(
                     isCenteredTitle: false,
                     title: 'Profit vs. Expenses for the Current Month',
                     subtitle: '15% profit',
@@ -291,7 +290,6 @@ class HomeContent extends StatelessWidget {
                 ),
               ],
             ),
-
           ],
         ),
       ),
