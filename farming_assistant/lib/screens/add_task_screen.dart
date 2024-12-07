@@ -517,7 +517,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                             );
 
                             saveTaskAPI(task).then((value) {
-                              if (context.mounted) Navigator.of(context).pop();
+                              if (context.mounted) Navigator.of(context).pop(task);
                             }).catchError((e) {
                               if (context.mounted) {
                                 ScaffoldMessenger.of(context).showSnackBar(
