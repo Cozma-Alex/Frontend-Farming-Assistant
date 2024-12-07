@@ -128,7 +128,8 @@ class _TaskCardState extends State<TaskCard> {
                   ),
                 ),
               ],
-            )
+            ),
+            const SizedBox(height: 8),
           ],
         ),
       ),
