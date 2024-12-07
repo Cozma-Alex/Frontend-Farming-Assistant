@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:farming_assistant/widgets/bottom_bar_widget.dart';
 
 import '../widgets/weather_time_widget.dart';
+import '../widgets/homepage_slider.dart';
 
 const double containerHeight = 200.0;
 
@@ -204,10 +205,14 @@ class HomeContent extends StatelessWidget {
                             ),
                           ],
                         ),
+
                       ),
+
+
                     ),
                   ),
                 ],
+
               ),
             ),*/
             Padding(
@@ -227,6 +232,66 @@ class HomeContent extends StatelessWidget {
                 ),
               ),
             ),
+            Column(
+              children: [
+                Container(
+                  color: const Color(0xFFCEB08A),
+                  child: BoxWithSlider(
+                    isCenteredTitle: true,
+                    title: 'Overall Mood',
+
+                    progress: 50.0,
+                  ),
+                ),
+                //const SizedBox(height: 16.0), // Spacing between duplicates
+                Container(
+                  color: const Color(0xFFCEB08A),
+                  child: BoxWithSlider(
+                    isCenteredTitle: false,
+                    title: 'Daily tasks progress',
+                    subtitle: '65% completed',
+                    progress: 65.0,
+                  ),
+                ),
+                Container(
+                  color: const Color(0xFFCEB08A),
+                  child: BoxWithSlider(
+                    isCenteredTitle: false,
+                    title: 'Next estimated Harvest',
+                    subtitle: 'In 17 days',
+                    progress: 40.0,
+                  ),
+                ),
+                Container(
+                  color: const Color(0xFFCEB08A),
+                  child: BoxWithSlider(
+                    isCenteredTitle: false,
+                    title: 'Supplies Remaining',
+                    subtitle: 'Corn is low',
+                    progress: 15.0,
+                  ),
+                ),
+                Container(
+                  color: const Color(0xFFCEB08A),
+                  child: BoxWithSlider(
+                    isCenteredTitle: false,
+                    title: 'Animals\' Health',
+                    subtitle: 'Cows are sick',
+                    progress: 60.0,
+                  ),
+                ),
+                Container(
+                  color: const Color(0xFFCEB08A),
+                  child: BoxWithSlider(
+                    isCenteredTitle: false,
+                    title: 'Profit vs. Expenses for the Current Month',
+                    subtitle: '15% profit',
+                    progress: 85.0,
+                  ),
+                ),
+              ],
+            ),
+
           ],
         ),
       ),
