@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import '../utils/providers/farm_state_provider.dart';
 import '../models/enums/drawing_mode.dart';
 import '../models/enums/shape_type.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 import 'color_picker_overlay.dart';
 

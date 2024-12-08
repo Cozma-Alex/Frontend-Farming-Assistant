@@ -1,4 +1,3 @@
-// lib/widgets/farm_drawing_canvas.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/farm_element.dart';
@@ -7,16 +6,21 @@ import '../utils/providers/farm_state_provider.dart';
 import '../models/enums/shape_type.dart';
 import '../models/enums/drawing_mode.dart';
 
-class FarmDrawingCanvas extends StatefulWidget {
-  const FarmDrawingCanvas({super.key});
+class FarmDrawingCanvas extends StatelessWidget {
+  final List<Offset> currentPoints;
+  final Function(Offset) onTapDown;
+  final VoidCallback onUndo;
+  final VoidCallback onClear;
+  final VoidCallback onComplete;
 
-  @override
-  State<FarmDrawingCanvas> createState() => _FarmDrawingCanvasState();
-}
-
-class _FarmDrawingCanvasState extends State<FarmDrawingCanvas> {
-  List<Offset> currentPoints = [];
-  int? selectedPointIndex;
+  const FarmDrawingCanvas({
+    super.key,
+    required this.currentPoints,
+    required this.onTapDown,
+    required this.onUndo,
+    required this.onClear,
+    required this.onComplete,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,18 +36,14 @@ class _FarmDrawingCanvasState extends State<FarmDrawingCanvas> {
             GestureDetector(
               onTapDown: (details) {
                 if (farmState.currentMode == DrawingMode.draw) {
-                  setState(() {
-                    currentPoints.add(details.localPosition);
-                  });
+                  onTapDown(details.localPosition);
                 } else if (farmState.currentMode == DrawingMode.edit) {
                   // First check if we clicked on a vertex of the selected element
                   if (farmState.selectedElement != null) {
                     final element = farmState.selectedElement!;
                     for (var i = 0; i < element.points.length; i++) {
                       if ((element.points[i] - details.localPosition).distance < 20) {
-                        setState(() {
-                          selectedPointIndex = i;
-                        });
+                        // Handle vertex selection
                         return;
                       }
                     }
@@ -67,11 +67,9 @@ class _FarmDrawingCanvasState extends State<FarmDrawingCanvas> {
               },
               onPanUpdate: (details) {
                 if (farmState.currentMode == DrawingMode.edit &&
-                    selectedPointIndex != null &&
                     farmState.selectedElement != null) {
                   final element = farmState.selectedElement!;
                   List<Offset> newPoints = List.from(element.points);
-                  newPoints[selectedPointIndex!] = details.localPosition;
 
                   // Create updated element
                   FarmElement updatedElement = FarmElement(
@@ -89,11 +87,6 @@ class _FarmDrawingCanvasState extends State<FarmDrawingCanvas> {
                   farmState.updateElement(updatedElement);
                 }
               },
-              onPanEnd: (details) {
-                setState(() {
-                  selectedPointIndex = null;
-                });
-              },
               child: CustomPaint(
                 painter: PropertyPainter(
                   elements: farmState.elements,
@@ -109,50 +102,6 @@ class _FarmDrawingCanvasState extends State<FarmDrawingCanvas> {
                 size: Size.infinite,
               ),
             ),
-
-            // Tools and controls (same as before)
-            if (farmState.currentMode == DrawingMode.draw)
-              Positioned(
-                right: 16,
-                top: 16,
-                child: Column(
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.check),
-                      onPressed: currentPoints.length >= 3 ? () {
-                        final farmState = context.read<FarmStateProvider>();
-                        FarmElement newElement = FarmElement(
-                          id: DateTime.now().toString(),
-                          name: 'New Element',
-                          shapeType: farmState.selectedShapeType,
-                          points: List.from(currentPoints),
-                          color: farmState.selectedColor,
-                        );
-                        farmState.addElement(newElement);
-                        setState(() {
-                          currentPoints.clear();
-                        });
-                      } : null,
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.undo),
-                      onPressed: currentPoints.isNotEmpty ? () {
-                        setState(() {
-                          currentPoints.removeLast();
-                        });
-                      } : null,
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.clear),
-                      onPressed: currentPoints.isNotEmpty ? () {
-                        setState(() {
-                          currentPoints.clear();
-                        });
-                      } : null,
-                    ),
-                  ],
-                ),
-              ),
 
             // Instructions
             Positioned(
@@ -208,6 +157,7 @@ class _FarmDrawingCanvasState extends State<FarmDrawingCanvas> {
     return isInside;
   }
 }
+
 
 class PolygonPainter extends CustomPainter {
   final List<Offset> currentPoints;

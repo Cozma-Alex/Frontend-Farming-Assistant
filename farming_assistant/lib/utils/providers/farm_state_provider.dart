@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import '../../models/enums/crop_type.dart';
+import '../../models/enums/location_type.dart';
+import '../../models/enums/pond_type.dart';
+import '../../models/enums/road_type.dart';
 import '../../models/farm_element.dart';
 import '../../models/enums/drawing_mode.dart';
 import '../../models/enums/shape_type.dart';
@@ -10,8 +14,11 @@ class FarmStateProvider with ChangeNotifier {
   ShapeType _selectedShapeType = ShapeType.field;
 
   List<FarmElement> get elements => _elements;
+
   FarmElement? get selectedElement => _selectedElement;
+
   DrawingMode get currentMode => _currentMode;
+
   ShapeType get selectedShapeType => _selectedShapeType;
 
   void setMode(DrawingMode mode) {
@@ -30,7 +37,7 @@ class FarmStateProvider with ChangeNotifier {
   }
 
   void addElement(FarmElement element) {
-    element.color = _selectedColor;  // Use the selected color
+    element.color = _selectedColor; // Use the selected color
     _elements.add(element);
     notifyListeners();
   }
@@ -52,11 +59,19 @@ class FarmStateProvider with ChangeNotifier {
   }
 
   Color _selectedColor = Colors.green;
+
   Color get selectedColor => _selectedColor;
 
   void setSelectedColor(Color color) {
     _selectedColor = color;
-    notifyListeners();
+    if (_selectedElement != null && currentMode == DrawingMode.edit) {
+      _selectedElement!.updateColor(color);
+      var index = _elements.indexWhere((e) => e.id == _selectedElement!.id);
+      if (index != -1) {
+        _elements[index] = _selectedElement!;
+      }
+      notifyListeners();
+    }
   }
 
   // Placeholder for future save implementation
@@ -105,4 +120,32 @@ class FarmStateProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  CropType? selectedCropType;
+  LocationType? selectedLocationType;
+  PondType? selectedPondType;
+  RoadType? selectedRoadType;
+
+  void setSelectedCropType(CropType type) {
+    selectedCropType = type;
+    setSelectedColor(type.defaultColor);
+    notifyListeners();
+  }
+
+  void setSelectedLocationType(LocationType type) {
+    selectedLocationType = type;
+    setSelectedColor(type.defaultColor);
+    notifyListeners();
+  }
+
+  void setSelectedPondType(PondType type) {
+    selectedPondType = type;
+    setSelectedColor(type.defaultColor);
+    notifyListeners();
+  }
+
+  void setSelectedRoadType(RoadType type) {
+    selectedRoadType = type;
+    setSelectedColor(type.defaultColor);
+    notifyListeners();
+  }
 }

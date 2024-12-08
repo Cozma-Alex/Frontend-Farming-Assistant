@@ -78,4 +78,9 @@ class FarmElement {
       lastUpdated: DateTime.parse(json['lastUpdated']),
     );
   }
+
+  void updateColor(Color newColor) {
+    color = newColor;
+  }
+
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 enum LocationType {
   house,
   tractorShed,
@@ -49,6 +48,25 @@ extension BuildingTypeExtension on LocationType {
         return Icons.warehouse;
       case LocationType.other:
         return Icons.business;
+    }
+  }
+
+  Color get defaultColor {
+    switch (this) {
+      case LocationType.house:
+        return const Color(0xFFCD853F); // Light brown
+      case LocationType.tractorShed:
+        return const Color(0xFFDEB887); // Brown wood
+      case LocationType.cowBarn:
+        return const Color(0xFFA0522D); // Brown
+      case LocationType.chickenCoop:
+        return const Color(0xFFD2691E); // Orange brown
+      case LocationType.pigPen:
+        return const Color(0xFF8B4513); // Dark brown
+      case LocationType.storage:
+        return const Color(0xFFDAA520); // Golden brown
+      case LocationType.other:
+        return const Color(0xFFBC8F8F); // Light brown
     }
   }
 }
