@@ -24,7 +24,7 @@ class Vehicle{
       jsonData['year'],
       jsonData['price'],
       jsonData['kilometers'],
-      jsonData['acquisition_date'],
+      jsonData['acquisitionDate'],
       User.fromJson(jsonData['user']),
     );
   }
@@ -39,7 +39,7 @@ class Vehicle{
       'year': vehicle.year,
       'price': vehicle.price,
       'kilometers': vehicle.kilometers,
-      'acquisition_date': vehicle.acquisitionDate,
+      'acquisitionDate': vehicle.acquisitionDate,
       'user': User.toJson(vehicle.user),
     };
   }

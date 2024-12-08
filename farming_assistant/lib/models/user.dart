@@ -14,10 +14,10 @@ class User {
     return User(
       id: jsonData['id'],
       email: jsonData['email'],
-      password: jsonData['password_hash'],
-      farmName: jsonData['farm_name'],
+      password: jsonData['passwordHash'],
+      farmName: jsonData['farmName'],
       name: jsonData['name'],
-      imageData: jsonData['image_data'],
+      imageData: jsonData['imageData'],
     );
   }
 
@@ -25,10 +25,10 @@ class User {
     return {
       'id': user.id,
       'email': user.email,
-      'password_hash': user.password,
-      'farm_name': user.farmName,
+      'passwordHash': user.password,
+      'farmName': user.farmName,
       'name': user.name,
-      'image_data': user.imageData,
+      'imageData': user.imageData,
     };
   }
 
