@@ -68,5 +68,6 @@ extension BuildingTypeExtension on LocationType {
       case LocationType.other:
         return const Color(0xFFBC8F8F); // Light brown
     }
+
   }
 }

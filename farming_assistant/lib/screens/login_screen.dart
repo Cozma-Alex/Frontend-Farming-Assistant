@@ -1,10 +1,10 @@
-import 'dart:convert';
 
 import 'package:farming_assistant/widgets/register_widget.dart';
 import 'package:farming_assistant/screens/homepage_screen.dart'; // Add this line
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../utils/config.dart';
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -235,7 +235,7 @@ class _LoginScreenState extends State<LoginScreen>
                       //   onPressed: () {
                       //   String username = _emailController.text;
                       //   String password = _passwordController.text;
-                      //   var userData = loginAPI(username, password);
+                      //   var userData = loginAPI(User(email : username, password : password));
                       //   userData.then((value) {
                       //     if (value.statusCode == 200) {
                       //       var jsonData = jsonDecode(value.body);
@@ -290,26 +290,5 @@ class _LoginScreenState extends State<LoginScreen>
         ),
       ),
     );
-  }
-}
-
-Future<http.Response> loginAPI(String email, String password) async {
-  final uri = Uri.parse('${APIConfig.baseURI}/users/auth');
-
-  try {
-    final response = await http.post(
-      uri,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode({
-        'email': email,
-        'password_hash': password,
-      }),
-    );
-
-    return response;
-  } catch (e) {
-    throw Exception('Failed to login: $e');
   }
 }

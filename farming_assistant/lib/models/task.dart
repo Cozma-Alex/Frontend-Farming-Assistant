@@ -1,40 +1,74 @@
-enum Section {
-  crops,
-  animals,
-  tools,
-  inventory,
-  other,
-}
+import 'package:farming_assistant/models/user.dart';
 
-enum Priority {
-  low,
-  medium,
-  high,
-}
-
-enum Recurrence {
-  none,
-  daily,
-  weekly,
-  monthly,
-}
+import '../utils/date_time_formater.dart';
+import 'enums/priority.dart';
+import 'enums/recurrence.dart';
+import 'enums/sections.dart';
 
 class Task {
-  final String id;
-  final String name;
-  final String description;
-  final Section section;
-  final Priority priority;
-  final Recurrence recurrence;
-  final DateTime deadline;
+  String? id;
+  String? name;
+  String? description;
+  Section? section;
+  Priority? priority;
+  Recurrence? recurrence;
+  DateTime? deadline;
+  DateTime? changeToMediumPriority;
+  DateTime? changeToHighPriority;
+  User? user;
+  bool? done;
 
   Task({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.section,
-    required this.priority,
-    required this.recurrence,
-    required this.deadline,
+    this.id,
+    this.name,
+    this.description,
+    this.section,
+    this.priority,
+    this.recurrence,
+    this.deadline,
+    this.changeToMediumPriority,
+    this.changeToHighPriority,
+    this.user,
+    this.done,
   });
+
+  static fromJson(Map<String, dynamic> jsonData) {
+    return Task(
+      id: jsonData['id'],
+      name: jsonData['name'],
+      description: jsonData['description'],
+      section:
+          Section.values.byName(jsonData['section'].toString().toLowerCase()),
+      priority:
+          Priority.values.byName(jsonData['priority'].toString().toLowerCase()),
+      recurrence: Recurrence.values
+          .byName(jsonData['recurrence'].toString().toLowerCase()),
+      deadline: DateTime.parse(jsonData['deadline']),
+      changeToMediumPriority: DateTime.parse(jsonData['changeToMediumPriority']),
+      changeToHighPriority: DateTime.parse(jsonData['changeToHighPriority']),
+      user: User.fromJson(jsonData['user']),
+      done: jsonData['done'],
+    );
+  }
+
+  static toJson(Task task) {
+    return {
+      'id': task.id,
+      'name': task.name,
+      'description': task.description,
+      'section': task.section!.jsonValue,
+      'priority': task.priority!.jsonValue,
+      'recurrence': task.recurrence!.jsonValue,
+      'deadline': formatDateTimeString(task.deadline!),
+      'changeToMediumPriority': formatDateTimeString(task.changeToMediumPriority!),
+      'changeToHighPriority': formatDateTimeString(task.changeToHighPriority!),
+      'user': User.toJson(task.user!),
+      'done': task.done,
+    };
+  }
+
+  @override
+  String toString() {
+    return 'Task{id: $id, name: $name, description: $description, section: $section, priority: $priority, recurrence: $recurrence, deadline: $deadline, changeToMedium: $changeToMediumPriority, changeToHigh: $changeToHighPriority, user: $user, done: $done}';
+  }
 }

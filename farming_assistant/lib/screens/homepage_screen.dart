@@ -6,6 +6,9 @@ import '../utils/providers/farm_state_provider.dart';
 import 'map_screen.dart';
 import 'tasks_screen.dart';
 
+import '../widgets/weather_time_widget.dart';
+import '../widgets/homepage_slider.dart';
+
 const double containerHeight = 200.0;
 
 class HomePageScreen extends StatefulWidget {
@@ -89,7 +92,8 @@ class HomeContent extends StatelessWidget {
                     height: containerHeight,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage("assets/images/home_background_top(2).png"),
+                        image: AssetImage(
+                            "assets/images/home_background_top(2).png"),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -100,20 +104,26 @@ class HomeContent extends StatelessWidget {
                       children: [
                         Text(
                           'Welcome Back!',
-                          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurface,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 40,
-                          ),
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineMedium
+                              ?.copyWith(
+                                color: Theme.of(context).colorScheme.onSurface,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 40,
+                              ),
                         ),
                         const SizedBox(height: 5),
                         Text(
                           'Ready for a productive day?',
-                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurface,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge
+                              ?.copyWith(
+                                color: Theme.of(context).colorScheme.onSurface,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
                         ),
                       ],
                     ),
@@ -121,7 +131,7 @@ class HomeContent extends StatelessWidget {
                 ],
               ),
             ),
-            Container(
+            /*Container(
               color: const Color(0xFFCEB08A),
               child: Stack(
                 children: [
@@ -201,6 +211,85 @@ class HomeContent extends StatelessWidget {
                   ),
                 ],
               ),
+            ),*/
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Container(
+                height: 125,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF5F603E),
+                  border: Border.all(
+                    color: Colors.black54,
+                    width: 1,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: WeatherTimeWidget(
+                    textColor: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+            Column(
+              children: [
+                Container(
+                  color: const Color(0xFFCEB08A),
+                  child: const BoxWithSlider(
+                    isCenteredTitle: true,
+                    title: 'Overall Mood',
+                    progress: 50.0,
+                  ),
+                ),
+                //const SizedBox(height: 16.0), // Spacing between duplicates
+                Container(
+                  color: const Color(0xFFCEB08A),
+                  child: const BoxWithSlider(
+                    isCenteredTitle: false,
+                    title: 'Daily tasks progress',
+                    subtitle: '65% completed',
+                    progress: 65.0,
+                  ),
+                ),
+                Container(
+                  color: const Color(0xFFCEB08A),
+                  child: const BoxWithSlider(
+                    isCenteredTitle: false,
+                    title: 'Next estimated Harvest',
+                    subtitle: 'In 17 days',
+                    progress: 40.0,
+                  ),
+                ),
+                Container(
+                  color: const Color(0xFFCEB08A),
+                  child: const BoxWithSlider(
+                    isCenteredTitle: false,
+                    title: 'Supplies Remaining',
+                    subtitle: 'Corn is low',
+                    progress: 15.0,
+                  ),
+                ),
+                Container(
+                  color: const Color(0xFFCEB08A),
+                  child: const BoxWithSlider(
+                    isCenteredTitle: false,
+                    title: 'Animals\' Health',
+                    subtitle: 'Cows are sick',
+                    progress: 60.0,
+                  ),
+                ),
+                Container(
+                  color: const Color(0xFFCEB08A),
+                  child: const BoxWithSlider(
+                    isCenteredTitle: false,
+                    title: 'Profit vs. Expenses for the Current Month',
+                    subtitle: '15% profit',
+                    progress: 85.0,
+                  ),
+                ),
+              ],
             ),
           ],
         ),
