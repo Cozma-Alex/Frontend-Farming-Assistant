@@ -3,6 +3,8 @@ import 'package:farming_assistant/widgets/register_widget.dart';
 import 'package:farming_assistant/screens/homepage_screen.dart'; // Add this line
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import '../utils/config.dart';
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

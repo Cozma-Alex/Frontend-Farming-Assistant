@@ -35,7 +35,7 @@ class _TasksScreenState extends State<TasksScreen> {
   @override
   void initState() {
     _tasksFuture =
-        getAllTasksAPI(User(id: '0adff34b-9c96-434f-be4f-8bcbac042de6'));
+        getAllTasksAPI(User(id: '0adff34b-9c96-434f-be4f-8bcbac042de6', email: '', password: ''));
     super.initState();
   }
 

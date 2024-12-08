@@ -1,6 +1,10 @@
-import 'package:farming_assistant/screens/tasks_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:farming_assistant/widgets/bottom_bar_widget.dart';
+import 'package:provider/provider.dart'; 
+import '../widgets/bottom_bar_widget.dart';
+import '../widgets/property_map_view.dart'; 
+import '../utils/providers/farm_state_provider.dart';
+import 'map_screen.dart';
+import 'tasks_screen.dart';
 
 import '../widgets/weather_time_widget.dart';
 import '../widgets/homepage_slider.dart';
@@ -40,22 +44,22 @@ class _HomePageScreenState extends State<HomePageScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> _screens = [
+    final List<Widget> screens = [
       const Center(child: Text('Stats Screen')),
-      const Center(child: Text('Map Screen')),
+      const MapContent(),
       const HomeContent(),
       const TasksScreen(),
     ];
 
     return Scaffold(
-      body: PageView(
-        controller: _pageController,
-        onPageChanged: _onPageChanged,
-        children: _screens,
-      ),
+      body: screens[_currentIndex],
       bottomNavigationBar: BottomNavBar(
         currentIndex: _currentIndex,
-        onTap: _onNavBarTapped,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
       ),
     );
   }
@@ -70,9 +74,6 @@ class HomeContent extends StatelessWidget {
     final containerWidth = screenWidth * 0.85;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Home Page"),
-      ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,

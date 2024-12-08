@@ -24,5 +24,4 @@ class Location{
       'user': User.toJson(location.user),
     };
   }
-
 }

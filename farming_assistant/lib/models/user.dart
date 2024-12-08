@@ -2,13 +2,13 @@ import "dart:typed_data";
 
 class User {
   String? id;
-  String? email;
-  String? password;
+  String email;
+  String password;
   String? farmName;
   String? name;
   Uint8List? imageData;
 
-  User({this.id, this.email, this.password, this.farmName, this.name, this.imageData});
+  User({this.id, required this.email, required this.password, this.farmName, this.name, this.imageData});
 
   static fromJson(Map <String, dynamic> jsonData) {
     return User(
