@@ -6,7 +6,9 @@ import 'weather_widget.dart';
 /// Needs vertical limit because of a VerticalDivider
 /// Example at the bottom of the file
 class WeatherTimeWidget extends StatefulWidget {
-  const WeatherTimeWidget({super.key});
+  const WeatherTimeWidget({super.key, this.textColor = Colors.black});
+
+  final Color textColor;
 
   @override
   State<WeatherTimeWidget> createState() => _WeatherTimeWidgetState();
@@ -50,7 +52,12 @@ class _WeatherTimeWidgetState extends State<WeatherTimeWidget> {
     final monthName = _getMonthName(date.month);
     final day = date.day.toString();
     final year = date.year.toString();
-    final time = '${TimeOfDay.now().hour}:${TimeOfDay.now().minute}';
+
+    String minute = TimeOfDay.now().minute < 10
+        ? '0${TimeOfDay.now().minute}'
+        : '${TimeOfDay.now().minute}';
+
+    final time = '${TimeOfDay.now().hour}:$minute';
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -61,13 +68,13 @@ class _WeatherTimeWidgetState extends State<WeatherTimeWidget> {
             Text(
               '$monthName $day, $year',
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurface,
+                    color: widget.textColor,
                   ),
             ),
             Text(
               time,
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurface,
+                    color: widget.textColor,
                   ),
             ),
           ],
@@ -78,27 +85,9 @@ class _WeatherTimeWidgetState extends State<WeatherTimeWidget> {
           indent: 10,
           endIndent: 10,
         ),
-        const WeatherWidget(),
+        WeatherWidget(textColor: widget.textColor),
       ],
     );
   }
 }
 
-/*
-Example of using WeatherTimeWidget:
-Padding(
-          padding: const EdgeInsets.all(16),
-          child: Container(
-            height: 100,
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Colors.black54,
-                width: 1,
-              ),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: const WeatherTimeWidget(),
-          ),
-        ),
- */
