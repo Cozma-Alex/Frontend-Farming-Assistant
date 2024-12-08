@@ -510,7 +510,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                               changeToHighPriority: _changeToHighPriorityDate,
                               user: User(
                                 // asta am eu in db deja un user
-                                id: '0adff34b-9c96-434f-be4f-8bcbac042de6',
+                                id: '0adff34b-9c96-434f-be4f-8bcbac042de6', email: '', password: '',
                               ),
                               done: false,
                             );
