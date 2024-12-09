@@ -28,7 +28,7 @@ Future<List<FoodProgramme>> saveFoodProgrammesAPI(List<FoodProgramme> foodProgra
 }
 
 Future<List<FoodProgramme>> getFoodProgrammeForAnimalAPI(Animal animal) async {
-  final uri = Uri.parse('${APIConfig.baseURI}/animal/${animal.id}/food-programmes');
+  final uri = Uri.parse('${APIConfig.baseURI}/animals/${animal.id}/food-programmes');
 
   try {
     final response = await http.get(
