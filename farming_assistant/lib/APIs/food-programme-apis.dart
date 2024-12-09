@@ -1,23 +1,27 @@
 import 'dart:convert';
+
 import 'package:farming_assistant/models/animal.dart';
 import 'package:farming_assistant/models/food_programme.dart';
 import 'package:http/http.dart' as http;
 
-import '../models/user.dart';
 import '../utils/config.dart';
 
-Future<Animal> saveFoodProgrammeAPI(FoodProgramme foodProgramme) async {
-  final uri = Uri.parse('${APIConfig.baseURI}/animals');
+Future<List<FoodProgramme>> saveFoodProgrammesAPI(List<FoodProgramme> foodProgramme) async {
+  if (foodProgramme.isEmpty) {
+    throw Exception('No food programme to save');
+  }
+  final uri = Uri.parse('${APIConfig.baseURI}/animals/food-programmes');
 
   try {
     final response = await http.post(uri,
         headers: {
-          'Authorization': foodProgramme.animal.location.user.id!,
+          'Authorization': foodProgramme[0].animal.location.user.id!,
           'Content-Type': 'application/json',
         },
-        body: jsonEncode(FoodProgramme.toJson(foodProgramme)));
+        body: jsonEncode(foodProgramme.map((e) => FoodProgramme.toJson(e)).toList()));
 
-    return Animal.fromJson(jsonDecode(response.body));
+    return List<FoodProgramme>.from(
+        jsonDecode(response.body).map((e) => FoodProgramme.fromJson(e)).toList());
   } catch (e) {
     throw Exception('Failed to save animal: $e');
   }

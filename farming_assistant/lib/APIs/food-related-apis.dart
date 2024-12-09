@@ -1,9 +1,8 @@
 import 'dart:convert';
-import 'package:farming_assistant/models/animal.dart';
+
 import 'package:farming_assistant/models/food.dart';
 import 'package:http/http.dart' as http;
 
-import '../models/user.dart';
 import '../utils/config.dart';
 
 Future<Food> saveFoodAPI(Food food) async {
