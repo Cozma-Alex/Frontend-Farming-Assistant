@@ -36,18 +36,18 @@ class Task {
     return Task(
       id: jsonData['id'],
       name: jsonData['name'],
-      description: jsonData['description'],
+      description: jsonData['description'] ?? "",
       section:
           Section.values.byName(jsonData['section'].toString().toLowerCase()),
       priority:
           Priority.values.byName(jsonData['priority'].toString().toLowerCase()),
       recurrence: Recurrence.values
-          .byName(jsonData['recurrence'].toString().toLowerCase()),
+          .byName(jsonData['recurrence'].toString().toLowerCase() ?? 'none'),
       deadline: DateTime.parse(jsonData['deadline']),
-      changeToMediumPriority: DateTime.parse(jsonData['changeToMediumPriority']),
-      changeToHighPriority: DateTime.parse(jsonData['changeToHighPriority']),
+      changeToMediumPriority: DateTime.parse(jsonData['changeToMediumPriority'] ?? "0000-00-00T00:00:00.000Z"),
+      changeToHighPriority: DateTime.parse(jsonData['changeToHighPriority'] ?? "0000-00-00T00:00:00.000Z"),
       user: User.fromJson(jsonData['user']),
-      done: jsonData['done'],
+      done: jsonData['done'] ?? false,
     );
   }
 

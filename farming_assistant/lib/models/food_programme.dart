@@ -16,7 +16,7 @@ class FoodProgramme {
     return FoodProgramme(
       jsonData['id'],
       DateTime.parse(jsonData['startHour']),
-      DateTime.parse(jsonData['endHour']),
+      DateTime.parse(jsonData['endHour'] ?? "0000-00-00T00:00:00.000Z"),
       Animal.fromJson(jsonData['animal']),
       Food.fromJson(jsonData['food']),
     );
