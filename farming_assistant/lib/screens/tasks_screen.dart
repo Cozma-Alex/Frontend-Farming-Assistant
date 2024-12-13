@@ -30,6 +30,14 @@ class _TasksScreenState extends State<TasksScreen> {
     }
   }
 
+  void _refreshTasks() {
+    setState(() {
+      _tasksFuture = Future.delayed(Duration.zero, () {
+        return getAllTasksAPI(User(id: '0adff34b-9c96-434f-be4f-8bcbac042de6'));
+      });
+    });
+  }
+
   late Future<List<Task>> _tasksFuture;
 
   @override
@@ -80,7 +88,10 @@ class _TasksScreenState extends State<TasksScreen> {
               padding: const EdgeInsets.all(12),
               itemCount: tasks.length,
               itemBuilder: (context, index) {
-                return TaskCard(task: tasks[index]);
+                return TaskCard(
+                  task: tasks[index],
+                  onTaskDeleted: _refreshTasks,
+                );
               },
             );
           } else {
