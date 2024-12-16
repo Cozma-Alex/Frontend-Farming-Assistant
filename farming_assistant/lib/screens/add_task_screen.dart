@@ -6,11 +6,11 @@ import '../models/enums/recurrence.dart';
 import '../models/enums/sections.dart';
 import '../models/task.dart';
 import '../models/user.dart';
-import '../models/enums/recurrence.dart';
-import '../models/enums/sections.dart';
 
 class AddTaskScreen extends StatefulWidget {
-  const AddTaskScreen({super.key});
+  const AddTaskScreen({super.key, required this.loggedUser});
+
+  final User loggedUser;
 
   @override
   State<AddTaskScreen> createState() => _AddTaskScreenState();
@@ -509,10 +509,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                               ),
                               changeToMediumPriority: _changeToMediumPriorityDate,
                               changeToHighPriority: _changeToHighPriorityDate,
-                              user: User(
-                                // asta am eu in db deja un user
-                                id: '0adff34b-9c96-434f-be4f-8bcbac042de6',
-                              ),
+                              user: widget.loggedUser,
                               done: false,
                             );
 
