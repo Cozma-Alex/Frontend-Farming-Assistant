@@ -44,8 +44,12 @@ class Task {
       recurrence: Recurrence.values
           .byName(jsonData['recurrence'].toString().toLowerCase()),
       deadline: DateTime.parse(jsonData['deadline']),
-      changeToMediumPriority: DateTime.parse(jsonData['changeToMediumPriority']),
-      changeToHighPriority: DateTime.parse(jsonData['changeToHighPriority']),
+      changeToMediumPriority: jsonData['changeToMediumPriority'] == null
+          ? null
+          : DateTime.parse(jsonData['changeToMediumPriority']),
+      changeToHighPriority: jsonData['changeToHighPriority'] == null
+          ? null
+          : DateTime.parse(jsonData['changeToHighPriority']),
       user: User.fromJson(jsonData['user']),
       done: jsonData['done'],
     );
@@ -60,8 +64,12 @@ class Task {
       'priority': task.priority!.jsonValue,
       'recurrence': task.recurrence!.jsonValue,
       'deadline': formatDateTimeString(task.deadline!),
-      'changeToMediumPriority': formatDateTimeString(task.changeToMediumPriority!),
-      'changeToHighPriority': formatDateTimeString(task.changeToHighPriority!),
+      'changeToMediumPriority': task.changeToHighPriority == null
+          ? null
+          : formatDateTimeString(task.changeToMediumPriority!),
+      'changeToHighPriority': task.changeToHighPriority == null
+          ? null
+          : formatDateTimeString(task.changeToHighPriority!),
       'user': User.toJson(task.user!),
       'done': task.done,
     };
