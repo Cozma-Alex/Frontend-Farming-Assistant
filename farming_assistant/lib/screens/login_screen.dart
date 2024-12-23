@@ -35,10 +35,10 @@ class _LoginScreenState extends State<LoginScreen>
       transitionAnimationController: _animationController,
       builder: (BuildContext context) {
         return RegisterWidget(
-          emailController: _emailController,
-          passwordController: _passwordController,
-          nameController: _registerNameController,
-          farmNameController: _registerFarmNameController,
+          _emailController,
+          _passwordController,
+          _registerNameController,
+          _registerFarmNameController,
         );
       },
     );

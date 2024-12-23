@@ -45,9 +45,13 @@ class _TasksScreenState extends State<TasksScreen> {
     loggedUser = Provider.of<LoggedUserProvider>(context, listen: false).user;
 
     if (loggedUser == null) {
-      _tasksFuture = Future.error('Not logged in');
+      setState(() {
+        _tasksFuture = Future.error('Not logged in');
+      });
     } else {
-      _tasksFuture = getAllTasksAPI(loggedUser!);
+      setState(() {
+        _tasksFuture = getAllTasksAPI(loggedUser!);
+      });
     }
 
     super.initState();
