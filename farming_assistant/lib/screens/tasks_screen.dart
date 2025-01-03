@@ -1,11 +1,13 @@
+import 'dart:math';
+
 import 'package:farming_assistant/APIs/task-related-apis.dart';
-import 'package:farming_assistant/models/enums/sections.dart';
 import 'package:farming_assistant/models/task.dart';
 import 'package:farming_assistant/models/user.dart';
+import 'package:farming_assistant/providers/logged_user_provider.dart';
 import 'package:farming_assistant/widgets/task_card.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../models/enums/priority.dart';
 import 'add_task_screen.dart';
 
 class TasksScreen extends StatefulWidget {
@@ -16,9 +18,15 @@ class TasksScreen extends StatefulWidget {
 }
 
 class _TasksScreenState extends State<TasksScreen> {
+  User? loggedUser;
+
   void _goToAddTask() async {
-    final newTask = await Navigator.of(context)
-        .push<Task>(MaterialPageRoute(builder: (ctx) => const AddTaskScreen()));
+    if (loggedUser == null) {
+      return;
+    }
+
+    final newTask = await Navigator.of(context).push<Task>(MaterialPageRoute(
+        builder: (ctx) => AddTaskScreen(loggedUser: loggedUser!)));
 
     if (newTask != null) {
       setState(() {
@@ -34,8 +42,18 @@ class _TasksScreenState extends State<TasksScreen> {
 
   @override
   void initState() {
-    _tasksFuture =
-        getAllTasksAPI(User(id: '0adff34b-9c96-434f-be4f-8bcbac042de6'));
+    loggedUser = Provider.of<LoggedUserProvider>(context, listen: false).user;
+
+    if (loggedUser == null) {
+      setState(() {
+        _tasksFuture = Future.error('Not logged in');
+      });
+    } else {
+      setState(() {
+        _tasksFuture = getAllTasksAPI(loggedUser!);
+      });
+    }
+
     super.initState();
   }
 
@@ -71,8 +89,8 @@ class _TasksScreenState extends State<TasksScreen> {
               child: CircularProgressIndicator(),
             );
           } else if (snapshot.hasError) {
-            return const Center(
-              child: Text('Error fetching tasks'),
+            return Center(
+              child: Text('Error fetching tasks: ${snapshot.error}'),
             );
           } else if (snapshot.hasData) {
             final tasks = snapshot.data as List<Task>;
