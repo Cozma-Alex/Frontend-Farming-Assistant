@@ -1,8 +1,12 @@
 
+import 'package:farming_assistant/providers/logged_user_provider.dart';
 import 'package:farming_assistant/widgets/register_widget.dart';
 import 'package:farming_assistant/screens/homepage_screen.dart'; // Add this line
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+
+import '../models/user.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -31,17 +35,23 @@ class _LoginScreenState extends State<LoginScreen>
       transitionAnimationController: _animationController,
       builder: (BuildContext context) {
         return RegisterWidget(
-          emailController: _emailController,
-          passwordController: _passwordController,
-          nameController: _registerNameController,
-          farmNameController: _registerFarmNameController,
+          _emailController,
+          _passwordController,
+          _registerNameController,
+          _registerFarmNameController,
         );
       },
     );
   }
 
   void _signIn() {
-    Navigator.push(
+    User loggedUser = User(
+      id: '0adff34b-9c96-434f-be4f-8bcbac042de6'
+    );
+
+    Provider.of<LoggedUserProvider>(context, listen: false).setUser(loggedUser);
+
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => const HomePageScreen()),
     );

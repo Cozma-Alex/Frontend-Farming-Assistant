@@ -33,6 +33,7 @@ dependencies:
   http: ^1.2.2
   weather: ^3.1.1
   geolocator: ^13.0.2
+  provider: ^6.1.2
 
 
   # The following adds the Cupertino Icons font to your application.

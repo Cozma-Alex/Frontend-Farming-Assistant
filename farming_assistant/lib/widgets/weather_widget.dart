@@ -5,7 +5,9 @@ import 'package:weather/weather.dart';
 import 'package:farming_assistant/utils/location_utils.dart';
 
 class WeatherWidget extends StatefulWidget {
-  const WeatherWidget({super.key});
+  const WeatherWidget({super.key, this.textColor = Colors.black});
+
+  final Color textColor;
 
   @override
   State<WeatherWidget> createState() => _WeatherWidgetState();
@@ -74,7 +76,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
             style: Theme.of(context)
                 .textTheme
                 .bodyLarge
-                ?.copyWith(color: Theme.of(context).colorScheme.onSurface),
+                ?.copyWith(color: widget.textColor),
           );
         } else if (snapshot.hasData) {
           final weather = snapshot.data!;
@@ -97,13 +99,13 @@ class _WeatherWidgetState extends State<WeatherWidget> {
               Text(
                 location,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurface,
+                      color: widget.textColor,
                     ),
               ),
               Text(
                 temperature,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurface,
+                      color: widget.textColor,
                     ),
               ),
             ],
@@ -114,7 +116,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
             style: Theme.of(context)
                 .textTheme
                 .bodyLarge
-                ?.copyWith(color: Theme.of(context).colorScheme.onSurface),
+                ?.copyWith(color: widget.textColor),
           );
         }
       },
