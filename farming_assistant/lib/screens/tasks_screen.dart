@@ -9,6 +9,7 @@ import 'package:farming_assistant/widgets/task_filter_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../models/enums/priority.dart';
 import 'add_task_screen.dart';
 
 class TasksScreen extends StatefulWidget {
@@ -42,7 +43,7 @@ class _TasksScreenState extends State<TasksScreen> {
   void _refreshTasks() {
     setState(() {
       _tasksFuture = Future.delayed(Duration.zero, () {
-        return getAllTasksAPI(User(id: '0adff34b-9c96-434f-be4f-8bcbac042de6'));
+        return getAllTasksAPI(loggedUser!);
       });
     });
   }
