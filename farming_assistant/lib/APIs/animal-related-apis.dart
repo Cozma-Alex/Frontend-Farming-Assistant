@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:farming_assistant/models/animal.dart';
+import 'package:farming_assistant/models/dtos/animalDTO.dart';
 import 'package:farming_assistant/models/location.dart';
 import 'package:http/http.dart' as http;
 
@@ -94,7 +95,7 @@ Future<Animal> updateAnimalAPI(Animal animal) async {
   }
 }
 
-Future<List<Animal>> getAnimalsByLocationAPI(Location location) async {
+Future<List<AnimalDTO>> getAnimalsByLocationAPI(Location location) async {
   final uri = Uri.parse('${APIConfig.baseURI}/animals/location/${location.id}');
 
   try {
@@ -106,8 +107,8 @@ Future<List<Animal>> getAnimalsByLocationAPI(Location location) async {
       },
     );
 
-    return List<Animal>.from(
-        jsonDecode(response.body).map((e) => Animal.fromJson(e)).toList());
+    return List<AnimalDTO>.from(
+        jsonDecode(response.body).map((e) => AnimalDTO.fromJson(e)).toList());
   } catch (e) {
     throw Exception('Failed to get animals by location: $e');
   }

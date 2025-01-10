@@ -1,4 +1,4 @@
-import 'dart:nativewrappers/_internal/vm/lib/typed_data_patch.dart';
+import 'dart:typed_data';
 
 import '../utils/date_time_formater.dart';
 import 'location.dart';
@@ -8,7 +8,7 @@ class Animal {
   String name;
   String description;
   DateTime age;
-  Uint8List imageData;
+  Uint8List? imageData;
   String healthProfile;
   Location location;
 
@@ -22,7 +22,7 @@ class Animal {
       jsonData['name'],
       jsonData['description'],
       DateTime.parse(jsonData['age']),
-      jsonData['imageData'],
+      jsonData['imageData'] == null ? null : Uint8List.fromList(jsonData['imageData'].cast<int>()),
       jsonData['healthProfile'],
       Location.fromJson(jsonData['location'])
     );
