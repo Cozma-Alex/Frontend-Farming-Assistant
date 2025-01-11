@@ -4,6 +4,7 @@ import '../models/animal.dart';
 import '../models/location.dart';
 import '../APIs/animal-related-apis.dart';
 import '../models/user.dart';
+import 'animal_detail_screen.dart';
 
 class AnimalsScreen extends StatefulWidget {
   final User user;
@@ -204,6 +205,14 @@ class _AnimalsScreenState extends State<AnimalsScreen> {
                               color: Colors.white,
                             ),
                           ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AnimalDetailsScreen(animal: animal),
+                              ),
+                            );
+                          },
                         ),
                       );
                     },

@@ -6,6 +6,7 @@ import '../models/animal.dart';
 import '../models/enums/location_type.dart';
 import '../models/dtos/animalDTO.dart';
 import '../APIs/animal-related-apis.dart';
+import 'animal_detail_screen.dart';
 
 class LocationScreen extends StatefulWidget {
   final Location location;
@@ -59,9 +60,7 @@ class _LocationScreenState extends State<LocationScreen> {
           height: 50,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: isSelected
-                ? const Color(0xFF31511E)
-                : Colors.grey.shade300,
+            color: isSelected ? const Color(0xFF31511E) : Colors.grey.shade300,
           ),
           child: Icon(
             iconData,
@@ -111,80 +110,92 @@ class _LocationScreenState extends State<LocationScreen> {
       progressValue = minutesDifference / (24 * 60);
     }
 
-    return Container(
-      margin: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 1,
-            blurRadius: 4,
-            offset: const Offset(0, 2),
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => AnimalDetailsScreen(animal: animalDto.animal),
           ),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                CircleAvatar(
-                  radius: 25,
-                  backgroundColor: Colors.grey.shade200,
-                  backgroundImage: animalDto.animal.imageData != null
-                      ? MemoryImage(Uint8List.fromList(animalDto.animal.imageData as List<int>))
-                      : null,
-                  child: animalDto.animal.imageData == null
-                      ? Text(animalDto.animal.name[0].toUpperCase())
-                      : null,
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        animalDto.animal.name,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        'Hours \'till feeding',
-                        style: TextStyle(
-                          color: Colors.grey[600],
-                          fontSize: 14,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Text(
-                  hoursTillFeeding,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(4),
-              child: LinearProgressIndicator(
-                value: progressValue,
-                backgroundColor: Colors.grey[200],
-                valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF31511E)),
-                minHeight: 8,
-              ),
+        );
+      },
+      child: Container(
+        margin: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.1),
+              spreadRadius: 1,
+              blurRadius: 4,
+              offset: const Offset(0, 2),
             ),
           ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  CircleAvatar(
+                    radius: 25,
+                    backgroundColor: Colors.grey.shade200,
+                    backgroundImage: animalDto.animal.imageData != null
+                        ? MemoryImage(Uint8List.fromList(
+                            animalDto.animal.imageData as List<int>))
+                        : null,
+                    child: animalDto.animal.imageData == null
+                        ? Text(animalDto.animal.name[0].toUpperCase())
+                        : null,
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          animalDto.animal.name,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          'Hours \'till feeding',
+                          style: TextStyle(
+                            color: Colors.grey[600],
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Text(
+                    hoursTillFeeding,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(4),
+                child: LinearProgressIndicator(
+                  value: progressValue,
+                  backgroundColor: Colors.grey[200],
+                  valueColor:
+                      const AlwaysStoppedAnimation<Color>(Color(0xFF31511E)),
+                  minHeight: 8,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -228,11 +239,12 @@ class _LocationScreenState extends State<LocationScreen> {
             color: Colors.white,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: LocationType.values.map((type) =>
-                  _buildLocationIcon(
-                    type,
-                    type == widget.location.type,
-                  )).toList(),
+              children: LocationType.values
+                  .map((type) => _buildLocationIcon(
+                        type,
+                        type == widget.location.type,
+                      ))
+                  .toList(),
             ),
           ),
 
@@ -264,7 +276,8 @@ class _LocationScreenState extends State<LocationScreen> {
                 return ListView.builder(
                   padding: const EdgeInsets.all(16),
                   itemCount: animals.length,
-                  itemBuilder: (context, index) => _buildAnimalCard(animals[index]),
+                  itemBuilder: (context, index) =>
+                      _buildAnimalCard(animals[index]),
                 );
               },
             ),
