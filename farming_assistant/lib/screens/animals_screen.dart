@@ -4,6 +4,7 @@ import '../models/animal.dart';
 import '../models/location.dart';
 import '../APIs/animal-related-apis.dart';
 import '../models/user.dart';
+import 'animal_create_screen.dart';
 import 'animal_detail_screen.dart';
 
 class AnimalsScreen extends StatefulWidget {
@@ -31,7 +32,9 @@ class _AnimalsScreenState extends State<AnimalsScreen> {
   }
 
   void _loadAnimals() {
-    _animalsFuture = getAllAnimalsOfUserAPI(widget.user);
+    setState(() {
+      _animalsFuture = getAllAnimalsOfUserAPI(widget.user);
+    });
   }
 
   void _loadLocations() {
@@ -205,13 +208,16 @@ class _AnimalsScreenState extends State<AnimalsScreen> {
                               color: Colors.white,
                             ),
                           ),
-                          onTap: () {
-                            Navigator.push(
+                          onTap: () async {
+                            final needsRefresh = await Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => AnimalDetailsScreen(animal: animal),
                               ),
                             );
+                            if(needsRefresh){
+                              _loadAnimals();
+                            }
                           },
                         ),
                       );
@@ -245,8 +251,17 @@ class _AnimalsScreenState extends State<AnimalsScreen> {
                 ],
               ),
               child: ElevatedButton(
-                onPressed: () {
-                  // Add animal logic
+                onPressed: () async {  // Add async here
+                  final Animal? savedAnimal = await Navigator.push<Animal>(  // Add await and type
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddAnimalScreen(user: widget.user),
+                    ),
+                  );
+
+                  if (savedAnimal != null) {  // If an animal was saved and returned
+                    _loadAnimals();
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.transparent,

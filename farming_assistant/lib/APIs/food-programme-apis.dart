@@ -15,7 +15,7 @@ Future<List<FoodProgramme>> saveFoodProgrammesAPI(List<FoodProgramme> foodProgra
   try {
     final response = await http.post(uri,
         headers: {
-          'Authorization': foodProgramme[0].animal.location.user.id!,
+          'Authorization': foodProgramme[0].animal!.location.user.id!,
           'Content-Type': 'application/json',
         },
         body: jsonEncode(foodProgramme.map((e) => FoodProgramme.toJson(e)).toList()));
@@ -23,7 +23,7 @@ Future<List<FoodProgramme>> saveFoodProgrammesAPI(List<FoodProgramme> foodProgra
     return List<FoodProgramme>.from(
         jsonDecode(response.body).map((e) => FoodProgramme.fromJson(e)).toList());
   } catch (e) {
-    throw Exception('Failed to save animal: $e');
+    throw Exception('Failed to save food programmes: $e');
   }
 }
 

@@ -9,7 +9,7 @@ class FoodProgramme {
   String id;
   TimeOfDay startHour;
   TimeOfDay? endHour;
-  Animal animal;
+  Animal? animal;
   Food food;
 
   FoodProgramme(this.id, this.startHour, this.endHour, this.animal, this.food);
@@ -42,7 +42,7 @@ class FoodProgramme {
       'id': foodProgramme.id,
       'startHour': _formatTimeOfDay(foodProgramme.startHour),
       'endHour': foodProgramme.endHour != null ? _formatTimeOfDay(foodProgramme.endHour!) : null,
-      'animal': Animal.toJson(foodProgramme.animal),
+      'animal': Animal.toJson(foodProgramme.animal!),
       'food': Food.toJson(foodProgramme.food),
     };
   }

@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:farming_assistant/screens/animal_create_screen.dart';
 import 'package:flutter/material.dart';
 import '../models/animal.dart';
 import '../models/food_programme.dart';
@@ -18,89 +19,24 @@ class AnimalDetailsScreen extends StatefulWidget {
 
 class _AnimalDetailsScreenState extends State<AnimalDetailsScreen> {
   late Future<List<FoodProgramme>> _foodProgrammesFuture;
+  late Animal _animal;
 
   @override
   void initState() {
     super.initState();
-    _foodProgrammesFuture = getFoodProgrammeForAnimalAPI(widget.animal);
+    _animal = widget.animal;
+    _foodProgrammesFuture = getFoodProgrammeForAnimalAPI(_animal);
   }
 
-  // String _calculateHoursTillNextFeeding(List<FoodProgramme> programmes) {
-  //   final nextFeeding = programmes.isNotEmpty
-  //       ? programmes.first.startHour
-  //       : null;
-  //
-  //   String hoursTillFeeding = 'N/A';
-  //   double progressValue = 0.0;
-  //
-  //   if (nextFeeding != null) {
-  //     final now = TimeOfDay.now();
-  //
-  //     int nowMinutes = now.hour * 60 + now.minute;
-  //     int feedingMinutes = nextFeeding.hour * 60 + nextFeeding.minute;
-  //
-  //     if (feedingMinutes <= nowMinutes) {
-  //       feedingMinutes += 24 * 60;
-  //     }
-  //
-  //     int minutesDifference = feedingMinutes - nowMinutes;
-  //     double hours = minutesDifference / 60;
-  //     hoursTillFeeding = '${hours.toStringAsFixed(1)}h';
-  //
-  //     progressValue = minutesDifference / (24 * 60);
-  //   }
-  //
-  //   return hoursTillFeeding;
-  // }
+  void _updateAnimal(Animal updatedAnimal) {
+    setState(() {
+      _animal = updatedAnimal;
+      _foodProgrammesFuture = getFoodProgrammeForAnimalAPI(updatedAnimal);
+    });
+  }
 
-  // Map<String, dynamic> _calculateHoursTillNextFeeding(List<FoodProgramme> programmes) {
-  //   // Sort the programmes by startHour
-  //   programmes.sort((a, b) {
-  //     final aMinutes = a.startHour.hour * 60 + a.startHour.minute;
-  //     final bMinutes = b.startHour.hour * 60 + b.startHour.minute;
-  //     return aMinutes.compareTo(bMinutes);
-  //   });
-  //
-  //   final now = TimeOfDay.now();
-  //   int nowMinutes = now.hour * 60 + now.minute;
-  //
-  //   String hoursTillFeeding = 'N/A';
-  //   double progressValue = 0.0;
-  //
-  //   FoodProgramme? nextProgramme;
-  //
-  //   for (final programme in programmes) {
-  //     final feedingMinutes = programme.startHour.hour * 60 + programme.startHour.minute;
-  //
-  //     if (feedingMinutes > nowMinutes) {
-  //       nextProgramme = programme;
-  //       break;
-  //     }
-  //   }
-  //
-  //   // If no future feeding time is found, wrap around to the first one tomorrow
-  //   nextProgramme ??= programmes.isNotEmpty ? programmes.first : null;
-  //
-  //   if (nextProgramme != null) {
-  //     final feedingMinutes = nextProgramme.startHour.hour * 60 + nextProgramme.startHour.minute;
-  //
-  //     // Calculate minutes till next feeding
-  //     int minutesDifference = feedingMinutes > nowMinutes
-  //         ? feedingMinutes - nowMinutes
-  //         : (feedingMinutes + 24 * 60) - nowMinutes;
-  //
-  //     double hours = minutesDifference / 60;
-  //     hoursTillFeeding = '${hours.toStringAsFixed(1)}h';
-  //
-  //     progressValue = minutesDifference / (24 * 60);
-  //   }
-  //
-  //   return {
-  //     'hoursTillFeeding': hoursTillFeeding,
-  //     'progressValue': progressValue,
-  //   };
-  // }
-  Map<String, dynamic> _calculateHoursTillNextFeeding(List<FoodProgramme> programmes) {
+  Map<String, dynamic> _calculateHoursTillNextFeeding(
+      List<FoodProgramme> programmes) {
     // Sort the programmes by startHour
     programmes.sort((a, b) {
       final aMinutes = a.startHour.hour * 60 + a.startHour.minute;
@@ -116,12 +52,13 @@ class _AnimalDetailsScreenState extends State<AnimalDetailsScreen> {
 
     // Identify last and next feeding times
     for (final programme in programmes) {
-      final feedingMinutes = programme.startHour.hour * 60 + programme.startHour.minute;
+      final feedingMinutes =
+          programme.startHour.hour * 60 + programme.startHour.minute;
 
       if (feedingMinutes <= nowMinutes) {
         lastProgramme = programme;
-      } else if (nextProgramme == null) {
-        nextProgramme = programme;
+      } else {
+        nextProgramme ??= programme;
       }
     }
 
@@ -138,8 +75,10 @@ class _AnimalDetailsScreenState extends State<AnimalDetailsScreen> {
     double progressValue = 0.0;
 
     if (lastProgramme != null && nextProgramme != null) {
-      final lastFeedingMinutes = lastProgramme.startHour.hour * 60 + lastProgramme.startHour.minute;
-      final nextFeedingMinutes = nextProgramme.startHour.hour * 60 + nextProgramme.startHour.minute;
+      final lastFeedingMinutes =
+          lastProgramme.startHour.hour * 60 + lastProgramme.startHour.minute;
+      final nextFeedingMinutes =
+          nextProgramme.startHour.hour * 60 + nextProgramme.startHour.minute;
 
       // Calculate the total duration between last and next feeding
       final totalDuration = (nextFeedingMinutes > lastFeedingMinutes)
@@ -165,8 +104,6 @@ class _AnimalDetailsScreenState extends State<AnimalDetailsScreen> {
     };
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -176,7 +113,7 @@ class _AnimalDetailsScreenState extends State<AnimalDetailsScreen> {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => Navigator.pop(context, true),
         ),
         title: const Text('Animal'),
       ),
@@ -201,7 +138,7 @@ class _AnimalDetailsScreenState extends State<AnimalDetailsScreen> {
                         radius: 25,
                         backgroundColor: Colors.grey[200],
                         child: Text(
-                          widget.animal.name[0].toUpperCase(),
+                          _animal.name[0].toUpperCase(),
                           style: const TextStyle(fontSize: 20),
                         ),
                       ),
@@ -211,26 +148,19 @@ class _AnimalDetailsScreenState extends State<AnimalDetailsScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              widget.animal.name,
+                              _animal.name,
                               style: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             Text(
-                              '${DateTime.now().difference(widget.animal.age).inDays ~/ 365} years',
+                              '${DateTime.now().difference(_animal.age).inDays ~/ 365} years',
                               style: const TextStyle(color: Colors.grey),
                             ),
                           ],
                         ),
                       ),
-                      // TextButton(
-                      //   onPressed: () {},
-                      //   child: const Text('Edit animal'),
-                      //   style: TextButton.styleFrom(
-                      //     foregroundColor: const Color(0xFFA7D77C),
-                      //   ),
-                      // ),
                       Container(
                         width: 125,
                         decoration: BoxDecoration(
@@ -246,8 +176,21 @@ class _AnimalDetailsScreenState extends State<AnimalDetailsScreen> {
                               BorderRadius.circular(25), // Rounded corners
                         ),
                         child: TextButton(
-                          onPressed: () {
-                            // Add your button functionality here
+                          onPressed: () async {
+                            final updatedAnimal = await Navigator.push<Animal>(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AddAnimalScreen(
+                                  user: _animal.location.user,
+                                  animal: _animal,
+                                ),
+                              ),
+                            );
+
+                            if (updatedAnimal != null) {
+                              // Refresh the animal details
+                              _updateAnimal(updatedAnimal);
+                            }
                           },
                           style: TextButton.styleFrom(
                             padding: const EdgeInsets.symmetric(
@@ -272,7 +215,7 @@ class _AnimalDetailsScreenState extends State<AnimalDetailsScreen> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    widget.animal.description,
+                    _animal.description,
                     style: TextStyle(color: Colors.grey[700]),
                   ),
                 ],
@@ -291,7 +234,7 @@ class _AnimalDetailsScreenState extends State<AnimalDetailsScreen> {
                 future: _foodProgrammesFuture,
                 builder: (context, snapshot) {
                   final programmes = snapshot.data ?? [];
-                  // final hoursTillFeeding = _calculateHoursTillNextFeeding(programmes);
+
                   final result = _calculateHoursTillNextFeeding(programmes);
                   final hoursTillFeeding = result['hoursTillFeeding'];
                   final progressValue = result['progressValue'];
@@ -325,11 +268,6 @@ class _AnimalDetailsScreenState extends State<AnimalDetailsScreen> {
                               ],
                             ),
                             const SizedBox(height: 8),
-                            // LinearProgressIndicator(
-                            //   value: 0.7,
-                            //   backgroundColor: Colors.white.withOpacity(0.3),
-                            //   valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
-                            // ),
                             Container(
                               height: 18,
                               // Adjust height for a thicker progress bar
@@ -427,7 +365,7 @@ class _AnimalDetailsScreenState extends State<AnimalDetailsScreen> {
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              widget.animal.healthProfile,
+                              _animal.healthProfile,
                               style: const TextStyle(color: Colors.white),
                             ),
                           ],
