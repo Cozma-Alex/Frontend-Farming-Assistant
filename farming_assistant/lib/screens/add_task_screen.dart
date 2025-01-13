@@ -299,7 +299,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                               if (value != null) {
                                 setState(() {
                                   _changeToMediumPriorityDate = value;
-                                  print(_changeToMediumPriorityDate);
                                 });
                               }
                             });
@@ -346,7 +345,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                               if (value != null) {
                                 setState(() {
                                   _changeToHighPriorityDate = value;
-                                  print(_changeToHighPriorityDate);
                                 });
                               }
                             });

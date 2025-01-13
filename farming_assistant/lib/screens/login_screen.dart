@@ -1,8 +1,8 @@
+import 'package:farming_assistant/APIs/user-related-apis.dart';
 import 'package:farming_assistant/providers/logged_user_provider.dart';
 import 'package:farming_assistant/widgets/register_widget.dart';
 import 'package:farming_assistant/screens/homepage_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 import '../models/user.dart';
@@ -48,16 +48,33 @@ class _LoginScreenState extends State<LoginScreen>
   }
 
   void _signIn() {
-    User loggedUser = User(
-      id: '0adff34b-9c96-434f-be4f-8bcbac042de6'
-    );
+    String email = _emailController.text;
+    String password = _passwordController.text;
 
-    Provider.of<LoggedUserProvider>(context, listen: false).setUser(loggedUser);
+    if (email.isEmpty || password.isEmpty) {
+      return;
+    }
 
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const HomePageScreen()),
-    );
+    User user = User(email: email, password: password);
+    BuildContext currentContext = context;
+
+    loginAPI(user).then((value) {
+      Provider.of<LoggedUserProvider>(currentContext, listen: false).setUser(value);
+
+      Navigator.pushReplacement(
+        currentContext,
+        MaterialPageRoute(builder: (context) => const HomePageScreen()),
+      );
+    }).catchError((e) {
+      SnackBar snackBar = SnackBar(
+        content: const Text('Failed to login'),
+        backgroundColor: Theme.of(currentContext).colorScheme.error,
+      );
+
+      ScaffoldMessenger.of(currentContext).showSnackBar(snackBar);
+
+      _passwordController.clear();
+    });
   }
 
   @override
@@ -198,7 +215,8 @@ class _LoginScreenState extends State<LoginScreen>
                         borderRadius: BorderRadius.circular(8),
                       ),
                       filled: true,
-                      fillColor: Theme.of(context).colorScheme.tertiaryContainer,
+                      fillColor:
+                          Theme.of(context).colorScheme.tertiaryContainer,
                     ),
                   ),
                   const SizedBox(height: 8),

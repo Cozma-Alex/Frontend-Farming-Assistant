@@ -15,7 +15,7 @@ Future<User> loginAPI(User user) async {
       },
       body: jsonEncode({
         'email': user.email,
-        'password_hash': user.password,
+        'passwordHash': user.password,
       }),
     );
 
