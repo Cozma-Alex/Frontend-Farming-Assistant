@@ -1,11 +1,16 @@
 import 'package:farming_assistant/models/user.dart';
 import 'package:farming_assistant/providers/logged_user_provider.dart';
 import 'package:farming_assistant/screens/homepage_screen.dart';
+import 'package:farming_assistant/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:farming_assistant/APIs/user-related-apis.dart';
 import 'package:provider/provider.dart';
 
+/// A widget for the registration screen.
+/// Receives a [TextEditingController] for the email, password, name and farm
+/// name from the [LoginScreen] to save the input even if you close the widget,
+/// and email and password fields are mirrored in the [LoginScreen] and vice versa.
 class RegisterWidget extends StatefulWidget {
   const RegisterWidget(this.emailController, this.passwordController,
       this.nameController, this.farmNameController, {super.key});

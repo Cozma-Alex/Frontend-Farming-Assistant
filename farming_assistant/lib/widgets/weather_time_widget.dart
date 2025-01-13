@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 
 import 'weather_widget.dart';
 
-/// Needs to be wrapped with a Container or something similar
-/// Needs vertical limit because of a VerticalDivider
-/// Example at the bottom of the file
+/// A widget for displaying the current date and time, as well as the weather.
+/// This widget displays the current date and time itself, and the weather
+/// using the [WeatherWidget].
+/// /// The text color can be customized.
+/// Needs to be wrapped with a Container or something similar.
+/// Needs vertical limit because of a VerticalDivider.
 class WeatherTimeWidget extends StatefulWidget {
   const WeatherTimeWidget({super.key, this.textColor = Colors.black});
 

@@ -7,6 +7,9 @@ import '../widgets/homepage_slider.dart';
 
 const double containerHeight = 200.0;
 
+/// The home page of the application.
+/// Uses the [WeatherTimeWidget] to display the current time and weather
+/// based on the user's location.
 class HomePageScreen extends StatefulWidget {
   const HomePageScreen({super.key});
 
@@ -130,87 +133,6 @@ class HomeContent extends StatelessWidget {
                 ],
               ),
             ),
-            /*Container(
-              color: const Color(0xFFCEB08A),
-              child: Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20, bottom: 40),
-                    child: Center(
-                      child: Container(
-                        width: containerWidth,
-                        height: 83,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF5F603E),
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(
-                            color: Colors.white,
-                            width: 2,
-                          ),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Colors.black12,
-                              blurRadius: 8,
-                              offset: Offset(0, 4),
-                            ),
-                          ],
-                        ),
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: Text(
-                                'Mood\n Text',
-                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  color: Colors.white,
-                                ),
-                                textAlign: TextAlign.left,
-                              ),
-                            ),
-                            const VerticalDivider(
-                              color: Colors.white,
-                              thickness: 1,
-                              width: 20,
-                              indent: 15,
-                              endIndent: 15,
-                            ),
-                            Expanded(
-                              flex: 2,
-                              child: Text(
-                                'Nov 23, 2024\n22:35',
-                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            const VerticalDivider(
-                              color: Colors.white,
-                              thickness: 1,
-                              width: 20,
-                              indent: 15,
-                              endIndent: 15,
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: Text(
-                                'Weather\n Text',
-                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  color: Colors.white,
-                                ),
-                                textAlign: TextAlign.right,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),*/
             Padding(
               padding: const EdgeInsets.all(16),
               child: Container(

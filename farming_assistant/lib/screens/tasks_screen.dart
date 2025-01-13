@@ -10,6 +10,12 @@ import 'package:provider/provider.dart';
 import '../models/enums/priority.dart';
 import 'add_task_screen.dart';
 
+/// A widget for a task management screen.
+/// Uses the [TaskCard] widget to display a list of tasks for the logged in user.
+/// Each TaskCard has the option to mark a task as done/not done or delete it.
+/// Uses the [TaskFilterWidget] in combination with the Callback Function
+/// [_refreshTasks] to filter tasks by priority.
+/// There is a floating button for saving new tasks that navigates to the [AddTaskScreen].
 class TasksScreen extends StatefulWidget {
   const TasksScreen({super.key});
 
