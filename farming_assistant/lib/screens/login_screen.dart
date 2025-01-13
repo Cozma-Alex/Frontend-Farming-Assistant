@@ -1,13 +1,16 @@
-
 import 'package:farming_assistant/providers/logged_user_provider.dart';
 import 'package:farming_assistant/widgets/register_widget.dart';
-import 'package:farming_assistant/screens/homepage_screen.dart'; // Add this line
+import 'package:farming_assistant/screens/homepage_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 import '../models/user.dart';
 
+/// A widget for the login screen.
+/// A button press opens the [RegisterWidget] in a modal bottom sheet.
+/// A successful login or registration saves the user in the [LoggedUserProvider]
+/// and navigates to the [HomePageScreen].
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 

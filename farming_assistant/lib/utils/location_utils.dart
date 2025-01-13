@@ -1,5 +1,9 @@
 import 'package:geolocator/geolocator.dart';
 
+/// Detects the current position of the device.
+/// Uses the [geolocator] package.
+/// Checks if location services are enabled and ask for permissions if needed.
+/// Returns a [Future] with the [Position] of the device.
 Future<Position> detectPosition() async {
   bool serviceEnabled;
   LocationPermission permission;
