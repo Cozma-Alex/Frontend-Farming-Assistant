@@ -4,6 +4,15 @@ import 'package:weather/weather.dart';
 
 import 'package:farming_assistant/utils/location_utils.dart';
 
+/// A widget for displaying the current weather based on the user's location.
+/// The weather is fetched using the [WeatherFactory] from the [weather] package.
+/// For this you'll need an API key from [OpenWeatherMap](https://openweathermap.org/).
+/// This uses the [detectPosition] function from the [location_utils.dart] file.
+/// The [WeatherFactory] handles the fetching of the weather data.
+/// The widget then displays the name of the location, the current temperature
+/// and based on a weather condition code, as well as the sunrise and
+/// sunset time, displays an icon according to the current weather conditions.
+/// The text color can be customized.
 class WeatherWidget extends StatefulWidget {
   const WeatherWidget({super.key, this.textColor = Colors.black});
 
@@ -50,7 +59,6 @@ class _WeatherWidgetState extends State<WeatherWidget> {
     Weather weather = await wf.currentWeatherByLocation(
         position.latitude, position.longitude);
 
-    // Weather weather = await wf.currentWeatherByLocation(46.77, 23.59);
     return weather;
   }
 

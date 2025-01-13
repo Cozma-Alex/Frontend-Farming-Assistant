@@ -1,9 +1,16 @@
-
+import 'package:farming_assistant/APIs/user-related-apis.dart';
+import 'package:farming_assistant/providers/logged_user_provider.dart';
 import 'package:farming_assistant/widgets/register_widget.dart';
-import 'package:farming_assistant/screens/homepage_screen.dart'; // Add this line
+import 'package:farming_assistant/screens/homepage_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
+import '../models/user.dart';
+
+/// A widget for the login screen.
+/// A button press opens the [RegisterWidget] in a modal bottom sheet.
+/// A successful login or registration saves the user in the [LoggedUserProvider]
+/// and navigates to the [HomePageScreen].
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -31,20 +38,43 @@ class _LoginScreenState extends State<LoginScreen>
       transitionAnimationController: _animationController,
       builder: (BuildContext context) {
         return RegisterWidget(
-          emailController: _emailController,
-          passwordController: _passwordController,
-          nameController: _registerNameController,
-          farmNameController: _registerFarmNameController,
+          _emailController,
+          _passwordController,
+          _registerNameController,
+          _registerFarmNameController,
         );
       },
     );
   }
 
   void _signIn() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const HomePageScreen()),
-    );
+    String email = _emailController.text;
+    String password = _passwordController.text;
+
+    if (email.isEmpty || password.isEmpty) {
+      return;
+    }
+
+    User user = User(email: email, password: password);
+    BuildContext currentContext = context;
+
+    loginAPI(user).then((value) {
+      Provider.of<LoggedUserProvider>(currentContext, listen: false).setUser(value);
+
+      Navigator.pushReplacement(
+        currentContext,
+        MaterialPageRoute(builder: (context) => const HomePageScreen()),
+      );
+    }).catchError((e) {
+      SnackBar snackBar = SnackBar(
+        content: const Text('Failed to login'),
+        backgroundColor: Theme.of(currentContext).colorScheme.error,
+      );
+
+      ScaffoldMessenger.of(currentContext).showSnackBar(snackBar);
+
+      _passwordController.clear();
+    });
   }
 
   @override
@@ -185,7 +215,8 @@ class _LoginScreenState extends State<LoginScreen>
                         borderRadius: BorderRadius.circular(8),
                       ),
                       filled: true,
-                      fillColor: Theme.of(context).colorScheme.tertiaryContainer,
+                      fillColor:
+                          Theme.of(context).colorScheme.tertiaryContainer,
                     ),
                   ),
                   const SizedBox(height: 8),

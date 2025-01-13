@@ -60,8 +60,12 @@ class Task {
       'priority': task.priority!.jsonValue,
       'recurrence': task.recurrence!.jsonValue,
       'deadline': formatDateTimeString(task.deadline!),
-      'changeToMediumPriority': formatDateTimeString(task.changeToMediumPriority!),
-      'changeToHighPriority': formatDateTimeString(task.changeToHighPriority!),
+      'changeToMediumPriority': task.changeToHighPriority == null
+          ? null
+          : formatDateTimeString(task.changeToMediumPriority!),
+      'changeToHighPriority': task.changeToHighPriority == null
+          ? null
+          : formatDateTimeString(task.changeToHighPriority!),
       'user': User.toJson(task.user!),
       'done': task.done,
     };

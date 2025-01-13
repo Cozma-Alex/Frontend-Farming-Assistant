@@ -6,11 +6,17 @@ import '../models/enums/recurrence.dart';
 import '../models/enums/sections.dart';
 import '../models/task.dart';
 import '../models/user.dart';
-import '../models/enums/recurrence.dart';
-import '../models/enums/sections.dart';
 
+/// A screen for adding a new task.
+/// Upon completing all the necessary form fields correctly and pressing the save button,
+/// a call to the backend is made to save the task, and the user is navigated
+/// back to the [TasksScreen].
+/// The context pops the new task to the [TasksScreen] to update the list of
+/// tasks without the need for another call to the backend.
 class AddTaskScreen extends StatefulWidget {
-  const AddTaskScreen({super.key});
+  const AddTaskScreen({super.key, required this.loggedUser});
+
+  final User loggedUser;
 
   @override
   State<AddTaskScreen> createState() => _AddTaskScreenState();
@@ -293,7 +299,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                               if (value != null) {
                                 setState(() {
                                   _changeToMediumPriorityDate = value;
-                                  print(_changeToMediumPriorityDate);
                                 });
                               }
                             });
@@ -340,7 +345,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                               if (value != null) {
                                 setState(() {
                                   _changeToHighPriorityDate = value;
-                                  print(_changeToHighPriorityDate);
                                 });
                               }
                             });
@@ -507,17 +511,17 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                 _selectedTime!.hour,
                                 _selectedTime!.minute,
                               ),
-                              changeToMediumPriority: _changeToMediumPriorityDate,
+                              changeToMediumPriority:
+                                  _changeToMediumPriorityDate,
                               changeToHighPriority: _changeToHighPriorityDate,
-                              user: User(
-                                // asta am eu in db deja un user
-                                id: '0adff34b-9c96-434f-be4f-8bcbac042de6',
-                              ),
+                              user: widget.loggedUser,
                               done: false,
                             );
 
                             saveTaskAPI(task).then((value) {
-                              if (context.mounted) Navigator.of(context).pop(task);
+                              if (context.mounted) {
+                                Navigator.of(context).pop(value);
+                              }
                             }).catchError((e) {
                               if (context.mounted) {
                                 ScaffoldMessenger.of(context).showSnackBar(
