@@ -507,14 +507,17 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                 _selectedTime!.hour,
                                 _selectedTime!.minute,
                               ),
-                              changeToMediumPriority: _changeToMediumPriorityDate,
+                              changeToMediumPriority:
+                                  _changeToMediumPriorityDate,
                               changeToHighPriority: _changeToHighPriorityDate,
                               user: widget.loggedUser,
                               done: false,
                             );
 
                             saveTaskAPI(task).then((value) {
-                              if (context.mounted) Navigator.of(context).pop(task);
+                              if (context.mounted) {
+                                Navigator.of(context).pop(value);
+                              }
                             }).catchError((e) {
                               if (context.mounted) {
                                 ScaffoldMessenger.of(context).showSnackBar(
