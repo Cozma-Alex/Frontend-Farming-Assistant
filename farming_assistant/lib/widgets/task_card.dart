@@ -1,10 +1,14 @@
 import 'package:farming_assistant/APIs/task-related-apis.dart';
-import 'package:farming_assistant/models/user.dart';
 import 'package:flutter/material.dart';
 
 import '../models/enums/priority.dart';
 import '../models/task.dart';
 
+/// A widget for displaying a task card.
+/// Has two states, shrunk and expanded. When expanded, it shows additional
+/// information about the task, as well as two buttons, ore for marking the
+/// task as done/not done and one for deleting the task, which triggers a
+/// confirmation dialog.
 class TaskCard extends StatefulWidget {
   const TaskCard({super.key, required this.task, required this.onTaskDeleted});
 

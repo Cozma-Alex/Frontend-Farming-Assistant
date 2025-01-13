@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 import '../models/enums/priority.dart';
 
+/// A widget for filtering tasks by priority.
+/// Uses [ChoiceChip] widgets to select a priority from the [Priority] enum.
+/// The selected priority is passed to the parent widget using a callback function.
 class TaskFilterWidget extends StatefulWidget {
   const TaskFilterWidget({super.key, required this.onPriorityChanged});
 

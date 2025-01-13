@@ -7,6 +7,12 @@ import '../models/enums/sections.dart';
 import '../models/task.dart';
 import '../models/user.dart';
 
+/// A screen for adding a new task.
+/// Upon completing all the necessary form fields correctly and pressing the save button,
+/// a call to the backend is made to save the task, and the user is navigated
+/// back to the [TasksScreen].
+/// The context pops the new task to the [TasksScreen] to update the list of
+/// tasks without the need for another call to the backend.
 class AddTaskScreen extends StatefulWidget {
   const AddTaskScreen({super.key, required this.loggedUser});
 
