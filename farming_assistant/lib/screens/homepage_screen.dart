@@ -15,8 +15,14 @@
 import 'package:farming_assistant/screens/tasks_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:farming_assistant/widgets/bottom_bar_widget.dart';
+import 'package:farming_assistant/screens/animals_screen.dart';
+
+import '../models/enums/location_type.dart';
+import '../models/location.dart';
+import '../models/user.dart';
 import '../widgets/weather_time_widget.dart';
 import '../widgets/homepage_slider.dart';
+import 'location_screen.dart';
 
 const double containerHeight = 200.0;
 
@@ -57,7 +63,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> _screens = [
-      const Center(child: Text('Stats Screen')),
+      // const Center(child: Text('Stats Screen')),
+      const StatsScreen(),
       const Center(child: Text('Map Screen')),
       const HomeContent(),
       const TasksScreen(),
@@ -240,3 +247,24 @@ class HomeContent extends StatelessWidget {
     );
   }
 }
+
+class StatsScreen extends StatelessWidget {
+  const StatsScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // For testing, create a hardcoded location
+    // final location = Location(
+    //   'e14bf48c-44b2-4425-a6ab-eac82b8bf3d7',
+    //   LocationType.barn,
+    //   User(id: '80d34668-2b97-4a5d-a1ff-c9c4b2fb70e3'), // Using your test user ID
+    // );
+    //
+    // // Return the LocationScreen directly
+    // return LocationScreen(
+    //   location: location,
+    // );
+    return AnimalsScreen(user : User(id: '80d34668-2b97-4a5d-a1ff-c9c4b2fb70e3'));
+  }
+}
+
