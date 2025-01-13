@@ -1,7 +1,20 @@
+/// A screen that displays the home page with multiple sections including a welcome message,
+/// weather and time information, and various progress indicators.
+///
+/// The [HomePageScreen] widget is a stateful widget that manages the navigation between different
+/// screens using a [PageView] and a bottom navigation bar.
+///
+/// The [HomeContent] widget is a stateless widget that displays the main content of the home page,
+/// including a welcome message, weather and time information, and various progress indicators.
+///
+/// Example usage:
+///
+/// ```dart
+/// HomePageScreen()
+/// ```
 import 'package:farming_assistant/screens/tasks_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:farming_assistant/widgets/bottom_bar_widget.dart';
-
 import '../widgets/weather_time_widget.dart';
 import '../widgets/homepage_slider.dart';
 
@@ -64,6 +77,16 @@ class _HomePageScreenState extends State<HomePageScreen> {
   }
 }
 
+/// A widget that displays the main content of the home page, including a welcome message,
+/// weather and time information, and various progress indicators.
+///
+/// The [HomeContent] widget is a stateless widget that takes no parameters.
+///
+/// Example usage:
+///
+/// ```dart
+/// HomeContent()
+/// ```
 class HomeContent extends StatelessWidget {
   const HomeContent({super.key});
 
@@ -110,10 +133,10 @@ class HomeContent extends StatelessWidget {
                               .textTheme
                               .headlineMedium
                               ?.copyWith(
-                                color: Theme.of(context).colorScheme.onSurface,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 40,
-                              ),
+                            color: Theme.of(context).colorScheme.onSurface,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 40,
+                          ),
                         ),
                         const SizedBox(height: 5),
                         Text(
@@ -122,10 +145,10 @@ class HomeContent extends StatelessWidget {
                               .textTheme
                               .bodyLarge
                               ?.copyWith(
-                                color: Theme.of(context).colorScheme.onSurface,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                              ),
+                            color: Theme.of(context).colorScheme.onSurface,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
                         ),
                       ],
                     ),
@@ -164,7 +187,6 @@ class HomeContent extends StatelessWidget {
                     progress: 50.0,
                   ),
                 ),
-                //const SizedBox(height: 16.0), // Spacing between duplicates
                 Container(
                   color: const Color(0xFFCEB08A),
                   child: const BoxWithSlider(
