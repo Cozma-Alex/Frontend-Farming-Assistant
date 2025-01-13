@@ -1,7 +1,20 @@
+/// A screen that displays the home page with multiple sections including a welcome message,
+/// weather and time information, and various progress indicators.
+///
+/// The [HomePageScreen] widget is a stateful widget that manages the navigation between different
+/// screens using a [PageView] and a bottom navigation bar.
+///
+/// The [HomeContent] widget is a stateless widget that displays the main content of the home page,
+/// including a welcome message, weather and time information, and various progress indicators.
+///
+/// Example usage:
+///
+/// ```dart
+/// HomePageScreen()
+/// ```
 import 'package:farming_assistant/screens/tasks_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:farming_assistant/widgets/bottom_bar_widget.dart';
-
 import '../widgets/weather_time_widget.dart';
 import '../widgets/homepage_slider.dart';
 
@@ -61,6 +74,16 @@ class _HomePageScreenState extends State<HomePageScreen> {
   }
 }
 
+/// A widget that displays the main content of the home page, including a welcome message,
+/// weather and time information, and various progress indicators.
+///
+/// The [HomeContent] widget is a stateless widget that takes no parameters.
+///
+/// Example usage:
+///
+/// ```dart
+/// HomeContent()
+/// ```
 class HomeContent extends StatelessWidget {
   const HomeContent({super.key});
 
@@ -107,10 +130,10 @@ class HomeContent extends StatelessWidget {
                               .textTheme
                               .headlineMedium
                               ?.copyWith(
-                                color: Theme.of(context).colorScheme.onSurface,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 40,
-                              ),
+                            color: Theme.of(context).colorScheme.onSurface,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 40,
+                          ),
                         ),
                         const SizedBox(height: 5),
                         Text(
@@ -119,10 +142,10 @@ class HomeContent extends StatelessWidget {
                               .textTheme
                               .bodyLarge
                               ?.copyWith(
-                                color: Theme.of(context).colorScheme.onSurface,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                              ),
+                            color: Theme.of(context).colorScheme.onSurface,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
                         ),
                       ],
                     ),
@@ -130,87 +153,6 @@ class HomeContent extends StatelessWidget {
                 ],
               ),
             ),
-            /*Container(
-              color: const Color(0xFFCEB08A),
-              child: Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20, bottom: 40),
-                    child: Center(
-                      child: Container(
-                        width: containerWidth,
-                        height: 83,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF5F603E),
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(
-                            color: Colors.white,
-                            width: 2,
-                          ),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Colors.black12,
-                              blurRadius: 8,
-                              offset: Offset(0, 4),
-                            ),
-                          ],
-                        ),
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: Text(
-                                'Mood\n Text',
-                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  color: Colors.white,
-                                ),
-                                textAlign: TextAlign.left,
-                              ),
-                            ),
-                            const VerticalDivider(
-                              color: Colors.white,
-                              thickness: 1,
-                              width: 20,
-                              indent: 15,
-                              endIndent: 15,
-                            ),
-                            Expanded(
-                              flex: 2,
-                              child: Text(
-                                'Nov 23, 2024\n22:35',
-                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            const VerticalDivider(
-                              color: Colors.white,
-                              thickness: 1,
-                              width: 20,
-                              indent: 15,
-                              endIndent: 15,
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: Text(
-                                'Weather\n Text',
-                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  color: Colors.white,
-                                ),
-                                textAlign: TextAlign.right,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),*/
             Padding(
               padding: const EdgeInsets.all(16),
               child: Container(
@@ -242,7 +184,6 @@ class HomeContent extends StatelessWidget {
                     progress: 50.0,
                   ),
                 ),
-                //const SizedBox(height: 16.0), // Spacing between duplicates
                 Container(
                   color: const Color(0xFFCEB08A),
                   child: const BoxWithSlider(
