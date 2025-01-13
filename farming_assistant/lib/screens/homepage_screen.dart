@@ -12,17 +12,13 @@
 /// ```dart
 /// HomePageScreen()
 /// ```
-import 'package:farming_assistant/screens/tasks_screen.dart';
-import 'package:flutter/material.dart';
-import 'package:farming_assistant/widgets/bottom_bar_widget.dart';
 import 'package:farming_assistant/screens/animals_screen.dart';
+import 'package:farming_assistant/screens/tasks_screen.dart';
+import 'package:farming_assistant/widgets/bottom_bar_widget.dart';
+import 'package:flutter/material.dart';
 
-import '../models/enums/location_type.dart';
-import '../models/location.dart';
-import '../models/user.dart';
-import '../widgets/weather_time_widget.dart';
 import '../widgets/homepage_slider.dart';
-import 'location_screen.dart';
+import '../widgets/weather_time_widget.dart';
 
 const double containerHeight = 200.0;
 
@@ -62,9 +58,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> _screens = [
-      // const Center(child: Text('Stats Screen')),
-      const StatsScreen(),
+    final List<Widget> screens = [
+      const AnimalsScreen(),
       const Center(child: Text('Map Screen')),
       const HomeContent(),
       const TasksScreen(),
@@ -74,7 +69,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
       body: PageView(
         controller: _pageController,
         onPageChanged: _onPageChanged,
-        children: _screens,
+        children: screens,
       ),
       bottomNavigationBar: BottomNavBar(
         currentIndex: _currentIndex,
@@ -99,9 +94,6 @@ class HomeContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final containerWidth = screenWidth * 0.85;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("Home Page"),
@@ -140,10 +132,10 @@ class HomeContent extends StatelessWidget {
                               .textTheme
                               .headlineMedium
                               ?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurface,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 40,
-                          ),
+                                color: Theme.of(context).colorScheme.onSurface,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 40,
+                              ),
                         ),
                         const SizedBox(height: 5),
                         Text(
@@ -152,10 +144,10 @@ class HomeContent extends StatelessWidget {
                               .textTheme
                               .bodyLarge
                               ?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurface,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),
+                                color: Theme.of(context).colorScheme.onSurface,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
                         ),
                       ],
                     ),
@@ -247,24 +239,3 @@ class HomeContent extends StatelessWidget {
     );
   }
 }
-
-class StatsScreen extends StatelessWidget {
-  const StatsScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    // For testing, create a hardcoded location
-    // final location = Location(
-    //   'e14bf48c-44b2-4425-a6ab-eac82b8bf3d7',
-    //   LocationType.barn,
-    //   User(id: '80d34668-2b97-4a5d-a1ff-c9c4b2fb70e3'), // Using your test user ID
-    // );
-    //
-    // // Return the LocationScreen directly
-    // return LocationScreen(
-    //   location: location,
-    // );
-    return AnimalsScreen(user : User(id: '80d34668-2b97-4a5d-a1ff-c9c4b2fb70e3'));
-  }
-}
-

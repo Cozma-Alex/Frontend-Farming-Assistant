@@ -1,11 +1,11 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import '../models/location.dart';
-import '../models/animal.dart';
-import '../models/enums/location_type.dart';
-import '../models/dtos/animalDTO.dart';
+
 import '../APIs/animal-related-apis.dart';
+import '../models/dtos/animalDTO.dart';
+import '../models/enums/location_type.dart';
+import '../models/location.dart';
 import 'animal_detail_screen.dart';
 
 class LocationScreen extends StatefulWidget {
