@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../APIs/location-related-apis.dart';
 import '../models/animal.dart';
 import '../models/location.dart';
 import '../APIs/animal-related-apis.dart';
 import '../models/user.dart';
+import '../providers/logged_user_provider.dart';
 import 'animal_create_screen.dart';
 import 'animal_detail_screen.dart';
 
 class AnimalsScreen extends StatefulWidget {
-  final User user;
-
   const AnimalsScreen({
     super.key,
-    required this.user,
   });
 
   @override
@@ -23,22 +22,32 @@ class _AnimalsScreenState extends State<AnimalsScreen> {
   late Future<List<Animal>> _animalsFuture;
   late Future<List<Location>> _locationsFuture;
   Location? _selectedLocation;
+  late User _user;
 
   @override
   void initState() {
     super.initState();
-    _loadAnimals();
-    _loadLocations();
+
+    var loggedUser =
+        Provider.of<LoggedUserProvider>(context, listen: false).user;
+
+    if (loggedUser == null) {
+      setState(() {
+        _animalsFuture = Future.error('Not logged in');
+      });
+    } else {
+      setState(() {
+        _user = loggedUser;
+      });
+      _loadAnimals();
+    }
   }
 
   void _loadAnimals() {
     setState(() {
-      _animalsFuture = getAllAnimalsOfUserAPI(widget.user);
+      _animalsFuture = getAllAnimalsOfUserAPI(_user);
+      _locationsFuture = getAllLocationsOfUserAPI(_user);
     });
-  }
-
-  void _loadLocations() {
-    _locationsFuture = getAllLocationsOfUserAPI(widget.user);
   }
 
   void _filterByLocation(Location location) {
@@ -49,7 +58,7 @@ class _AnimalsScreenState extends State<AnimalsScreen> {
       } else {
         _selectedLocation = location;
         _animalsFuture = getAnimalsByLocationAPI(location)
-            .then((dtos) => dtos.map((dto) => dto.animal).toList());
+            .then((animalDTOs) => animalDTOs.map((dto) => dto.animal).toList());
       }
     });
   }
@@ -57,13 +66,11 @@ class _AnimalsScreenState extends State<AnimalsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: const Color(0xFFFDFDFD),
       backgroundColor: const Color(0xFFCDC5AD),
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(100),
         child: Container(
           decoration: const BoxDecoration(
-            // color: Color(0xFFEFFAC3),
             color: Color(0xFFF6FCDF),
             borderRadius: BorderRadius.vertical(
               bottom: Radius.circular(30),
@@ -73,12 +80,6 @@ class _AnimalsScreenState extends State<AnimalsScreen> {
             automaticallyImplyLeading: false,
             elevation: 0,
             backgroundColor: Colors.transparent,
-            leading: IconButton(
-              icon: const Icon(Icons.navigate_before),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
             title: const Text('Animals'),
             centerTitle: true,
             bottom: PreferredSize(
@@ -115,13 +116,15 @@ class _AnimalsScreenState extends State<AnimalsScreen> {
                               padding: const EdgeInsets.only(right: 8),
                               child: FilterChip(
                                 selected: _selectedLocation?.id == location.id,
-                                label: Text(location.name ?? 'Location ${location.id}'),
+                                label: Text(
+                                    location.name ?? 'Location ${location.id}'),
                                 onSelected: (_) => _filterByLocation(location),
                                 backgroundColor: Colors.white,
                                 selectedColor: const Color(0xFFA7D77C),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20),
-                                  side: const BorderSide(color: Color(0xFFA7D77C)),
+                                  side: const BorderSide(
+                                      color: Color(0xFFA7D77C)),
                                 ),
                               ),
                             );
@@ -138,7 +141,6 @@ class _AnimalsScreenState extends State<AnimalsScreen> {
       ),
       body: Stack(
         children: [
-          // Extended background for list that goes under the header
           Positioned(
             top: 0,
             left: -20,
@@ -154,9 +156,7 @@ class _AnimalsScreenState extends State<AnimalsScreen> {
               decoration: const BoxDecoration(
                 color: Color(0xFFA7D77C),
                 borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(30),
-                  top: Radius.circular(15)
-                ),
+                    bottom: Radius.circular(30), top: Radius.circular(15)),
               ),
               child: FutureBuilder<List<Animal>>(
                 future: _animalsFuture,
@@ -176,11 +176,11 @@ class _AnimalsScreenState extends State<AnimalsScreen> {
                         decoration: BoxDecoration(
                           border: index != animals.length - 1
                               ? const Border(
-                            bottom: BorderSide(
-                              color: Colors.white,
-                              width: 1.3,  // Increased width
-                            ),
-                          )
+                                  bottom: BorderSide(
+                                    color: Colors.white,
+                                    width: 1.3,
+                                  ),
+                                )
                               : null,
                         ),
                         child: ListTile(
@@ -203,7 +203,8 @@ class _AnimalsScreenState extends State<AnimalsScreen> {
                             ),
                           ),
                           subtitle: Text(
-                            animal.location.name ?? 'Location ${animal.location.id}',
+                            animal.location.name ??
+                                'Location ${animal.location.id}',
                             style: const TextStyle(
                               color: Colors.white,
                             ),
@@ -212,10 +213,11 @@ class _AnimalsScreenState extends State<AnimalsScreen> {
                             final needsRefresh = await Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => AnimalDetailsScreen(animal: animal),
+                                builder: (context) =>
+                                    AnimalDetailsScreen(animal: animal),
                               ),
                             );
-                            if(needsRefresh){
+                            if (needsRefresh) {
                               _loadAnimals();
                             }
                           },
@@ -227,8 +229,6 @@ class _AnimalsScreenState extends State<AnimalsScreen> {
               ),
             ),
           ),
-
-          // Add animal button at bottom
           Positioned(
             left: 16,
             right: 16,
@@ -251,15 +251,16 @@ class _AnimalsScreenState extends State<AnimalsScreen> {
                 ],
               ),
               child: ElevatedButton(
-                onPressed: () async {  // Add async here
-                  final Animal? savedAnimal = await Navigator.push<Animal>(  // Add await and type
+                onPressed: () async {
+                  final Animal? savedAnimal = await Navigator.push<Animal>(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => AddAnimalScreen(user: widget.user),
+                      builder: (context) => AddAnimalScreen(user: _user),
                     ),
                   );
 
-                  if (savedAnimal != null) {  // If an animal was saved and returned
+                  if (savedAnimal != null) {
+                    // If an animal was saved and returned
                     _loadAnimals();
                   }
                 },

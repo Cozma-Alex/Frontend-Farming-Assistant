@@ -32,13 +32,13 @@ class _AddAnimalScreenState extends State<AddAnimalScreen> {
   late Future<List<Food>> _foodsFuture;
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
-  final TextEditingController _healthProfileController = TextEditingController();
+  final TextEditingController _healthProfileController =
+      TextEditingController();
   DateTime? _selectedDate;
   Location? _selectedLocation;
   late Future<List<Location>> _locationsFuture;
   Uint8List? _selectedImage;
   bool isEditMode = false;
-
 
   @override
   void initState() {
@@ -48,7 +48,7 @@ class _AddAnimalScreenState extends State<AddAnimalScreen> {
       if (isEditMode) {
         // Find the matching location by ID from the fetched locations
         _selectedLocation = locations.firstWhere(
-              (loc) => loc.id == widget.animal!.location.id,
+          (loc) => loc.id == widget.animal!.location.id,
           orElse: () => widget.animal!.location,
         );
       }
@@ -112,10 +112,13 @@ class _AddAnimalScreenState extends State<AddAnimalScreen> {
   }
 
   Future<void> _saveAnimal() async {
-    if (_formKey.currentState!.validate() && _selectedLocation != null && _selectedDate != null) {
+    if (_formKey.currentState!.validate() &&
+        _selectedLocation != null &&
+        _selectedDate != null) {
       try {
         final animal = Animal(
-          isEditMode ? widget.animal!.id : '', // Use existing ID if editing
+          isEditMode ? widget.animal!.id : '',
+          // Use existing ID if editing
           _nameController.text,
           _descriptionController.text,
           _selectedDate!,
@@ -178,7 +181,6 @@ class _AddAnimalScreenState extends State<AddAnimalScreen> {
       }
     }
   }
-
 
   Widget _buildFoodProgrammesList() {
     return Column(
@@ -261,7 +263,6 @@ class _AddAnimalScreenState extends State<AddAnimalScreen> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -329,7 +330,8 @@ class _AddAnimalScreenState extends State<AddAnimalScreen> {
                       borderRadius: BorderRadius.circular(25),
                       borderSide: BorderSide.none,
                     ),
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -361,12 +363,14 @@ class _AddAnimalScreenState extends State<AddAnimalScreen> {
                           borderRadius: BorderRadius.circular(25),
                           borderSide: BorderSide.none,
                         ),
-                        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 12),
                       ),
                       items: locations.map((location) {
                         return DropdownMenuItem(
                           value: location,
-                          child: Text(location.name ?? 'Location ${location.id}'),
+                          child:
+                              Text(location.name ?? 'Location ${location.id}'),
                         );
                       }).toList(),
                       onChanged: (Location? value) {
@@ -408,7 +412,8 @@ class _AddAnimalScreenState extends State<AddAnimalScreen> {
                           borderRadius: BorderRadius.circular(25),
                           borderSide: BorderSide.none,
                         ),
-                        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 12),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -417,9 +422,9 @@ class _AddAnimalScreenState extends State<AddAnimalScreen> {
                             _selectedDate == null
                                 ? 'Select date'
                                 : '${_selectedDate!.year}/${_selectedDate!.month}/${_selectedDate!.day}',
-                            style: TextStyle(color: Colors.black),
+                            style: const TextStyle(color: Colors.black),
                           ),
-                          Icon(Icons.calendar_today, size: 20),
+                          const Icon(Icons.calendar_today, size: 20),
                         ],
                       ),
                     ),
@@ -439,7 +444,8 @@ class _AddAnimalScreenState extends State<AddAnimalScreen> {
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide.none,
                     ),
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12),
                   ),
                   maxLines: 2,
                   validator: (value) {
@@ -463,7 +469,8 @@ class _AddAnimalScreenState extends State<AddAnimalScreen> {
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide.none,
                     ),
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12),
                   ),
                   maxLines: 2,
                   validator: (value) {

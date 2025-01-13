@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'package:farming_assistant/screens/animal_create_screen.dart';
 import 'package:flutter/material.dart';
 import '../models/animal.dart';

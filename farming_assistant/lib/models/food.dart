@@ -1,6 +1,6 @@
 import 'package:farming_assistant/models/user.dart';
 
-class Food{
+class Food {
   String id;
   String name;
   String description;
@@ -9,7 +9,7 @@ class Food{
 
   Food(this.id, this.name, this.description, this.quantity, this.user);
 
-  static fromJson(Map <String, dynamic> jsonData) {
+  static fromJson(Map<String, dynamic> jsonData) {
     return Food(
       jsonData['id'],
       jsonData['name'],
@@ -28,4 +28,12 @@ class Food{
       'user': User.toJson(food.user),
     };
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Food && runtimeType == other.runtimeType && id == other.id;
+
+  @override
+  int get hashCode => id.hashCode;
 }

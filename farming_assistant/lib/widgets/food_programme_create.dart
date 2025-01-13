@@ -12,7 +12,6 @@ class AddFoodProgrammeDialog extends StatefulWidget {
     super.key,
     required this.availableFoods,
     this.existingProgramme, // Pass null for create mode
-
   });
 
   @override
@@ -36,19 +35,20 @@ class _AddFoodProgrammeDialogState extends State<AddFoodProgrammeDialog> {
       );
       _endTime = widget.existingProgramme!.endHour != null
           ? TimeOfDay(
-        hour: widget.existingProgramme!.endHour!.hour,
-        minute: widget.existingProgramme!.endHour!.minute,
-      )
+              hour: widget.existingProgramme!.endHour!.hour,
+              minute: widget.existingProgramme!.endHour!.minute,
+            )
           : null;
       _selectedFood = widget.existingProgramme!.food;
     }
   }
 
-
   Future<void> _selectTime(BuildContext context, bool isStartTime) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
-      initialTime: isStartTime ? _startTime ?? TimeOfDay.now() : _endTime ?? TimeOfDay.now(),
+      initialTime: isStartTime
+          ? _startTime ?? TimeOfDay.now()
+          : _endTime ?? TimeOfDay.now(),
     );
 
     if (picked != null) {
@@ -79,7 +79,6 @@ class _AddFoodProgrammeDialogState extends State<AddFoodProgrammeDialog> {
               style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(height: 24),
-
             DropdownButtonFormField<Food>(
               value: _selectedFood,
               decoration: InputDecoration(
@@ -89,7 +88,7 @@ class _AddFoodProgrammeDialogState extends State<AddFoodProgrammeDialog> {
                 ),
               ),
               items: widget.availableFoods.map((food) {
-                return DropdownMenuItem(
+                return DropdownMenuItem<Food>(
                   value: food,
                   child: Text(food.name),
                 );
@@ -99,9 +98,14 @@ class _AddFoodProgrammeDialogState extends State<AddFoodProgrammeDialog> {
                   _selectedFood = value;
                 });
               },
+              isExpanded: true,
+              selectedItemBuilder: (BuildContext context) {
+                return widget.availableFoods.map<Widget>((Food food) {
+                  return Text(food.name);
+                }).toList();
+              },
             ),
             const SizedBox(height: 16),
-
             InkWell(
               onTap: () => _selectTime(context, true),
               child: InputDecorator(
@@ -121,7 +125,6 @@ class _AddFoodProgrammeDialogState extends State<AddFoodProgrammeDialog> {
               ),
             ),
             const SizedBox(height: 16),
-
             InkWell(
               onTap: () => _selectTime(context, false),
               child: InputDecorator(
@@ -141,7 +144,6 @@ class _AddFoodProgrammeDialogState extends State<AddFoodProgrammeDialog> {
               ),
             ),
             const SizedBox(height: 24),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -153,16 +155,17 @@ class _AddFoodProgrammeDialogState extends State<AddFoodProgrammeDialog> {
                 ElevatedButton(
                   onPressed: (_selectedFood != null && _startTime != null)
                       ? () {
-                    final foodProgramme = FoodProgramme(
-                      isEditMode ? widget.existingProgramme!.id : '',
-                      _startTime!,
-                      _endTime,
-                      isEditMode ? widget.existingProgramme!.animal : null,
-                      _selectedFood!,
-                    );
-
-                    Navigator.pop(context, foodProgramme);
-                  }
+                          final foodProgramme = FoodProgramme(
+                            isEditMode ? widget.existingProgramme!.id : '',
+                            _startTime!,
+                            _endTime,
+                            isEditMode
+                                ? widget.existingProgramme!.animal
+                                : null,
+                            _selectedFood!,
+                          );
+                          Navigator.pop(context, foodProgramme);
+                        }
                       : null,
                   child: Text(isEditMode ? 'Save' : 'Add'),
                 ),

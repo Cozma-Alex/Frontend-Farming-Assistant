@@ -84,7 +84,7 @@ class _BottomNavBarState extends State<BottomNavBar> with SingleTickerProviderSt
             selectedFontSize: 0,
             unselectedFontSize: 0,
             items: [
-              _buildNavItem(Icons.bar_chart_outlined, "Stats"),
+              _buildNavItem(Icons.pets_outlined, "Animals"),
               _buildNavItem(Icons.map_outlined, "Map"),
               _buildNavItem(Icons.home_outlined, "Home"),
               _buildNavItem(Icons.task_outlined, "Tasks"),
