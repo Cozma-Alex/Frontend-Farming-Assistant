@@ -2,7 +2,7 @@ import 'package:farming_assistant/screens/animal_create_screen.dart';
 import 'package:flutter/material.dart';
 import '../models/animal.dart';
 import '../models/food_programme.dart';
-import '../APIs/food-programme-apis.dart';
+import '../APIs/food_programme_apis.dart';
 
 class AnimalDetailsScreen extends StatefulWidget {
   final Animal animal;

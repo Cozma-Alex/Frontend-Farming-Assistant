@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:farming_assistant/models/coordinate.dart';
 
 import '../location.dart';

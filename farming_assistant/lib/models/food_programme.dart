@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../utils/date_time_formater.dart';
 import 'animal.dart';
 import 'food.dart';
 

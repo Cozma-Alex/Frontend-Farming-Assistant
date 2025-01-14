@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../APIs/location-related-apis.dart';
+import '../APIs/location_related_apis.dart';
 import '../models/animal.dart';
 import '../models/location.dart';
-import '../APIs/animal-related-apis.dart';
+import '../APIs/animal_related_apis.dart';
 import '../models/user.dart';
 import '../providers/logged_user_provider.dart';
 import 'animal_create_screen.dart';

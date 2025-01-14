@@ -12,6 +12,7 @@
 /// ```dart
 /// HomePageScreen()
 /// ```
+library;
 import 'package:farming_assistant/screens/animals_screen.dart';
 import 'package:farming_assistant/screens/tasks_screen.dart';
 import 'package:farming_assistant/widgets/bottom_bar_widget.dart';

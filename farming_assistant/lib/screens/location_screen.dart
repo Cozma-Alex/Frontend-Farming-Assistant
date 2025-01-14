@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 
-import '../APIs/animal-related-apis.dart';
+import '../APIs/animal_related_apis.dart';
 import '../models/dtos/animalDTO.dart';
 import '../models/enums/location_type.dart';
 import '../models/location.dart';
@@ -50,6 +50,24 @@ class _LocationScreenState extends State<LocationScreen> {
         iconData = Icons.build;
         label = 'Tools';
         break;
+      case LocationType.house:
+        iconData = LocationType.house.icon;
+        label = "House";
+      case LocationType.tractorShed:
+        iconData = LocationType.tractorShed.icon;
+        label = "Tractor Shed";
+      case LocationType.cowBarn:
+        iconData = LocationType.cowBarn.icon;
+        label = "Cow Barn";
+      case LocationType.chickenCoop:
+        iconData = LocationType.chickenCoop.icon;
+        label = "Chicken Coup";
+      case LocationType.pigPen:
+        iconData = LocationType.pigPen.icon;
+        label = "Pig Pen";
+      case LocationType.other:
+        iconData = LocationType.other.icon;
+        label = "Other";
     }
 
     return Column(

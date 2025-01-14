@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'dart:convert' show jsonDecode, jsonEncode;
 import 'package:farming_assistant/models/animal.dart';
 import 'package:farming_assistant/models/dtos/animalDTO.dart';
 import 'package:farming_assistant/models/location.dart';

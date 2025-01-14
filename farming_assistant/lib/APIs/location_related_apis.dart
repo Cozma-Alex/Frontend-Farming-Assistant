@@ -1,11 +1,28 @@
 import 'dart:convert';
-import 'package:farming_assistant/models/animal.dart';
 import 'package:farming_assistant/models/location.dart';
 import 'package:http/http.dart' as http;
 
-import '../models/dtos/LocationDTO.dart';
+import '../models/dtos/locationDTO.dart';
+import '../models/enums/location_type.dart';
 import '../models/user.dart';
 import '../utils/config.dart';
+
+Future<List<Location>> getLocations(int page, {int limit = 4}) async {
+  await Future.delayed(const Duration(seconds: 1));
+
+  final user = User(id: '1', email: 'test@example.com', password: 'password', farmName: 'Test Farm', name: 'John Doe');
+
+  final locations = List.generate(11, (index) =>
+      Location(
+          'loc_${index + 1}',
+          LocationType.values[index % LocationType.values.length],
+          "Location",
+          user
+      )
+  );
+
+  return locations;
+}
 
 Future<List<Location>> getAllLocationsOfUserAPI(User user) async {
   final uri = Uri.parse('${APIConfig.baseURI}/locations');

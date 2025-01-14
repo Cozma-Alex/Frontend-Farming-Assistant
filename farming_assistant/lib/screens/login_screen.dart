@@ -1,4 +1,6 @@
-import 'package:farming_assistant/APIs/user-related-apis.dart';
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:farming_assistant/APIs/user_related_apis.dart';
 import 'package:farming_assistant/providers/logged_user_provider.dart';
 import 'package:farming_assistant/widgets/register_widget.dart';
 import 'package:farming_assistant/screens/homepage_screen.dart';

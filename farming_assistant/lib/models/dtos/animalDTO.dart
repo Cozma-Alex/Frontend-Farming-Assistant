@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:farming_assistant/models/animal.dart';
 import 'package:farming_assistant/models/food_programme.dart';
 

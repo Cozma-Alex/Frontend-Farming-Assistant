@@ -1,15 +1,15 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import '../APIs/animal-related-apis.dart';
-import '../APIs/food-programme-apis.dart';
-import '../APIs/food-related-apis.dart';
+import '../APIs/animal_related_apis.dart';
+import '../APIs/food_programme_apis.dart';
+import '../APIs/food_related_apis.dart';
 import '../models/animal.dart';
 import '../models/food.dart';
 import '../models/food_programme.dart';
 import '../models/location.dart';
 import '../models/user.dart';
-import '../APIs/location-related-apis.dart';
+import '../APIs/location_related_apis.dart';
 import '../widgets/food_programme_create.dart';
 
 class AddAnimalScreen extends StatefulWidget {

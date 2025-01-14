@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import '../models/animal.dart';
 import '../models/food.dart';
 import '../models/food_programme.dart';
-import '../APIs/food-related-apis.dart';
 
 class AddFoodProgrammeDialog extends StatefulWidget {
   final List<Food> availableFoods;
