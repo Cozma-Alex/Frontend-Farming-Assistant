@@ -2,6 +2,9 @@ import 'package:farming_assistant/models/coordinate.dart';
 
 import '../location.dart';
 
+/// Data Transfer Object for Location
+/// Contains a Location and a list of Coordinates
+/// Used to transfer data between the server and the client
 class LocationDTO {
   Location location;
   List<Coordinate> coordinates;

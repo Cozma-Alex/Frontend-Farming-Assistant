@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 
-import '../utils/date_time_formater.dart';
 import 'animal.dart';
 import 'food.dart';
 
+/// FoodProgramme entity
+/// Represents the food programme of an animal having the following fields:
+/// - id: UUID - the id of the food programme (primary key)
+/// - startHour: TimeOfDay - the start hour of the food programme (not null)
+/// - endHour: TimeOfDay - the end hour of the food programme (optional)
+/// - animal: Animal - the animal that has the food programme (foreign key, not null)
+/// - food: Food - the food that is in the food programme (foreign key, not null)
 class FoodProgramme {
 
   String id;

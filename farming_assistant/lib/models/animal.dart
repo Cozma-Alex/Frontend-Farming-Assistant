@@ -3,6 +3,16 @@ import 'dart:typed_data';
 import '../utils/date_time_formater.dart';
 import 'location.dart';
 
+
+/// Animal model
+/// Represents an animal in the database with the following fields:
+/// - id: UUID - unique identifier of the animal (primary key)
+/// - name: String - name of the animal (e.g. Rex)
+/// - description: String - description of the animal (e.g. breed, color)
+/// - age: DateTime - date of birth of the animal (if known)
+/// - imageData: Uint8List - image of the animal in byte format(optional)
+/// - healthProfile: String - health profile of the animal (e.g. vaccinated, neutered)
+/// - location: Location - location of the animal (foreign key)
 class Animal {
   String id;
   String name;

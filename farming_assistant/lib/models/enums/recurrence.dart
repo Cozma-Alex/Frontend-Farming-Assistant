@@ -1,3 +1,4 @@
+/// Enum for task recurrence options
 enum Recurrence {
   none,
   daily,

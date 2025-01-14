@@ -1,3 +1,4 @@
+/// Enum for the location type
 enum LocationType {
   field,
   barn,
