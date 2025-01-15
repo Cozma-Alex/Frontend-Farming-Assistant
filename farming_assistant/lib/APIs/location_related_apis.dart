@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:farming_assistant/models/location.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/coordinate.dart';
@@ -44,23 +45,29 @@ Future<List<Location>> getAllLocationsOfUserAPI(User user) async {
 }
 
 
-Future<Location> saveLocationAPI(Location location, List<Coordinate> coordinates) async {
+Future<LocationDTO> saveLocationAPI(Location location, List<Coordinate> coordinates) async {
   final uri = Uri.parse('${APIConfig.baseURI}/locations');
 
   try {
+    final dto = {
+      'location': Location.toJson(location),
+      'coordinates': coordinates.map((c) => Coordinate.toJson(c)).toList(),
+    };
+
     final response = await http.post(
       uri,
       headers: {
         'Authorization': location.user.id!,
         'Content-Type': 'application/json',
       },
-      body: jsonEncode({
-        'location': Location.toJson(location),
-        'coordinates': coordinates.map((c) => Coordinate.toJson(c)).toList(),
-      }),
+      body: jsonEncode(dto),
     );
 
-    return Location.fromJson(jsonDecode(response.body));
+    if (response.statusCode != 200) {
+      throw Exception('Server returned status code: ${response.statusCode}');
+    }
+
+    return LocationDTO.fromJson(jsonDecode(response.body));
   } catch (e) {
     throw Exception('Failed to save location: $e');
   }

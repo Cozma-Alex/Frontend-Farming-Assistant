@@ -22,7 +22,9 @@ class LocationDTO {
   static toJson(LocationDTO locationDTO) {
     return {
       'location': Location.toJson(locationDTO.location),
-      'coordinates': locationDTO.coordinates.map((e) => Coordinate.toJson(e)).toList(),
+      'coordinates': locationDTO.coordinates
+          .map((e) => Coordinate.toJson(e))
+          .toList(),
     };
   }
 }

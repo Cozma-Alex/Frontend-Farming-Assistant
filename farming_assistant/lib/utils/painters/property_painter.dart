@@ -18,12 +18,10 @@ class PropertyPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     _drawGrid(canvas, size);
 
-    // Draw all saved elements
     for (var element in elements) {
       _drawElement(canvas, element, element == selectedElement);
     }
 
-    // Draw current drawing if exists
     if (currentDrawing != null) {
       _drawElement(canvas, currentDrawing!, true, isDraft: true);
     }

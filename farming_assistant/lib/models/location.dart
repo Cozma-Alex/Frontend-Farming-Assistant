@@ -1,5 +1,6 @@
-import 'package:farming_assistant/models/enums/location_type.dart';
 import 'package:farming_assistant/models/user.dart';
+
+import 'enums/location_type.dart';
 
 class Location {
   String id;
@@ -18,21 +19,16 @@ class Location {
     );
   }
 
-  static toJson(Location location) {
+  static Map<String, dynamic> toJson(Location location) {
     return {
       'name': location.name,
-      'type': location.type.jsonValue,
+      'type': location.type.jsonValue,  // This uses the jsonValue getter to get the correct server enum value
       'user': User.toJson(location.user),
     };
   }
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-          other is Location &&
-              runtimeType == other.runtimeType &&
-              id == other.id;
-
-  @override
-  int get hashCode => id.hashCode;
+  String toString() {
+    return 'Location{id: $id, type: ${type.jsonValue}, name: $name}';
+  }
 }

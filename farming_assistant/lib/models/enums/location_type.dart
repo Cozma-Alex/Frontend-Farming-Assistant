@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 enum LocationType {
-  // Buildings
   house,
   tractorShed,
   cowBarn,
@@ -9,8 +8,6 @@ enum LocationType {
   pigPen,
   storage,
   other,
-
-  // Fields
   grassField,
   wheatField,
   cornField,
@@ -18,23 +15,19 @@ enum LocationType {
   potatoesField,
   vegetablesField,
   emptyField,
-
-  // Ponds
   fishingPond,
   irrigationPond,
   decorativePond,
   naturalPond,
-
-  // Roads
   mainRoad,
   accessPath,
   farmTrack,
-  serviceRoad
-}
+  serviceRoad;
 
-extension LocationTypeExtension on LocationType {
   String get jsonValue {
     switch (this) {
+      case LocationType.house:
+        return 'HOUSE';
       case LocationType.tractorShed:
         return 'TRACTOR_SHED';
       case LocationType.cowBarn:
@@ -43,6 +36,10 @@ extension LocationTypeExtension on LocationType {
         return 'CHICKEN_COOP';
       case LocationType.pigPen:
         return 'PIG_PEN';
+      case LocationType.storage:
+        return 'STORAGE';
+      case LocationType.other:
+        return 'OTHER';
       case LocationType.grassField:
         return 'GRASS_FIELD';
       case LocationType.wheatField:
@@ -73,13 +70,13 @@ extension LocationTypeExtension on LocationType {
         return 'FARM_TRACK';
       case LocationType.serviceRoad:
         return 'SERVICE_ROAD';
-      default:
-        return name.toUpperCase();
     }
   }
 
   String get displayName {
     switch (this) {
+      case LocationType.house:
+        return 'House';
       case LocationType.tractorShed:
         return 'Tractor Shed';
       case LocationType.cowBarn:
@@ -88,6 +85,10 @@ extension LocationTypeExtension on LocationType {
         return 'Chicken Coop';
       case LocationType.pigPen:
         return 'Pig Pen';
+      case LocationType.storage:
+        return 'Storage';
+      case LocationType.other:
+        return 'Other';
       case LocationType.grassField:
         return 'Grass Field';
       case LocationType.wheatField:
@@ -118,8 +119,6 @@ extension LocationTypeExtension on LocationType {
         return 'Farm Track';
       case LocationType.serviceRoad:
         return 'Service Road';
-      default:
-        return name[0].toUpperCase() + name.substring(1);
     }
   }
 
@@ -153,13 +152,10 @@ extension LocationTypeExtension on LocationType {
       case LocationType.naturalPond:
         return Icons.water;
       case LocationType.mainRoad:
-        return Icons.add_road;
       case LocationType.accessPath:
-        return Icons.directions_walk;
       case LocationType.farmTrack:
-        return Icons.agriculture;
       case LocationType.serviceRoad:
-        return Icons.local_shipping;
+        return Icons.add_road;
     }
   }
 
@@ -210,5 +206,39 @@ extension LocationTypeExtension on LocationType {
       case LocationType.serviceRoad:
         return const Color(0xFF696969);
     }
+  }
+
+  bool get isField {
+    return this == LocationType.grassField ||
+        this == LocationType.wheatField ||
+        this == LocationType.cornField ||
+        this == LocationType.soybeansField ||
+        this == LocationType.potatoesField ||
+        this == LocationType.vegetablesField ||
+        this == LocationType.emptyField;
+  }
+
+  bool get isBuilding {
+    return this == LocationType.house ||
+        this == LocationType.tractorShed ||
+        this == LocationType.cowBarn ||
+        this == LocationType.chickenCoop ||
+        this == LocationType.pigPen ||
+        this == LocationType.storage ||
+        this == LocationType.other;
+  }
+
+  bool get isPond {
+    return this == LocationType.fishingPond ||
+        this == LocationType.irrigationPond ||
+        this == LocationType.decorativePond ||
+        this == LocationType.naturalPond;
+  }
+
+  bool get isRoad {
+    return this == LocationType.mainRoad ||
+        this == LocationType.accessPath ||
+        this == LocationType.farmTrack ||
+        this == LocationType.serviceRoad;
   }
 }
