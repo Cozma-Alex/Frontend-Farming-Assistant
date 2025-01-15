@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 
-import '../APIs/animal-related-apis.dart';
+import '../APIs/animal_related_apis.dart';
 import '../models/dtos/animalDTO.dart';
 import '../models/enums/location_type.dart';
 import '../models/location.dart';

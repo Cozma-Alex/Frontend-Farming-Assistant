@@ -1,6 +1,9 @@
 import 'package:farming_assistant/models/animal.dart';
 import 'package:farming_assistant/models/food_programme.dart';
 
+/// Data Transfer Object for Animals
+/// Contains an Animal and a list of FoodProgrammes
+/// Used to transfer data between the server and the client
 class AnimalDTO {
 
   Animal animal;

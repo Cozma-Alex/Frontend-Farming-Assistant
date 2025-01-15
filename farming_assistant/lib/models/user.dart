@@ -1,5 +1,13 @@
 import "dart:typed_data";
 
+/// User model
+/// This class is used to create a user object with the following attributes:
+/// - id: UUID - the id of the user (primary key)
+/// - email: String - the email of the user
+/// - passwordHash: String - the password hash of the user's password
+/// - farmName: String - the name of the farm
+/// - name: String - the name of the user
+/// - imageData: Uint8List - the image data of the user as a byte array
 class User {
   String? id;
   String? email;

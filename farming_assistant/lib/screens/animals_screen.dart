@@ -1,14 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../APIs/location-related-apis.dart';
+import '../APIs/location_related_apis.dart';
 import '../models/animal.dart';
 import '../models/location.dart';
-import '../APIs/animal-related-apis.dart';
+import '../APIs/animal_related_apis.dart';
 import '../models/user.dart';
 import '../providers/logged_user_provider.dart';
 import 'animal_create_screen.dart';
 import 'animal_detail_screen.dart';
 
+/// A screen that displays a filterable list of animals belonging to the logged-in user.
+///
+/// Features:
+/// - Location-based filtering using filter chips
+/// - Animal list with basic information
+/// - Direct navigation to animal details
+/// - Quick access to animal creation
+///
+/// The screen manages its own state including:
+/// - Selected location filter
+/// - Animals list data
+/// - Location list data
+///
+/// Uses Provider pattern for user authentication state and
+/// handles loading/error states for data fetching.
 class AnimalsScreen extends StatefulWidget {
   const AnimalsScreen({
     super.key,
@@ -24,6 +39,11 @@ class _AnimalsScreenState extends State<AnimalsScreen> {
   Location? _selectedLocation;
   late User _user;
 
+  /// Initializes the screen state and loads user data.
+  ///
+  /// Checks for logged-in user via Provider and either:
+  /// - Initializes data loading if user is authenticated
+  /// - Sets error state if no user is logged in
   @override
   void initState() {
     super.initState();
@@ -43,6 +63,12 @@ class _AnimalsScreenState extends State<AnimalsScreen> {
     }
   }
 
+  /// Refreshes both animals and locations data.
+  ///
+  /// Fetches:
+  /// - All animals for the current user
+  /// - All locations for filtering
+  /// Updates the state to trigger UI refresh.
   void _loadAnimals() {
     setState(() {
       _animalsFuture = getAllAnimalsOfUserAPI(_user);
@@ -50,6 +76,16 @@ class _AnimalsScreenState extends State<AnimalsScreen> {
     });
   }
 
+  /// Filters the animals list by location.
+  ///
+  /// Takes a [location] to filter by and:
+  /// - Toggles the filter if the location is already selected
+  /// - Applies a new filter if a different location is selected
+  /// - Updates the animals list accordingly
+  ///
+  /// The filter can be cleared by:
+  /// - Selecting the same location again
+  /// - Selecting the "All" filter chip
   void _filterByLocation(Location location) {
     setState(() {
       if (_selectedLocation?.id == location.id) {
@@ -63,6 +99,16 @@ class _AnimalsScreenState extends State<AnimalsScreen> {
     });
   }
 
+  /// Builds the screen layout with filterable animals list.
+  ///
+  /// Creates a structured display with:
+  /// - Location filter chips in the app bar
+  /// - Scrollable list of animal cards
+  /// - Floating action button for adding new animals
+  ///
+  /// Handles:
+  /// - Navigation to detail/create screens
+  /// - List refresh after modifications
   @override
   Widget build(BuildContext context) {
     return Scaffold(
