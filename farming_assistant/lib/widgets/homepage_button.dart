@@ -17,10 +17,7 @@ class CustomIconButton extends StatelessWidget {
   });
 
   @override
-  /*plang cu muci ca nu se mai foloseste asta
-  m.am chinuit putin.
-  butoanele erau in homepage.dart
-  */
+ 
 
   Widget build(BuildContext context) {
     return SizedBox(
