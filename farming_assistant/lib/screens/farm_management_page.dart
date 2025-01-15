@@ -17,7 +17,7 @@ class FarmManagementPage extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.save),
-            onPressed: () => context.read<FarmStateProvider>().saveFarmData(),
+            onPressed: () => context.read<FarmStateProvider>().saveFarmData(context),
           ),
           IconButton(
             icon: const Icon(Icons.help_outline),

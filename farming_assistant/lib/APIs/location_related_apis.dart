@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:farming_assistant/models/location.dart';
 import 'package:http/http.dart' as http;
 
+import '../models/coordinate.dart';
 import '../models/dtos/locationDTO.dart';
 import '../models/enums/location_type.dart';
 import '../models/user.dart';
@@ -39,5 +40,28 @@ Future<List<Location>> getAllLocationsOfUserAPI(User user) async {
         jsonDecode(response.body).map((e) => LocationDTO.fromJson(e).location).toList());
   } catch (e) {
     throw Exception('Failed to get locations: $e');
+  }
+}
+
+
+Future<Location> saveLocationAPI(Location location, List<Coordinate> coordinates) async {
+  final uri = Uri.parse('${APIConfig.baseURI}/locations');
+
+  try {
+    final response = await http.post(
+      uri,
+      headers: {
+        'Authorization': location.user.id!,
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        'location': Location.toJson(location),
+        'coordinates': coordinates.map((c) => Coordinate.toJson(c)).toList(),
+      }),
+    );
+
+    return Location.fromJson(jsonDecode(response.body));
+  } catch (e) {
+    throw Exception('Failed to save location: $e');
   }
 }

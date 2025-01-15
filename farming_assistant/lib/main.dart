@@ -1,4 +1,4 @@
-import 'package:farming_assistant/providers/logged_user_provider.dart';
+import 'package:farming_assistant/utils/providers/logged_user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';

@@ -1,7 +1,7 @@
 import 'package:farming_assistant/APIs/task_related_apis.dart';
 import 'package:farming_assistant/models/task.dart';
 import 'package:farming_assistant/models/user.dart';
-import 'package:farming_assistant/providers/logged_user_provider.dart';
+import 'package:farming_assistant/utils/providers/logged_user_provider.dart';
 import 'package:farming_assistant/widgets/task_card.dart';
 import 'package:farming_assistant/widgets/task_filter_widget.dart';
 import 'package:flutter/material.dart';

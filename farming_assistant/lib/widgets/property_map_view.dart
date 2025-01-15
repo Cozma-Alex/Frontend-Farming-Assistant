@@ -47,7 +47,7 @@ class _PropertyMapViewState extends State<PropertyMapView> {
             title: const Text('Map View'),
             actions: [
               FilledButton.icon(
-                onPressed: () => farmState.saveFarmData(),
+                onPressed: () => farmState.saveFarmData(context),
                 icon: const Icon(Icons.save, size: 20),
                 label: const Text('Save'),
               ),

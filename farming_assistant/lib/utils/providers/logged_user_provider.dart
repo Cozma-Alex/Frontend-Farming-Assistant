@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/user.dart';
+import '../../models/user.dart';
 
 /// This class keeps track of the currently logged user.
 /// Uses the [provider] package.

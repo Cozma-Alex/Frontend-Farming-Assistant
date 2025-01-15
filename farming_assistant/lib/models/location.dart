@@ -1,8 +1,7 @@
 import 'package:farming_assistant/models/enums/location_type.dart';
 import 'package:farming_assistant/models/user.dart';
 
-class Location{
-
+class Location {
   String id;
   LocationType type;
   String? name;
@@ -10,7 +9,7 @@ class Location{
 
   Location(this.id, this.type, this.name, this.user);
 
-  static fromJson(Map <String, dynamic> jsonData) {
+  static fromJson(Map<String, dynamic> jsonData) {
     return Location(
       jsonData['id'].toString(),
       LocationType.values.byName(jsonData['type'].toString().toLowerCase()),
@@ -21,7 +20,6 @@ class Location{
 
   static toJson(Location location) {
     return {
-      'id': location.id,
       'name': location.name,
       'type': location.type.jsonValue,
       'user': User.toJson(location.user),
@@ -37,5 +35,4 @@ class Location{
 
   @override
   int get hashCode => id.hashCode;
-
 }

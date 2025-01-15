@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:farming_assistant/models/user.dart';
-import 'package:farming_assistant/providers/logged_user_provider.dart';
+import 'package:farming_assistant/utils/providers/logged_user_provider.dart';
 import 'package:farming_assistant/screens/homepage_screen.dart';
 import 'package:farming_assistant/screens/login_screen.dart';
 import 'package:flutter/material.dart';

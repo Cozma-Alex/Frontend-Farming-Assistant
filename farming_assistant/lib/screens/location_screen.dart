@@ -30,46 +30,6 @@ class _LocationScreenState extends State<LocationScreen> {
   }
 
   Widget _buildLocationIcon(LocationType type, bool isSelected) {
-    IconData iconData;
-    String label;
-
-    switch (type) {
-      case LocationType.field:
-        iconData = Icons.grass;
-        label = 'Field';
-        break;
-      case LocationType.barn:
-        iconData = Icons.home;
-        label = 'Barn';
-        break;
-      case LocationType.storage:
-        iconData = Icons.warehouse;
-        label = 'Storage';
-        break;
-      case LocationType.tools:
-        iconData = Icons.build;
-        label = 'Tools';
-        break;
-      case LocationType.house:
-        iconData = LocationType.house.icon;
-        label = "House";
-      case LocationType.tractorShed:
-        iconData = LocationType.tractorShed.icon;
-        label = "Tractor Shed";
-      case LocationType.cowBarn:
-        iconData = LocationType.cowBarn.icon;
-        label = "Cow Barn";
-      case LocationType.chickenCoop:
-        iconData = LocationType.chickenCoop.icon;
-        label = "Chicken Coup";
-      case LocationType.pigPen:
-        iconData = LocationType.pigPen.icon;
-        label = "Pig Pen";
-      case LocationType.other:
-        iconData = LocationType.other.icon;
-        label = "Other";
-    }
-
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -81,14 +41,14 @@ class _LocationScreenState extends State<LocationScreen> {
             color: isSelected ? const Color(0xFF31511E) : Colors.grey.shade300,
           ),
           child: Icon(
-            iconData,
+            type.icon,
             color: isSelected ? Colors.white : Colors.grey,
             size: 24,
           ),
         ),
         const SizedBox(height: 4),
         Text(
-          label,
+          type.displayName,
           style: TextStyle(
             color: isSelected ? const Color(0xFF31511E) : Colors.grey,
             fontSize: 12,

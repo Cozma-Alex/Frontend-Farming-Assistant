@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'enums/animal_type.dart';
 import 'enums/location_type.dart';
 import 'enums/crop_type.dart';
+import 'enums/pond_type.dart';
+import 'enums/road_type.dart';
 import 'enums/shape_type.dart';
 
 class FarmElement {
@@ -13,6 +15,8 @@ class FarmElement {
   bool isSelected;
   CropType? cropType;
   LocationType? buildingType;
+  PondType? pondType;
+  RoadType? roadType;
   List<AnimalType> animals;
   String? notes;
   DateTime lastUpdated;
@@ -26,6 +30,8 @@ class FarmElement {
     this.isSelected = false,
     this.cropType,
     this.buildingType,
+    this.pondType,
+    this.roadType,
     List<AnimalType>? animals,
     this.notes,
     DateTime? lastUpdated,
@@ -42,6 +48,8 @@ class FarmElement {
       'color': color.value,
       'cropType': cropType?.toString(),
       'buildingType': buildingType?.toString(),
+      'pondType': pondType?.toString(),
+      'roadType': roadType?.toString(),
       'animals': animals.map((a) => a.toString()).toList(),
       'notes': notes,
       'lastUpdated': lastUpdated.toIso8601String(),
@@ -69,6 +77,16 @@ class FarmElement {
             (e) => e.toString() == json['buildingType'],
       )
           : null,
+      pondType: json['pondType'] != null
+          ? PondType.values.firstWhere(
+            (e) => e.toString() == json['pondType'],
+      )
+          : null,
+      roadType: json['roadType'] != null
+          ? RoadType.values.firstWhere(
+            (e) => e.toString() == json['roadType'],
+      )
+          : null,
       animals: (json['animals'] as List).map((a) =>
           AnimalType.values.firstWhere(
                 (e) => e.toString() == a,
@@ -82,5 +100,4 @@ class FarmElement {
   void updateColor(Color newColor) {
     color = newColor;
   }
-
 }

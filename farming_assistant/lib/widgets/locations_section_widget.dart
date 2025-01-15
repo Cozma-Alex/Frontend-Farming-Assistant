@@ -1,7 +1,9 @@
+import 'package:farming_assistant/models/enums/location_type.dart';
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
 import '../APIs/location_related_apis.dart';
 import '../models/location.dart';
+import '../utils/providers/logged_user_provider.dart';
 import '../screens/location_details_screen.dart';
 
 class LocationsSection extends StatefulWidget {
@@ -14,33 +16,33 @@ class LocationsSection extends StatefulWidget {
 
 class _LocationsSectionState extends State<LocationsSection> {
   final PageController _pageController = PageController();
-  int _currentPage = 1;
   bool _isLoading = false;
   final List<Location> _locations = [];
-  bool _hasMore = true;
   int _currentPageIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    _loadMore();
+    _loadLocations();
   }
 
-  Future<void> _loadMore() async {
-    if (_isLoading || !_hasMore) return;
+  Future<void> _loadLocations() async {
+    if (_isLoading) return;
 
     setState(() {
       _isLoading = true;
     });
 
     try {
-      final newLocations = await getLocations(_currentPage);
-      setState(() {
-        _locations.addAll(newLocations);
-        _currentPage++;
-        _hasMore = newLocations.length == 4;
-        _isLoading = false;
-      });
+      final user = Provider.of<LoggedUserProvider>(context, listen: false).user;
+      if (user != null) {
+        final locations = await getAllLocationsOfUserAPI(user);
+        setState(() {
+          _locations.clear();
+          _locations.addAll(locations);
+          _isLoading = false;
+        });
+      }
     } catch (e) {
       setState(() {
         _isLoading = false;
@@ -48,20 +50,14 @@ class _LocationsSectionState extends State<LocationsSection> {
     }
   }
 
-  void _handlePageChange(int index) async {
+  void _handlePageChange(int index) {
     setState(() {
       _currentPageIndex = index;
     });
-
-    // Load more if we're on the last page and there might be more
-    if (index == ((_locations.length - 1) ~/ 4) && _hasMore) {
-      await _loadMore();
-    }
   }
 
   @override
   Widget build(BuildContext context) {
-    // Calculate total pages based on loaded locations
     int totalPages = (_locations.length / 4).ceil();
 
     return Container(
@@ -81,7 +77,19 @@ class _LocationsSectionState extends State<LocationsSection> {
       child: Column(
         children: [
           Expanded(
-            child: PageView.builder(
+            child: _isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : _locations.isEmpty
+                ? const Center(
+              child: Text(
+                'No locations available',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey,
+                ),
+              ),
+            )
+                : PageView.builder(
               controller: _pageController,
               onPageChanged: _handlePageChange,
               itemCount: totalPages,
@@ -120,14 +128,14 @@ class _LocationsSectionState extends State<LocationsSection> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Icon(
-                              Icons.home,
+                            Icon(
+                              location.type.icon,
                               color: Colors.white,
                               size: 32,
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              'Location ${location.id}',
+                              location.name ?? 'Location ${location.id}',
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 14,
@@ -149,6 +157,7 @@ class _LocationsSectionState extends State<LocationsSection> {
               children: List.generate(totalPages, (index) {
                 return Container(
                   width: 8,
+                  height: 8,
                   margin: const EdgeInsets.symmetric(horizontal: 4),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
