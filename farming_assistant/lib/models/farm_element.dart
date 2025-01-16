@@ -1,6 +1,16 @@
 import 'package:flutter/material.dart';
 import 'enums/location_type.dart';
 
+/// A drawable element on the farm map representing a physical structure or area.
+///
+/// Each element has a unique [id], [name], and a collection of [points] defining its polygon shape.
+/// Elements can be buildings, fields, ponds, or roads as specified by their [type].
+/// Visual appearance is controlled by [color] and [isSelected] state.
+///
+/// The [animals] list tracks any animals associated with this element (primarily for buildings).
+/// Additional metadata includes [notes] for user comments and [lastUpdated] timestamp.
+///
+/// Elements can be serialized to/from JSON for persistence using [toJson] and [fromJson].
 class FarmElement {
   final String id;
   String name;

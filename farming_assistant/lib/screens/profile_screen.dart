@@ -1,5 +1,27 @@
 import 'package:flutter/material.dart';
 
+/// Screen for displaying and editing user profile information.
+///
+/// Provides a form interface for updating:
+/// - Email address
+/// - User name
+/// - Farm name
+/// - Password (with confirmation)
+///
+/// Form validation:
+/// - Email must be valid format
+/// - Password and confirmation must match
+/// - All fields are required
+/// - Shows error messages for validation failures
+///
+/// UX features:
+/// - Styled input fields with hints
+/// - Secure password entry fields
+/// - Single update button for saving all changes
+/// - Error handling with user feedback
+///
+/// Currently uses a placeholder update function [_updateProfileInfo]
+/// that needs to be implemented for actual API integration
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 

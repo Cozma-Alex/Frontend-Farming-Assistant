@@ -7,6 +7,33 @@ import '../models/enums/drawing_mode.dart';
 import '../models/enums/location_type.dart';
 import '../utils/painters/property_painter.dart';
 
+/// Interactive canvas widget for drawing and editing farm property elements.
+///
+/// Core functionalities:
+/// - Drawing new shapes by adding points on tap
+/// - Editing existing elements via vertex manipulation
+/// - Selecting elements for editing/deletion
+/// - Real-time preview of current drawing
+///
+/// Required parameters:
+/// - [currentPoints]: List of points for current drawing
+/// - [onTapDown]: Callback for handling tap events
+/// - [onUndo]: Callback to remove last point
+/// - [onClear]: Callback to clear current drawing
+/// - [onComplete]: Callback when drawing is completed
+///
+/// Interaction modes (via [FarmStateProvider]):
+/// - View: Pan and zoom map
+/// - Draw: Add points to create new elements
+/// - Edit: Modify existing element vertices
+/// - Delete: Remove elements
+///
+/// Features:
+/// - Grid background for reference
+/// - Selection highlighting
+/// - Vertex manipulation for editing
+/// - Mode-specific instructions display
+/// - Point-in-polygon detection for selection
 class FarmDrawingCanvas extends StatefulWidget {
   final List<Offset> currentPoints;
   final Function(Offset) onTapDown;
@@ -30,17 +57,6 @@ class FarmDrawingCanvas extends StatefulWidget {
 }
 
 class _FarmDrawingCanvasState extends State<FarmDrawingCanvas> {
-  void _handleZoomIn() {
-    final Matrix4 currentMatrix = widget.transformationController.value;
-    final Matrix4 newMatrix = currentMatrix.clone()..scale(1.2);
-    widget.transformationController.value = newMatrix;
-  }
-
-  void _handleZoomOut() {
-    final Matrix4 currentMatrix = widget.transformationController.value;
-    final Matrix4 newMatrix = currentMatrix.clone()..scale(0.8);
-    widget.transformationController.value = newMatrix;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +161,26 @@ class _FarmDrawingCanvasState extends State<FarmDrawingCanvas> {
   }
 }
 
-// Separate Overlay Widget for Controls
+/// An overlay widget that provides map control buttons for zoom and drawing operations.
+///
+/// Displays two sets of controls:
+/// - Zoom controls (always visible): Zoom in/out buttons
+/// - Drawing controls (visible only in draw mode with active points): Complete, undo, clear
+///
+/// Required parameters:
+/// - [farmState]: Provider for tracking current drawing mode and state
+/// - [currentPoints]: List of points in current drawing
+/// - [onZoomIn]: Callback to handle zoom in
+/// - [onZoomOut]: Callback to handle zoom out
+/// - [onUndo]: Callback to remove last drawn point
+/// - [onClear]: Callback to clear all current points
+/// - [onComplete]: Callback to finalize drawing (enabled with 3+ points)
+///
+/// UI Features:
+/// - Floating cards with elevation for visual hierarchy
+/// - Tool tips for button explanations
+/// - Disabled states for invalid operations
+/// - Positioned away from main drawing area
 class MapControlsOverlay extends StatelessWidget {
   final FarmStateProvider farmState;
   final List<Offset> currentPoints;

@@ -9,6 +9,25 @@ import 'tools_screen.dart';
 import 'storage_screen.dart';
 import '../utils/providers/logged_user_provider.dart';
 
+/// A widget that displays the interactive farm property map and location management interface.
+///
+/// Main features:
+/// - Interactive map view with a button to open full [PropertyMapView]
+/// - Navigation buttons for different property sections (Fields, Barns, Storage, Tools)
+/// - Grid of location cards showing saved property locations
+///
+/// Layout structure:
+/// - Main map container takes 50% of screen height
+/// - Navigation bar with section buttons
+/// - Location cards grid at bottom with pagination dots
+///
+/// The map view uses [FarmStateProvider] for managing map state and elements.
+/// Location data is loaded asynchronously on initialization.
+///
+/// Navigation:
+/// - Section buttons navigate to specialized screens ([FieldsScreen], [BarnsScreen], etc.)
+/// - Map button opens full [PropertyMapView] for detailed editing
+/// - Location cards open [LocationDetailsScreen] for each location
 class MapContent extends StatelessWidget {
   const MapContent({super.key});
 

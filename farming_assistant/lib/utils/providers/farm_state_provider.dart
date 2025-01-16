@@ -9,6 +9,31 @@ import '../../models/farm_element.dart';
 import '../../models/location.dart';
 import 'logged_user_provider.dart';
 
+/// State management provider for the farm property map editor.
+/// Extends [ChangeNotifier] to manage drawing state and farm elements.
+///
+/// Core state:
+/// - [elements]: List of all farm elements (fields, buildings, etc.)
+/// - [selectedElement]: Currently selected element for editing
+/// - [currentMode]: Active drawing mode (view, draw, edit, delete)
+/// - [selectedShapeType]: Type of shape being drawn
+/// - [selectedColor]: Current color for new/edited elements
+///
+/// Element type-specific state:
+/// - [selectedCropType]: Selected crop type for fields
+/// - [selectedLocationType]: Selected building type
+/// - [selectedPondType]: Selected pond type
+/// - [selectedRoadType]: Selected road type
+///
+/// Key functionalities:
+/// - Element CRUD operations (add, update, delete)
+/// - Mode switching between drawing states
+/// - Element selection and deselection
+/// - Color management for elements
+/// - Element list sorting by different criteria
+/// - Farm data persistence via [saveFarmData]
+///
+/// Notifies listeners on all state changes for UI updates.
 class FarmStateProvider with ChangeNotifier {
   final List<FarmElement> _elements = [];
   FarmElement? _selectedElement;

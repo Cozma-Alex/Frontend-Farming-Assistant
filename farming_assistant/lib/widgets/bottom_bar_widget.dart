@@ -1,5 +1,28 @@
 import 'package:flutter/material.dart';
 
+// A custom animated bottom navigation bar for the main app navigation.
+///
+/// Features:
+/// - 4 main navigation items (Animals, Map, Home, Tasks)
+/// - Animated selection indicator bar
+/// - Circular icon buttons with uniform styling
+/// - Smooth transitions between selected states
+///
+/// Takes two required parameters:
+/// - [onTap]: Callback function when navigation item is selected
+/// - [currentIndex]: Currently selected index for active state
+///
+/// Animation details:
+/// - 300ms forward animation duration
+/// - 450ms reverse animation duration
+/// - Uses [AnimationController] for smooth transitions
+/// - Animates bottom indicator bar position
+///
+/// Styling:
+/// - White background with shadow
+/// - Green circular buttons
+/// - White icons
+/// - Sliding green indicator bar
 class BottomNavBar extends StatefulWidget {
   final void Function(int) onTap;
   final int currentIndex;

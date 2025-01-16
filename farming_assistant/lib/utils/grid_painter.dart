@@ -6,6 +6,20 @@ import '../models/enums/drawing_mode.dart';
 import '../models/enums/location_type.dart';
 import '../utils/painters/property_painter.dart';
 
+/// A custom painter that renders a reference grid for the property map.
+/// Extends [CustomPainter] for custom rendering.
+///
+/// Draws a grid pattern of horizontal and vertical lines with:
+/// - Light gray color (0.2 opacity)
+/// - 1px line width
+/// - Equal spacing based on specified [gridSize]
+/// - Covers entire canvas width and height
+///
+/// Used as a background layer in the property map to provide
+/// visual reference for scale and alignment when drawing elements.
+///
+/// Performance note: Sets [shouldRepaint] to false since grid
+/// pattern is static and doesn't need frequent updates.
 class GridPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {

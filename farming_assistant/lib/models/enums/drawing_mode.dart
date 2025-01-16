@@ -1,3 +1,9 @@
+/// Available drawing modes for the property map editor.
+/// - view: For navigating and viewing the map
+/// - draw: For adding new shapes and elements
+/// - edit: For modifying existing shapes
+/// - delete: For removing shapes
+/// - color: For changing element colors
 enum DrawingMode {
   view,
   draw,

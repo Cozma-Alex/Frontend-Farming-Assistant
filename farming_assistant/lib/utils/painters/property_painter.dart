@@ -1,6 +1,27 @@
 import 'package:flutter/material.dart';
 import '../../models/farm_element.dart';
 
+/// A custom painter for rendering the farm property map visualization.
+///
+/// Extends [CustomPainter] to draw:
+/// - Grid background for spatial reference
+/// - All saved farm elements from [elements] list
+/// - Currently selected element with highlight from [selectedElement]
+/// - In-progress drawing preview from [currentDrawing]
+///
+/// Rendering features:
+/// - Filled polygons with customizable colors and opacity
+/// - Selection highlighting with blue stroke and vertices
+/// - Draft mode for in-progress drawings
+/// - Grid lines with configurable [gridSize] (default 50.0)
+///
+/// Drawing states:
+/// - Normal elements: Filled with element color at 50% opacity
+/// - Selected element: Blue border and vertex dots
+/// - Draft element: 30% opacity fill and no closure
+///
+/// Used by the property map view to render all map elements and
+/// provide visual feedback during drawing and editing operations.
 class PropertyPainter extends CustomPainter {
   final List<FarmElement> elements;
   final FarmElement? selectedElement;

@@ -8,6 +8,29 @@ import '../models/enums/location_type.dart';
 import '../models/location.dart';
 import 'animal_detail_screen.dart';
 
+/// A screen that displays detailed information about a specific farm location.
+///
+/// Takes a [location] parameter representing the farm location to display.
+/// Shows a header image, location type icons, and a list of animals assigned
+/// to this location if applicable.
+///
+/// For animal locations (barns, coops etc.), displays each animal as a card with:
+/// - Animal name and image
+/// - Next feeding time countdown
+/// - Feeding progress indicator
+/// - Tap to view full animal details
+///
+/// Location types are visualized with icons and colors matching the farm map.
+/// The active location type is highlighted while others are grayed out.
+///
+/// Navigation:
+/// - Back button returns to previous screen
+/// - Tapping an animal card navigates to [AnimalDetailsScreen]
+///
+/// State management:
+/// - Loads animals and feeding schedules on initialization
+/// - Automatically updates feeding countdown timers
+/// - Handles loading and error states for data fetching
 class LocationScreen extends StatefulWidget {
   final Location location;
 

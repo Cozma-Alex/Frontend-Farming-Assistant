@@ -33,6 +33,25 @@ Future<List<Location>> getAllLocationsOfUserAPI(User user) async {
       .toList());
 }
 
+/// Saves a location and its associated coordinates to the backend system.
+///
+/// Takes a [location] object containing the location details and a [coordinates] list
+/// containing the geographical coordinates that define the location's boundaries.
+/// The location must have a valid user object attached for authentication.
+///
+/// Makes a POST request to the locations endpoint with both location and coordinate
+/// data combined in a single payload. The location data is converted to JSON format
+/// before sending.
+///
+/// Returns a Future containing a [Location] object representing the saved location
+/// as returned by the server. The returned location will have a server-generated ID
+/// and may contain additional fields populated by the backend.
+///
+/// Throws an Exception if:
+/// * The API request fails with a non-200 status code
+/// * The server returns invalid or unparseable data
+/// * The authentication token (user ID) is missing or invalid
+/// * The JSON conversion fails
 Future<LocationDTO> saveLocationAPI(
     Location location, List<Coordinate> coordinates) async {
   final uri = Uri.parse('${APIConfig.baseURI}/locations');

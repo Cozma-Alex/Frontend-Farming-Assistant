@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-/// Enum for the location type
+/// Available location types for property elements.
+/// Building types like house, barn, etc. and base functional types like field, tools.
 enum LocationType {
   house,
   tractorShed,
