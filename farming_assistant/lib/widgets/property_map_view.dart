@@ -5,6 +5,7 @@ import '../models/enums/location_type.dart';
 import '../models/farm_element.dart';
 import '../utils/providers/farm_state_provider.dart';
 import 'farm_drawing_canvas.dart';
+import 'package:uuid/uuid.dart';
 
 class PropertyMapView extends StatefulWidget {
   const PropertyMapView({super.key});
@@ -17,6 +18,7 @@ class _PropertyMapViewState extends State<PropertyMapView> {
   final TransformationController _transformationController =
       TransformationController();
   List<Offset> currentPoints = [];
+  final _uuid = const Uuid();
   final List<Color> presetColors = const [
     // Greens
     Color(0xFFA7D77C),
@@ -103,7 +105,7 @@ class _PropertyMapViewState extends State<PropertyMapView> {
                                 final farmState =
                                     context.read<FarmStateProvider>();
                                 FarmElement newElement = FarmElement(
-                                  id: DateTime.now().toString(),
+                                  id: _uuid.v4(),
                                   name: 'New Element',
                                   type: farmState.selectedLocationType ??
                                       LocationType.emptyField,
@@ -146,7 +148,7 @@ class _PropertyMapViewState extends State<PropertyMapView> {
                               final farmState =
                                   context.read<FarmStateProvider>();
                               FarmElement newElement = FarmElement(
-                                id: DateTime.now().toString(),
+                                id: _uuid.v4(),
                                 name: 'New Element',
                                 type: farmState.selectedLocationType ??
                                     LocationType.emptyField,

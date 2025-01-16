@@ -45,7 +45,6 @@ Future<List<Location>> getAllLocationsOfUserAPI(User user) async {
 Future<LocationDTO> saveLocationAPI(Location location, List<Coordinate> coordinates) async {
   final uri = Uri.parse('${APIConfig.baseURI}/locations');
 
-  try {
     final dto = {
       'location': Location.toJson(location),
       'coordinates': coordinates.map((c) => Coordinate.toJson(c)).toList(),
@@ -65,7 +64,4 @@ Future<LocationDTO> saveLocationAPI(Location location, List<Coordinate> coordina
     }
 
     return LocationDTO.fromJson(jsonDecode(response.body));
-  } catch (e) {
-    throw Exception('Failed to save location: $e');
-  }
 }
