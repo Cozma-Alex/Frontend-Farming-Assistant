@@ -9,6 +9,6 @@ enum Section {
 
 extension SectionExtension on Section {
   String get jsonValue {
-    return this.name.toUpperCase();
+    return name.toUpperCase();
   }
 }

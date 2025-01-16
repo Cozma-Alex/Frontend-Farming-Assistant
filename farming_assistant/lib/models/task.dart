@@ -55,7 +55,7 @@ class Task {
       priority:
           Priority.values.byName(jsonData['priority'].toString().toLowerCase()),
       recurrence: Recurrence.values
-          .byName(jsonData['recurrence'].toString().toLowerCase() ?? 'none'),
+          .byName(jsonData['recurrence'].toString().toLowerCase()),
       deadline: DateTime.parse(jsonData['deadline']),
       changeToMediumPriority: DateTime.parse(jsonData['changeToMediumPriority'] ?? "0000-00-00T00:00:00.000Z"),
       changeToHighPriority: DateTime.parse(jsonData['changeToHighPriority'] ?? "0000-00-00T00:00:00.000Z"),

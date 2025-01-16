@@ -12,7 +12,9 @@
 /// ```dart
 /// HomePageScreen()
 /// ```
+library;
 import 'package:farming_assistant/screens/animals_screen.dart';
+import 'package:farming_assistant/screens/map_screen.dart';
 import 'package:farming_assistant/screens/tasks_screen.dart';
 import 'package:farming_assistant/widgets/bottom_bar_widget.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +62,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
   Widget build(BuildContext context) {
     final List<Widget> screens = [
       const AnimalsScreen(),
-      const Center(child: Text('Map Screen')),
+      const MapContent(),
       const HomeContent(),
       const TasksScreen(),
     ];

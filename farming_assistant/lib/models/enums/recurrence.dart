@@ -8,6 +8,6 @@ enum Recurrence {
 
 extension SectionExtension on Recurrence {
   String get jsonValue {
-    return this.name.toUpperCase();
+    return name.toUpperCase();
   }
 }

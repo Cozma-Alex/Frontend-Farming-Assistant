@@ -1,9 +1,10 @@
-import 'package:farming_assistant/providers/logged_user_provider.dart';
+import 'package:farming_assistant/utils/providers/logged_user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'screens/login_screen.dart';
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,10 +22,10 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,  // Add this line
       debugShowCheckedModeBanner: false,
       title: 'Farming Assistant',
       theme: ThemeData(
@@ -36,9 +37,8 @@ class MyApp extends StatelessWidget {
           primaryContainer: const Color(0xFFF2F2F2),
           secondaryContainer: const Color(0xFFCDC5AD),
           tertiaryContainer: const Color(0x55C5C5C5),
-          surface: const Color(0xFFFFF9E6), // background color
-          // onSurface: const Color(0xFF4B4B4B), // text color
-          onSurface: Colors.black, // better visibility
+          surface: const Color(0xFFFFF9E6),
+          onSurface: Colors.black,
           onSurfaceVariant: const Color(0xFF6A6A6A),
         ),
         bottomSheetTheme: const BottomSheetThemeData(

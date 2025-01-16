@@ -1,4 +1,6 @@
-import 'dart:convert';
+import 'dart:convert' show jsonDecode, jsonEncode;
+
+
 import 'package:farming_assistant/models/animal.dart';
 import 'package:farming_assistant/models/dtos/animalDTO.dart';
 import 'package:farming_assistant/models/location.dart';
@@ -6,6 +8,7 @@ import 'package:http/http.dart' as http;
 
 import '../models/user.dart';
 import '../utils/config.dart';
+
 
 /// Creates a new animal record in the database.
 ///
@@ -33,6 +36,7 @@ Future<Animal> saveAnimalAPI(User user, Animal animal) async {
     throw Exception('Failed to save animal: $e');
   }
 }
+
 
 /// Retrieves all animals belonging to a specific user.
 ///
@@ -85,6 +89,7 @@ Future<Animal> getAnimalByIdAPI(Animal animal) async {
   }
 }
 
+
 /// Deletes an animal record from the database.
 ///
 /// Takes an [animal] object containing at minimum the ID of the animal to delete.
@@ -111,6 +116,7 @@ Future<void> deleteAnimalAPI(Animal animal) async {
     throw Exception('Failed to delete animal: $e');
   }
 }
+
 
 /// Updates an existing animal's information in the database.
 ///

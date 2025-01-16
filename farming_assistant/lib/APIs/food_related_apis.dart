@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import '../models/user.dart';
 import '../utils/config.dart';
 
+
 /// Creates a new food record in the database.
 ///
 /// Takes a [food] object containing the food details to be saved. The food object
@@ -33,6 +34,7 @@ Future<Food> saveFoodAPI(Food food) async {
     throw Exception('Failed to save food: $e');
   }
 }
+
 
 /// Retrieves all food records associated with a specific user.
 ///

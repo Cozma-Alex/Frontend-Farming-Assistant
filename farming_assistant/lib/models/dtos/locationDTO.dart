@@ -1,6 +1,9 @@
+// ignore_for_file: file_names
+
 import 'package:farming_assistant/models/coordinate.dart';
 
 import '../location.dart';
+
 
 /// Data Transfer Object for Location
 /// Contains a Location and a list of Coordinates
@@ -23,7 +26,10 @@ class LocationDTO {
   static toJson(LocationDTO locationDTO) {
     return {
       'location': Location.toJson(locationDTO.location),
-      'coordinates': locationDTO.coordinates.map((e) => Coordinate.toJson(e)).toList(),
+      'coordinates': locationDTO.coordinates
+          .map((e) => Coordinate.toJson(e))
+          .toList(),
+
     };
   }
 }

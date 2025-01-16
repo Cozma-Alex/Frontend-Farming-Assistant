@@ -90,7 +90,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
           final weather = snapshot.data!;
           final location = weather.areaName ?? "Location unknown";
           final temperature =
-              "${weather.temperature?.celsius?.toStringAsFixed(1)}°C" ?? "N/A";
+              "${weather.temperature?.celsius?.toStringAsFixed(1)}°C";
 
           final weatherIconPath = _getWeatherIconPath(
               weather.weatherConditionCode!, weather.sunrise!, weather.sunset!);

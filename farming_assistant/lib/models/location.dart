@@ -1,14 +1,13 @@
-import 'package:farming_assistant/models/enums/location_type.dart';
 import 'package:farming_assistant/models/user.dart';
 
+import 'enums/location_type.dart';
 /// Location model
 /// Represents a location in the database with the following fields:
 /// - id: UUID - the id of the location (primary key)
 /// - type: LocationType - the type of the location (enum)
 /// - name: String - the name of the location
 /// - user: User - the user that owns the location (foreign key)
-class Location{
-
+class Location {
   String id;
   LocationType type;
   String? name;
@@ -16,16 +15,28 @@ class Location{
 
   Location(this.id, this.type, this.name, this.user);
 
-  static fromJson(Map <String, dynamic> jsonData) {
+  static fromJson(Map<String, dynamic> jsonData) {
+    String typeStr = jsonData['type'].toString().toLowerCase();
+    LocationType locationType;
+    try {
+      locationType = LocationType.values.firstWhere(
+            (type) => type.name.toLowerCase() == typeStr,
+        orElse: () => LocationType.other,
+      );
+    } catch (e) {
+      print('Error parsing LocationType: ${jsonData['type']}');
+      locationType = LocationType.other;
+    }
+
     return Location(
       jsonData['id'].toString(),
-      LocationType.values.byName(jsonData['type'].toString().toLowerCase()),
+      locationType,
       jsonData['name'],
       User.fromJson(jsonData['user']),
     );
   }
 
-  static toJson(Location location) {
+  static Map<String, dynamic> toJson(Location location) {
     return {
       'id': location.id,
       'name': location.name,
@@ -35,13 +46,7 @@ class Location{
   }
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-          other is Location &&
-              runtimeType == other.runtimeType &&
-              id == other.id;
-
-  @override
-  int get hashCode => id.hashCode;
-
+  String toString() {
+    return 'Location{id: $id, type: ${type.jsonValue}, name: $name}';
+  }
 }

@@ -31,6 +31,7 @@ Future<Task> saveTaskAPI(Task task) async {
   }
 }
 
+
 /// Retrieves all tasks belonging to a specific user.
 ///
 /// Takes a [user] object for authentication and filtering.
@@ -58,6 +59,7 @@ Future<List<Task>> getAllTasksAPI(User user) async {
   }
 }
 
+
 /// Retrieves a specific task by its ID.
 ///
 /// Takes a [task] object containing the ID to look up.
@@ -83,7 +85,6 @@ Future<Task> getTaskByIdAPI(Task task) async {
     throw Exception('Failed to login: $e');
   }
 }
-
 /// Deletes a task from the database.
 ///
 /// Takes a [task] object containing the ID to delete.

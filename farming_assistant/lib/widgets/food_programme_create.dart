@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../models/animal.dart';
 import '../models/food.dart';
 import '../models/food_programme.dart';
 import '../APIs/food_related_apis.dart';

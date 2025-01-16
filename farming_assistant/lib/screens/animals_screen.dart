@@ -5,7 +5,7 @@ import '../models/animal.dart';
 import '../models/location.dart';
 import '../APIs/animal_related_apis.dart';
 import '../models/user.dart';
-import '../providers/logged_user_provider.dart';
+import '../utils/providers/logged_user_provider.dart';
 import 'animal_create_screen.dart';
 import 'animal_detail_screen.dart';
 
