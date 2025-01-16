@@ -1,5 +1,12 @@
 import 'package:farming_assistant/models/user.dart';
 
+/// Fertilizer model
+/// This class is used to create a Fertilizer object having the following attributes:
+/// - id: UUID - the id of the fertilizer (primary key)
+/// - name: String - the name of the fertilizer (max 150 characters)
+/// - description: String - the description of the fertilizer (optional - max 255 characters)
+/// - quantity: double - the quantity of the fertilizer
+/// - user: User - the user that owns the fertilizer (foreign key)
 class Fertilizer{
 
   String id;

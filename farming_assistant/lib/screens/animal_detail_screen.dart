@@ -4,6 +4,19 @@ import '../models/animal.dart';
 import '../models/food_programme.dart';
 import '../APIs/food_programme_apis.dart';
 
+/// A screen that displays detailed information about a specific animal.
+///
+/// This screen shows animal information including:
+/// - Basic details (name, age, description)
+/// - Feeding schedule status and progress
+/// - Food programmes with timing
+/// - Health profile
+///
+/// Features:
+/// - Real-time feeding schedule tracking
+/// - Visual progress indicators
+/// - Direct access to animal editing
+/// - Automatic refresh of food programmes
 class AnimalDetailsScreen extends StatefulWidget {
   final Animal animal;
 
@@ -20,6 +33,7 @@ class _AnimalDetailsScreenState extends State<AnimalDetailsScreen> {
   late Future<List<FoodProgramme>> _foodProgrammesFuture;
   late Animal _animal;
 
+  /// Initializes the screen state with the provided animal and loads its food programmes.
   @override
   void initState() {
     super.initState();
@@ -27,6 +41,12 @@ class _AnimalDetailsScreenState extends State<AnimalDetailsScreen> {
     _foodProgrammesFuture = getFoodProgrammeForAnimalAPI(_animal);
   }
 
+  /// Updates the animal information and refreshes associated data.
+  ///
+  /// Takes an [updatedAnimal] with new information and:
+  /// - Updates the local animal state
+  /// - Refreshes the food programmes
+  /// - Triggers a UI update
   void _updateAnimal(Animal updatedAnimal) {
     setState(() {
       _animal = updatedAnimal;
@@ -34,9 +54,24 @@ class _AnimalDetailsScreenState extends State<AnimalDetailsScreen> {
     });
   }
 
+  /// Calculates time until next feeding and progress since last feeding.
+  ///
+  /// Takes a list of [programmes] and calculates:
+  /// - Hours until the next scheduled feeding
+  /// - Progress as a percentage through the current feeding interval
+  ///
+  /// The calculation handles:
+  /// - Sorting programmes by time
+  /// - Wrapping around midnight
+  /// - Empty programme lists
+  /// - Missing last/next feeding times
+  ///
+  /// Returns a Map containing:
+  /// - 'hoursTillFeeding': String representing hours until next feeding
+  /// - 'progressValue': double between 0-1 representing feeding interval progress
   Map<String, dynamic> _calculateHoursTillNextFeeding(
       List<FoodProgramme> programmes) {
-    // Sort the programmes by startHour
+    // Sort programmes chronologically
     programmes.sort((a, b) {
       final aMinutes = a.startHour.hour * 60 + a.startHour.minute;
       final bMinutes = b.startHour.hour * 60 + b.startHour.minute;
@@ -103,6 +138,16 @@ class _AnimalDetailsScreenState extends State<AnimalDetailsScreen> {
     };
   }
 
+
+  /// Builds the screen layout showing animal details and feeding information.
+  ///
+  /// Creates a structured display with:
+  /// - Animal information card
+  /// - Feeding progress section
+  /// - Food programme timeline
+  /// - Health profile section
+  ///
+  /// Handles loading states and updates for food programme data.
   @override
   Widget build(BuildContext context) {
     return Scaffold(

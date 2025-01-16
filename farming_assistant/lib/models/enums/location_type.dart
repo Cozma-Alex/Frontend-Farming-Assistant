@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Enum for the location type
 enum LocationType {
   house,
   tractorShed,

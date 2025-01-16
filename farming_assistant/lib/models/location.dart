@@ -1,6 +1,13 @@
 import 'package:farming_assistant/models/user.dart';
 
 import 'enums/location_type.dart';
+/// Location model
+/// Represents a location in the database with the following fields:
+/// - id: UUID - the id of the location (primary key)
+/// - type: LocationType - the type of the location (enum)
+/// - name: String - the name of the location
+/// - user: User - the user that owns the location (foreign key)
+class Location{
 
 class Location {
   String id;

@@ -1,3 +1,4 @@
+/// Enum used to represent the sections of the task
 enum Section {
   crops,
   animals,

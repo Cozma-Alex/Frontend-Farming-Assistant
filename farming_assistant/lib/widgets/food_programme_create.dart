@@ -1,7 +1,20 @@
 import 'package:flutter/material.dart';
 import '../models/food.dart';
 import '../models/food_programme.dart';
+import '../APIs/food_related_apis.dart';
 
+/// A dialog for creating or editing animal food programmes.
+///
+/// This dialog provides a form interface for:
+/// - Selecting food from available options
+/// - Setting feeding start time
+/// - Setting optional end time
+///
+/// Supports two modes:
+/// - Create mode: When [existingProgramme] is null
+/// - Edit mode: When [existingProgramme] contains a programme to modify
+///
+/// Returns a [FoodProgramme] object when saved, or null if cancelled.
 class AddFoodProgrammeDialog extends StatefulWidget {
   final List<Food> availableFoods;
   final FoodProgramme? existingProgramme; // Optional, for edit mode
@@ -22,6 +35,15 @@ class _AddFoodProgrammeDialogState extends State<AddFoodProgrammeDialog> {
   Food? _selectedFood;
   bool isEditMode = false;
 
+  /// Initializes the dialog state based on mode.
+  ///
+  /// In edit mode:
+  /// - Sets the selected food
+  /// - Populates start and end times
+  /// - Enables edit mode UI
+  ///
+  /// In create mode:
+  /// - Initializes empty form
   @override
   void initState() {
     super.initState();
@@ -41,6 +63,11 @@ class _AddFoodProgrammeDialogState extends State<AddFoodProgrammeDialog> {
     }
   }
 
+  /// Shows time picker dialog for selecting start/end times.
+  ///
+  /// Takes [isStartTime] to determine which time field to update.
+  /// Uses the current value as initial time if set, otherwise uses current time.
+  /// Updates state with selected time when user confirms.
   Future<void> _selectTime(BuildContext context, bool isStartTime) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
@@ -60,6 +87,15 @@ class _AddFoodProgrammeDialogState extends State<AddFoodProgrammeDialog> {
     }
   }
 
+  /// Builds the dialog UI with food and time selection form.
+  ///
+  /// Creates a form with:
+  /// - Dropdown for food selection
+  /// - Time pickers for start/end times
+  /// - Cancel/Save buttons
+  ///
+  /// The save button is enabled only when required fields (food and start time)
+  /// are filled. When save is pressed, returns a new or updated FoodProgramme.
   @override
   Widget build(BuildContext context) {
     return Dialog(

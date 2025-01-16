@@ -1,5 +1,12 @@
 import 'package:farming_assistant/models/user.dart';
 
+/// Seeds model
+/// Represents a seed in the database with the following fields:
+/// - id: UUID - unique identifier of the seed (primary key)
+/// - name: String - name of the seed (e.g. Tomato)
+/// - description: String - description of the seed (e.g. type, color)
+/// - quantity: double - quantity of the seed (e.g. 0.5 kg)
+/// - user: User - user that owns the seed (foreign key)
 class Seeds{
   String id;
   String name;

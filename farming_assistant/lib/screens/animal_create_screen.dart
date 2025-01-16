@@ -12,6 +12,24 @@ import '../models/user.dart';
 import '../APIs/location_related_apis.dart';
 import '../widgets/food_programme_create.dart';
 
+/// A screen that handles both creation and editing of animal records.
+///
+/// This screen provides a form interface for managing animal information including:
+/// - Basic details (name, description)
+/// - Location assignment
+/// - Birth date selection
+/// - Health profile management
+/// - Food programme scheduling
+///
+/// The screen operates in two modes:
+/// - Create mode: When [animal] is null
+/// - Edit mode: When [animal] is provided with existing data
+///
+/// The screen handles:
+/// - Form validation
+/// - Image selection (placeholder for future implementation)
+/// - Location selection from available user locations
+/// - Multiple food programme management
 class AddAnimalScreen extends StatefulWidget {
   final User user;
   final Animal? animal;
@@ -40,6 +58,16 @@ class _AddAnimalScreenState extends State<AddAnimalScreen> {
   Uint8List? _selectedImage;
   bool isEditMode = false;
 
+  // Initializes the screen state and loads necessary data.
+  ///
+  /// In edit mode:
+  /// - Populates form fields with existing animal data
+  /// - Loads associated food programmes
+  /// - Sets the initial location
+  ///
+  /// In create mode:
+  /// - Initializes empty form fields
+  /// - Loads available locations and foods for selection
   @override
   void initState() {
     super.initState();
@@ -73,6 +101,10 @@ class _AddAnimalScreenState extends State<AddAnimalScreen> {
     }
   }
 
+  /// Shows a dialog to add a new food programme.
+  ///
+  /// Loads available foods and displays the food programme creation dialog.
+  /// Updates the state with the new programme if one is created.
   Future<void> _addFoodProgramme() async {
     final foods = await _foodsFuture;
     if (mounted) {
@@ -97,6 +129,10 @@ class _AddAnimalScreenState extends State<AddAnimalScreen> {
     super.dispose();
   }
 
+  /// Displays a date picker for selecting the animal's birth date.
+  ///
+  /// Restricts date selection between year 1900 and current date.
+  /// Updates the state with the selected date if one is chosen.
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -111,6 +147,17 @@ class _AddAnimalScreenState extends State<AddAnimalScreen> {
     }
   }
 
+  /// Saves the animal data to the backend.
+  ///
+  /// Validates form data and handles both create and update operations.
+  /// Also manages associated food programmes:
+  /// - Links them to the saved animal
+  /// - Persists them to the backend
+  ///
+  /// Shows success/error messages via SnackBar and returns the saved
+  /// animal to the previous screen on success.
+  ///
+  /// Throws an error if required fields are missing or if the save operation fails.
   Future<void> _saveAnimal() async {
     if (_formKey.currentState!.validate() &&
         _selectedLocation != null &&
@@ -163,6 +210,11 @@ class _AddAnimalScreenState extends State<AddAnimalScreen> {
     }
   }
 
+  /// Shows a dialog to edit an existing food programme.
+  ///
+  /// Takes the [index] of the programme to edit, loads available foods,
+  /// and displays the food programme editing dialog.
+  /// Updates the state with the modified programme if changes are saved.
   Future<void> _editFoodProgramme(int index) async {
     final foods = await _foodsFuture;
     if (mounted) {
@@ -182,6 +234,12 @@ class _AddAnimalScreenState extends State<AddAnimalScreen> {
     }
   }
 
+  /// Builds the food programmes list section of the form.
+  ///
+  /// Creates a collapsible section showing:
+  /// - List of existing food programmes with edit/delete options
+  /// - Button to add new programmes
+  /// - Empty state with add button when no programmes exist
   Widget _buildFoodProgrammesList() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -263,6 +321,17 @@ class _AddAnimalScreenState extends State<AddAnimalScreen> {
     );
   }
 
+  /// Builds the screen layout and form interface.
+  ///
+  /// Creates a scrollable form with fields for:
+  /// - Image selection (placeholder)
+  /// - Animal details (name, description)
+  /// - Location selection
+  /// - Birth date selection
+  /// - Health profile
+  /// - Food programmes management
+  ///
+  /// Includes validation and proper keyboard/input handling for all fields.
   @override
   Widget build(BuildContext context) {
     return Scaffold(

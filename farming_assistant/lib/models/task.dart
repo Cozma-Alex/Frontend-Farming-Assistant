@@ -5,6 +5,19 @@ import 'enums/priority.dart';
 import 'enums/recurrence.dart';
 import 'enums/sections.dart';
 
+/// Task model
+/// Contains all the information about a task with the following fields:
+/// - id: UUID - the unique identifier of the task
+/// - name: String - the name of the task
+/// - description: String - the description of the task (max 255 characters)
+/// - recurrence: Recurrence - the recurrence of the task (daily, weekly, monthly, yearly)
+/// - changeToMediumPriority: DateTime - the date when the task should change to medium priority
+/// - changeToHighPriority: DateTime - the date when the task should change to high priority
+/// - deadline: DateTime - the deadline of the task
+/// - priority: Priority - the priority of the task (low, medium, high)
+/// - section: Section - the section of the task
+/// - done: boolean - the status of the task (done or not done)
+/// - user: User - the user that the task belongs to
 class Task {
   String? id;
   String? name;

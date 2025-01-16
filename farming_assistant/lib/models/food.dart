@@ -1,5 +1,12 @@
 import 'package:farming_assistant/models/user.dart';
 
+/// Food model
+/// Contains the following fields:
+/// - id: UUID - the id of the food item (primary key)
+/// - name: String - the name of the food item
+/// - description: String - the description of the food item (optional)
+/// - quantity: double - the quantity of the food item
+/// - user: User - the user that owns the food item
 class Food {
   String id;
   String name;
