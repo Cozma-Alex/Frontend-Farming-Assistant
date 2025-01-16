@@ -57,26 +57,6 @@ class FarmDrawingCanvas extends StatelessWidget {
               onTapDown: (details) {
                 if (farmState.currentMode == DrawingMode.draw) {
                   onTapDown(details.localPosition);
-                } else if (farmState.currentMode == DrawingMode.edit ||
-                    farmState.currentMode == DrawingMode.color) {
-                  if (farmState.selectedElement != null) {
-                    final element = farmState.selectedElement!;
-                    for (var i = 0; i < element.points.length; i++) {
-                      if ((element.points[i] - details.localPosition).distance < 20) {
-                        return;
-                      }
-                    }
-                  }
-
-                  for (var element in farmState.elements) {
-                    if (_isPointInPolygon(details.localPosition, element.points)) {
-                      farmState.selectElement(element);
-                      if (farmState.currentMode == DrawingMode.color) {
-                        farmState.setSelectedColor(farmState.selectedColor);
-                      }
-                      break;
-                    }
-                  }
                 } else if (farmState.currentMode == DrawingMode.delete) {
                   for (var element in farmState.elements) {
                     if (_isPointInPolygon(details.localPosition, element.points)) {
@@ -87,21 +67,6 @@ class FarmDrawingCanvas extends StatelessWidget {
                 }
               },
               onPanUpdate: (details) {
-                if (farmState.currentMode == DrawingMode.edit &&
-                    farmState.selectedElement != null) {
-                  final element = farmState.selectedElement!;
-                  List<Offset> newPoints = List.from(element.points);
-
-                  FarmElement updatedElement = FarmElement(
-                    id: element.id,
-                    name: element.name,
-                    type: element.type,
-                    points: newPoints,
-                    color: element.color,
-                  );
-
-                  farmState.updateElement(updatedElement);
-                }
               },
               child: CustomPaint(
                 painter: PropertyPainter(
@@ -189,8 +154,6 @@ class FarmDrawingCanvas extends StatelessWidget {
     switch (mode) {
       case DrawingMode.draw:
         return 'Click to add points. Complete with ✓';
-      case DrawingMode.edit:
-        return 'Click shape to select, then drag points to edit';
       case DrawingMode.delete:
         return 'Click on a shape to delete it';
       case DrawingMode.view:

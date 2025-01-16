@@ -29,7 +29,6 @@ Future<List<Location>> getLocations(int page, {int limit = 4}) async {
 Future<List<Location>> getAllLocationsOfUserAPI(User user) async {
   final uri = Uri.parse('${APIConfig.baseURI}/locations');
 
-  try {
     final response = await http.get(
       uri,
       headers: {
@@ -39,10 +38,8 @@ Future<List<Location>> getAllLocationsOfUserAPI(User user) async {
     );
     return List<Location>.from(
         jsonDecode(response.body).map((e) => LocationDTO.fromJson(e).location).toList());
-  } catch (e) {
-    throw Exception('Failed to get locations: $e');
   }
-}
+
 
 
 Future<LocationDTO> saveLocationAPI(Location location, List<Coordinate> coordinates) async {

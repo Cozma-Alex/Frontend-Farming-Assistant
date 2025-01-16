@@ -30,8 +30,6 @@ class FarmDrawingCanvas extends StatefulWidget {
 }
 
 class _FarmDrawingCanvasState extends State<FarmDrawingCanvas> {
-  Offset _viewPosition = Offset.zero;
-
   void _handleZoomIn() {
     final Matrix4 currentMatrix = widget.transformationController.value;
     final Matrix4 newMatrix = currentMatrix.clone()..scale(1.2);
@@ -44,64 +42,25 @@ class _FarmDrawingCanvasState extends State<FarmDrawingCanvas> {
     widget.transformationController.value = newMatrix;
   }
 
-  void _updateViewPosition() {
-    setState(() {
-      final matrix = widget.transformationController.value;
-      _viewPosition = Offset(matrix[12], matrix[13]);
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    widget.transformationController.addListener(_updateViewPosition);
-  }
-
-  @override
-  void dispose() {
-    widget.transformationController.removeListener(_updateViewPosition);
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Consumer<FarmStateProvider>(
       builder: (context, farmState, child) {
         return Stack(
           children: [
-            // Infinite canvas with grid
+            // Massive Canvas with Grid
             SizedBox(
-              width: 10000, // Very large size for "infinite" effect
-              height: 10000,
+              width: 100000, // Much larger for more space
+              height: 100000,
               child: CustomPaint(
                 painter: GridPainter(),
               ),
             ),
-            // Drawing layer
+            // Drawing Layer
             GestureDetector(
               onTapDown: (details) {
                 if (farmState.currentMode == DrawingMode.draw) {
                   widget.onTapDown(details.localPosition);
-                } else if (farmState.currentMode == DrawingMode.edit ||
-                    farmState.currentMode == DrawingMode.color) {
-                  if (farmState.selectedElement != null) {
-                    final element = farmState.selectedElement!;
-                    for (var i = 0; i < element.points.length; i++) {
-                      if ((element.points[i] - details.localPosition).distance < 20) {
-                        return;
-                      }
-                    }
-                  }
-
-                  for (var element in farmState.elements) {
-                    if (_isPointInPolygon(details.localPosition, element.points)) {
-                      farmState.selectElement(element);
-                      if (farmState.currentMode == DrawingMode.color) {
-                        farmState.setSelectedColor(farmState.selectedColor);
-                      }
-                      break;
-                    }
-                  }
                 } else if (farmState.currentMode == DrawingMode.delete) {
                   for (var element in farmState.elements) {
                     if (_isPointInPolygon(details.localPosition, element.points)) {
@@ -110,6 +69,9 @@ class _FarmDrawingCanvasState extends State<FarmDrawingCanvas> {
                     }
                   }
                 }
+              },
+              onPanUpdate: (details) {
+
               },
               child: CustomPaint(
                 painter: PropertyPainter(
@@ -125,74 +87,24 @@ class _FarmDrawingCanvasState extends State<FarmDrawingCanvas> {
                   )
                       : null,
                 ),
-                size: const Size(10000, 10000),
+                size: const Size(100000, 100000),
               ),
             ),
-            // Zoom controls - follow view position
-            Positioned(
-              left: -_viewPosition.dx + MediaQuery.of(context).size.width - 80,
-              top: -_viewPosition.dy + 80,
-              child: Card(
-                elevation: 4,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.add),
-                      onPressed: _handleZoomIn,
-                      tooltip: 'Zoom in',
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.remove),
-                      onPressed: _handleZoomOut,
-                      tooltip: 'Zoom out',
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            // Drawing controls - follow view position
-            if (farmState.currentMode == DrawingMode.draw && widget.currentPoints.isNotEmpty)
-              Positioned(
-                left: -_viewPosition.dx + MediaQuery.of(context).size.width - 80,
-                bottom: -_viewPosition.dy + 80,
-                child: Card(
-                  elevation: 4,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.check),
-                        onPressed: widget.currentPoints.length >= 3 ? widget.onComplete : null,
-                        tooltip: 'Complete',
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.undo),
-                        onPressed: widget.onUndo,
-                        tooltip: 'Undo',
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.clear),
-                        onPressed: widget.onClear,
-                        tooltip: 'Clear',
-                      ),
-                    ],
+            // Instructions - Relative to Screen
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.black54,
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                ),
-              ),
-            // Instructions - follow view position
-            Positioned(
-              left: -_viewPosition.dx + 16,
-              bottom: -_viewPosition.dy + 16,
-              child: Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.black54,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text(
-                  _getInstructionText(farmState.currentMode),
-                  style: const TextStyle(color: Colors.white),
+                  child: Text(
+                    _getInstructionText(farmState.currentMode),
+                    style: const TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
             ),
@@ -206,8 +118,6 @@ class _FarmDrawingCanvasState extends State<FarmDrawingCanvas> {
     switch (mode) {
       case DrawingMode.draw:
         return 'Click to add points. Complete with ✓';
-      case DrawingMode.edit:
-        return 'Click shape to select, then drag points to edit';
       case DrawingMode.delete:
         return 'Click on a shape to delete it';
       case DrawingMode.view:
@@ -232,5 +142,87 @@ class _FarmDrawingCanvasState extends State<FarmDrawingCanvas> {
     }
 
     return isInside;
+  }
+}
+
+// Separate Overlay Widget for Controls
+class MapControlsOverlay extends StatelessWidget {
+  final FarmStateProvider farmState;
+  final List<Offset> currentPoints;
+  final VoidCallback onZoomIn;
+  final VoidCallback onZoomOut;
+  final VoidCallback onUndo;
+  final VoidCallback onClear;
+  final VoidCallback onComplete;
+
+  const MapControlsOverlay({
+    super.key,
+    required this.farmState,
+    required this.currentPoints,
+    required this.onZoomIn,
+    required this.onZoomOut,
+    required this.onUndo,
+    required this.onClear,
+    required this.onComplete,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        // Zoom Controls
+        Positioned(
+          right: 16,
+          top: 80,
+          child: Card(
+            elevation: 4,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.add),
+                  onPressed: onZoomIn,
+                  tooltip: 'Zoom in',
+                ),
+                IconButton(
+                  icon: const Icon(Icons.remove),
+                  onPressed: onZoomOut,
+                  tooltip: 'Zoom out',
+                ),
+              ],
+            ),
+          ),
+        ),
+        // Drawing Controls
+        if (farmState.currentMode == DrawingMode.draw && currentPoints.isNotEmpty)
+          Positioned(
+            right: 16,
+            bottom: 80,
+            child: Card(
+              elevation: 4,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.check),
+                    onPressed: currentPoints.length >= 3 ? onComplete : null,
+                    tooltip: 'Complete',
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.undo),
+                    onPressed: onUndo,
+                    tooltip: 'Undo',
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.clear),
+                    onPressed: onClear,
+                    tooltip: 'Clear',
+                  ),
+                ],
+              ),
+            ),
+          ),
+      ],
+    );
   }
 }

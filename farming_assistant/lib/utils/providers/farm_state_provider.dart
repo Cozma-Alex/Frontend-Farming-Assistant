@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../APIs/location_related_apis.dart';
+import '../../main.dart';
 import '../../models/coordinate.dart';
 import '../../models/enums/drawing_mode.dart';
 import '../../models/enums/location_type.dart';
@@ -15,14 +16,45 @@ class FarmStateProvider with ChangeNotifier {
   LocationType? _selectedLocationType = LocationType.emptyField;
   Color _selectedColor = Colors.green;
 
+  FarmStateProvider() {
+    _loadExistingLocations();
+  }
+
   List<FarmElement> get elements => _elements;
   FarmElement? get selectedElement => _selectedElement;
   DrawingMode get currentMode => _currentMode;
   LocationType? get selectedLocationType => _selectedLocationType;
   Color get selectedColor => _selectedColor;
 
+  Future<void> _loadExistingLocations() async {
+    try {
+      final loggedUser = Provider.of<LoggedUserProvider>(navigatorKey.currentContext!, listen: false).user;
+      if (loggedUser == null) return;
+
+      final locations = await getAllLocationsOfUserAPI(loggedUser);
+
+      _elements.clear();
+      for (var location in locations) {
+        _elements.add(FarmElement(
+          id: location.id,
+          name: location.name ?? location.type.displayName,
+          type: location.type,
+          points: [], // You'll need to add coordinate loading
+          color: location.type.defaultColor,
+        ));
+      }
+      notifyListeners();
+    } catch (e) {
+      print('Error loading locations: $e');
+      // You might want to show a snackbar or handle the error differently
+    }
+  }
+
   void setMode(DrawingMode mode) {
     _currentMode = mode;
+    if (mode != DrawingMode.color) {
+      _selectedElement = null;
+    }
     notifyListeners();
   }
 
@@ -34,9 +66,6 @@ class FarmStateProvider with ChangeNotifier {
 
   void selectElement(FarmElement? element) {
     _selectedElement = element;
-    if (element != null) {
-      _selectedLocationType = element.type;
-    }
     notifyListeners();
   }
 
@@ -64,7 +93,7 @@ class FarmStateProvider with ChangeNotifier {
 
   void setSelectedColor(Color color) {
     _selectedColor = color;
-    if (_selectedElement != null && currentMode == DrawingMode.edit) {
+    if (_selectedElement != null && currentMode == DrawingMode.color) {
       _selectedElement!.updateColor(color);
       var index = _elements.indexWhere((e) => e.id == _selectedElement!.id);
       if (index != -1) {
@@ -75,6 +104,9 @@ class FarmStateProvider with ChangeNotifier {
   }
 
   Future<void> saveFarmData(BuildContext context) async {
+    final loggedUser = Provider.of<LoggedUserProvider>(context, listen: false).user;
+    if (loggedUser == null) return;
+
     if (_elements.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('No elements to save')),
@@ -83,17 +115,12 @@ class FarmStateProvider with ChangeNotifier {
     }
 
     try {
-      final user = Provider.of<LoggedUserProvider>(context, listen: false).user;
-      if (user == null) {
-        throw Exception('User not logged in');
-      }
-
       for (var element in _elements) {
         Location location = Location(
           element.id,
           element.type,
           element.name,
-          user,
+          loggedUser,
         );
 
         List<Coordinate> coordinates = element.points.asMap().entries.map((entry) {
@@ -113,8 +140,6 @@ class FarmStateProvider with ChangeNotifier {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Farm data saved successfully')),
         );
-
-        Navigator.pop(context);
       }
     } catch (e) {
       if (context.mounted) {

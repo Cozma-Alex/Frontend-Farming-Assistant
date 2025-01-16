@@ -11,9 +11,21 @@ class Location {
   Location(this.id, this.type, this.name, this.user);
 
   static fromJson(Map<String, dynamic> jsonData) {
+    String typeStr = jsonData['type'].toString().toLowerCase();
+    LocationType locationType;
+    try {
+      locationType = LocationType.values.firstWhere(
+            (type) => type.name.toLowerCase() == typeStr,
+        orElse: () => LocationType.other,
+      );
+    } catch (e) {
+      print('Error parsing LocationType: ${jsonData['type']}');
+      locationType = LocationType.other;
+    }
+
     return Location(
       jsonData['id'].toString(),
-      LocationType.values.byName(jsonData['type'].toString().toLowerCase()),
+      locationType,
       jsonData['name'],
       User.fromJson(jsonData['user']),
     );
@@ -21,8 +33,9 @@ class Location {
 
   static Map<String, dynamic> toJson(Location location) {
     return {
+      'id': location.id,
       'name': location.name,
-      'type': location.type.jsonValue,  // This uses the jsonValue getter to get the correct server enum value
+      'type': location.type.jsonValue,
       'user': User.toJson(location.user),
     };
   }

@@ -1,4 +1,3 @@
-import 'package:farming_assistant/models/enums/location_type.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../APIs/location_related_apis.dart';
@@ -47,6 +46,11 @@ class _LocationsSectionState extends State<LocationsSection> {
       setState(() {
         _isLoading = false;
       });
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error loading locations: $e')),
+        );
+      }
     }
   }
 
@@ -58,8 +62,6 @@ class _LocationsSectionState extends State<LocationsSection> {
 
   @override
   Widget build(BuildContext context) {
-    int totalPages = (_locations.length / 4).ceil();
-
     return Container(
       height: widget.height,
       decoration: BoxDecoration(
@@ -92,69 +94,66 @@ class _LocationsSectionState extends State<LocationsSection> {
                 : PageView.builder(
               controller: _pageController,
               onPageChanged: _handlePageChange,
-              itemCount: totalPages,
+              itemCount: (_locations.length / 4).ceil(),
               itemBuilder: (context, pageIndex) {
-                return Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: GridView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                      childAspectRatio: 2,
-                    ),
-                    itemCount: 4,
-                    itemBuilder: (context, index) {
-                      final locationIndex = pageIndex * 4 + index;
-                      if (locationIndex >= _locations.length) {
-                        return const SizedBox();
-                      }
+                final startIndex = pageIndex * 4;
+                final endIndex = (startIndex + 4).clamp(0, _locations.length);
+                final pageLocations = _locations.sublist(startIndex, endIndex);
 
-                      final location = _locations[locationIndex];
-                      return MaterialButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => LocationDetailsScreen(location: location),
-                            ),
-                          );
-                        },
-                        color: const Color(0xFF31511E),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              location.type.icon,
-                              color: Colors.white,
-                              size: 32,
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              location.name ?? 'Location ${location.id}',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
+                return GridView.builder(
+                  padding: const EdgeInsets.all(10),
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    childAspectRatio: 2,
                   ),
+                  itemCount: pageLocations.length,
+                  itemBuilder: (context, index) {
+                    final location = pageLocations[index];
+                    return MaterialButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => LocationDetailsScreen(location: location),
+                          ),
+                        );
+                      },
+                      color: const Color(0xFF31511E),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            location.type.icon,
+                            color: Colors.white,
+                            size: 32,
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            location.name ?? location.type.displayName,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
                 );
               },
             ),
           ),
           if (_locations.isNotEmpty) Padding(
-            padding: const EdgeInsets.only(bottom: 0),
+            padding: const EdgeInsets.only(bottom: 8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(totalPages, (index) {
+              children: List.generate((_locations.length / 4).ceil(), (index) {
                 return Container(
                   width: 8,
                   height: 8,

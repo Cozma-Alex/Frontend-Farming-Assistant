@@ -1,7 +1,6 @@
 enum DrawingMode {
   view,
   draw,
-  edit,
   delete,
   color;
 
@@ -11,8 +10,6 @@ enum DrawingMode {
         return 'View';
       case DrawingMode.draw:
         return 'Draw';
-      case DrawingMode.edit:
-        return 'Edit';
       case DrawingMode.delete:
         return 'Delete';
       case DrawingMode.color:

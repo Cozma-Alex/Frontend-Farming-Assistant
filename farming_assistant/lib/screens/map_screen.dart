@@ -1,7 +1,3 @@
-// ignore_for_file: sized_box_for_whitespace
-
-import 'package:farming_assistant/screens/storage_screen.dart';
-import 'package:farming_assistant/screens/tools_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../utils/providers/farm_state_provider.dart';
@@ -9,6 +5,9 @@ import '../widgets/locations_section_widget.dart';
 import '../widgets/property_map_view.dart';
 import 'barns_screen.dart';
 import 'fields_screen.dart';
+import 'tools_screen.dart';
+import 'storage_screen.dart';
+import '../utils/providers/logged_user_provider.dart';
 
 class MapContent extends StatelessWidget {
   const MapContent({super.key});
@@ -40,15 +39,18 @@ class MapContent extends StatelessWidget {
                   child: Center(
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ChangeNotifierProvider(
-                              create: (_) => FarmStateProvider(),
-                              child: const PropertyMapView(),
+                        final loggedUser = Provider.of<LoggedUserProvider>(context, listen: false).user;
+                        if (loggedUser != null) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ChangeNotifierProvider(
+                                create: (_) => FarmStateProvider(),
+                                child: const PropertyMapView(),
+                              ),
                             ),
-                          ),
-                        );
+                          );
+                        }
                       },
                       child: const Text('Open Map'),
                     ),
