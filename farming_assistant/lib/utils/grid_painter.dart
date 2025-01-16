@@ -121,6 +121,50 @@ class FarmDrawingCanvas extends StatelessWidget {
               ),
             ),
             Positioned(
+              right: 16,
+              bottom: 240,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  FloatingActionButton(
+                    heroTag: 'zoomIn',
+                    mini: true,
+                    onPressed: () {
+                      // Add zoom functionality
+                    },
+                    child: const Icon(Icons.add),
+                  ),
+                  const SizedBox(height: 8),
+                  FloatingActionButton(
+                    heroTag: 'zoomOut',
+                    mini: true,
+                    onPressed: () {
+                      // Add zoom functionality
+                    },
+                    child: const Icon(Icons.remove),
+                  ),
+                  const SizedBox(height: 8),
+                  if (farmState.currentMode == DrawingMode.draw)
+                    Column(
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.check),
+                          onPressed: currentPoints.length >= 3 ? onComplete : null,
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.undo),
+                          onPressed: currentPoints.isNotEmpty ? onUndo : null,
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.clear),
+                          onPressed: currentPoints.isNotEmpty ? onClear : null,
+                        ),
+                      ],
+                    ),
+                ],
+              ),
+            ),
+            Positioned(
               left: 16,
               bottom: 16,
               child: Container(

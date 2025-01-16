@@ -187,20 +187,20 @@ class _PropertyMapViewState extends State<PropertyMapView> {
                     onUndo: () => setState(() => currentPoints.removeLast()),
                     onClear: () => setState(() => currentPoints.clear()),
                     onComplete: () {
-                      if (farmState.selectedLocationType != null) {
-                        final newElement = FarmElement(
-                          id: DateTime.now().toString(),
-                          name: 'New Element',
-                          type: farmState.selectedLocationType!,
-                          points: List.from(currentPoints),
-                          color: farmState.selectedColor,
-                        );
-                        farmState.addElement(newElement);
-                        setState(() {
-                          currentPoints.clear();
-                        });
-                      }
+                      final farmState = context.read<FarmStateProvider>();
+                      FarmElement newElement = FarmElement(
+                        id: DateTime.now().toString(),
+                        name: 'New Element',
+                        type: farmState.selectedLocationType ?? LocationType.emptyField,
+                        points: List.from(currentPoints),
+                        color: farmState.selectedColor,
+                      );
+                      farmState.addElement(newElement);
+                      setState(() {
+                        currentPoints.clear();
+                      });
                     },
+                    transformationController: _transformationController,  // Add this line
                   ),
                 ),
               ),

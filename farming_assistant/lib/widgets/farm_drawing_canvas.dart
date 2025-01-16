@@ -1,38 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/farm_element.dart';
+import '../utils/grid_painter.dart';
 import '../utils/providers/farm_state_provider.dart';
 import '../models/enums/drawing_mode.dart';
 import '../models/enums/location_type.dart';
 import '../utils/painters/property_painter.dart';
 
-class GridPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.grey.withOpacity(0.2)
-      ..strokeWidth = 1;
-
-    const gridSize = 50.0;
-    for (double i = 0; i < size.width; i += gridSize) {
-      canvas.drawLine(Offset(i, 0), Offset(i, size.height), paint);
-    }
-
-    for (double i = 0; i < size.height; i += gridSize) {
-      canvas.drawLine(Offset(0, i), Offset(size.width, i), paint);
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
-
-class FarmDrawingCanvas extends StatelessWidget {
+class FarmDrawingCanvas extends StatefulWidget {
   final List<Offset> currentPoints;
   final Function(Offset) onTapDown;
   final VoidCallback onUndo;
   final VoidCallback onClear;
   final VoidCallback onComplete;
+  final TransformationController transformationController;
 
   const FarmDrawingCanvas({
     super.key,
@@ -41,7 +22,46 @@ class FarmDrawingCanvas extends StatelessWidget {
     required this.onUndo,
     required this.onClear,
     required this.onComplete,
+    required this.transformationController,
   });
+
+  @override
+  State<FarmDrawingCanvas> createState() => _FarmDrawingCanvasState();
+}
+
+class _FarmDrawingCanvasState extends State<FarmDrawingCanvas> {
+  Offset _viewPosition = Offset.zero;
+
+  void _handleZoomIn() {
+    final Matrix4 currentMatrix = widget.transformationController.value;
+    final Matrix4 newMatrix = currentMatrix.clone()..scale(1.2);
+    widget.transformationController.value = newMatrix;
+  }
+
+  void _handleZoomOut() {
+    final Matrix4 currentMatrix = widget.transformationController.value;
+    final Matrix4 newMatrix = currentMatrix.clone()..scale(0.8);
+    widget.transformationController.value = newMatrix;
+  }
+
+  void _updateViewPosition() {
+    setState(() {
+      final matrix = widget.transformationController.value;
+      _viewPosition = Offset(matrix[12], matrix[13]);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    widget.transformationController.addListener(_updateViewPosition);
+  }
+
+  @override
+  void dispose() {
+    widget.transformationController.removeListener(_updateViewPosition);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,14 +69,19 @@ class FarmDrawingCanvas extends StatelessWidget {
       builder: (context, farmState, child) {
         return Stack(
           children: [
-            CustomPaint(
-              painter: GridPainter(),
-              size: Size.infinite,
+            // Infinite canvas with grid
+            SizedBox(
+              width: 10000, // Very large size for "infinite" effect
+              height: 10000,
+              child: CustomPaint(
+                painter: GridPainter(),
+              ),
             ),
+            // Drawing layer
             GestureDetector(
               onTapDown: (details) {
                 if (farmState.currentMode == DrawingMode.draw) {
-                  onTapDown(details.localPosition);
+                  widget.onTapDown(details.localPosition);
                 } else if (farmState.currentMode == DrawingMode.edit ||
                     farmState.currentMode == DrawingMode.color) {
                   if (farmState.selectedElement != null) {
@@ -86,43 +111,79 @@ class FarmDrawingCanvas extends StatelessWidget {
                   }
                 }
               },
-              onPanUpdate: (details) {
-                if (farmState.currentMode == DrawingMode.edit &&
-                    farmState.selectedElement != null) {
-                  final element = farmState.selectedElement!;
-                  List<Offset> newPoints = List.from(element.points);
-
-                  FarmElement updatedElement = FarmElement(
-                    id: element.id,
-                    name: element.name,
-                    type: element.type,
-                    points: newPoints,
-                    color: element.color,
-                  );
-
-                  farmState.updateElement(updatedElement);
-                }
-              },
               child: CustomPaint(
                 painter: PropertyPainter(
                   elements: farmState.elements,
                   selectedElement: farmState.selectedElement,
-                  currentDrawing: currentPoints.isNotEmpty
+                  currentDrawing: widget.currentPoints.isNotEmpty
                       ? FarmElement(
                     id: 'temp',
                     name: 'Drawing',
                     type: farmState.selectedLocationType ?? LocationType.emptyField,
-                    points: currentPoints,
+                    points: widget.currentPoints,
                     color: farmState.selectedColor,
                   )
                       : null,
                 ),
-                size: Size.infinite,
+                size: const Size(10000, 10000),
               ),
             ),
+            // Zoom controls - follow view position
             Positioned(
-              left: 16,
-              bottom: 16,
+              left: -_viewPosition.dx + MediaQuery.of(context).size.width - 80,
+              top: -_viewPosition.dy + 80,
+              child: Card(
+                elevation: 4,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.add),
+                      onPressed: _handleZoomIn,
+                      tooltip: 'Zoom in',
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.remove),
+                      onPressed: _handleZoomOut,
+                      tooltip: 'Zoom out',
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            // Drawing controls - follow view position
+            if (farmState.currentMode == DrawingMode.draw && widget.currentPoints.isNotEmpty)
+              Positioned(
+                left: -_viewPosition.dx + MediaQuery.of(context).size.width - 80,
+                bottom: -_viewPosition.dy + 80,
+                child: Card(
+                  elevation: 4,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.check),
+                        onPressed: widget.currentPoints.length >= 3 ? widget.onComplete : null,
+                        tooltip: 'Complete',
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.undo),
+                        onPressed: widget.onUndo,
+                        tooltip: 'Undo',
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.clear),
+                        onPressed: widget.onClear,
+                        tooltip: 'Clear',
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            // Instructions - follow view position
+            Positioned(
+              left: -_viewPosition.dx + 16,
+              bottom: -_viewPosition.dy + 16,
               child: Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(

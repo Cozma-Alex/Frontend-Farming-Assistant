@@ -24,54 +24,7 @@ enum LocationType {
   farmTrack,
   serviceRoad;
 
-  String get jsonValue {
-    switch (this) {
-      case LocationType.house:
-        return 'HOUSE';
-      case LocationType.tractorShed:
-        return 'TRACTOR_SHED';
-      case LocationType.cowBarn:
-        return 'COW_BARN';
-      case LocationType.chickenCoop:
-        return 'CHICKEN_COOP';
-      case LocationType.pigPen:
-        return 'PIG_PEN';
-      case LocationType.storage:
-        return 'STORAGE';
-      case LocationType.other:
-        return 'OTHER';
-      case LocationType.grassField:
-        return 'GRASS_FIELD';
-      case LocationType.wheatField:
-        return 'WHEAT_FIELD';
-      case LocationType.cornField:
-        return 'CORN_FIELD';
-      case LocationType.soybeansField:
-        return 'SOYBEANS_FIELD';
-      case LocationType.potatoesField:
-        return 'POTATOES_FIELD';
-      case LocationType.vegetablesField:
-        return 'VEGETABLES_FIELD';
-      case LocationType.emptyField:
-        return 'EMPTY_FIELD';
-      case LocationType.fishingPond:
-        return 'FISHING_POND';
-      case LocationType.irrigationPond:
-        return 'IRRIGATION_POND';
-      case LocationType.decorativePond:
-        return 'DECORATIVE_POND';
-      case LocationType.naturalPond:
-        return 'NATURAL_POND';
-      case LocationType.mainRoad:
-        return 'MAIN_ROAD';
-      case LocationType.accessPath:
-        return 'ACCESS_PATH';
-      case LocationType.farmTrack:
-        return 'FARM_TRACK';
-      case LocationType.serviceRoad:
-        return 'SERVICE_ROAD';
-    }
-  }
+  String get jsonValue => name;
 
   String get displayName {
     switch (this) {
