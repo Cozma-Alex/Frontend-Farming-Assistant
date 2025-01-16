@@ -7,8 +7,6 @@ import 'enums/location_type.dart';
 /// - type: LocationType - the type of the location (enum)
 /// - name: String - the name of the location
 /// - user: User - the user that owns the location (foreign key)
-class Location{
-
 class Location {
   String id;
   LocationType type;

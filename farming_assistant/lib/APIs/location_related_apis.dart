@@ -1,15 +1,10 @@
 import 'dart:convert';
 
-Future<List<Location>> getAllLocationsOfUserAPI(User user) async {
-  final uri = Uri.parse('${APIConfig.baseURI}/locations');
-
-=======
-import 'package:farming_assistant/models/animal.dart';
-import 'package:farming_assistant/models/location.dart';
-import 'package:http/http.dart' as http;
-
+import '../models/coordinate.dart';
 import '../models/dtos/locationDTO.dart';
+import '../models/location.dart';
 import '../models/user.dart';
+import 'package:http/http.dart' as http;
 import '../utils/config.dart';
 
 /// Retrieves all locations associated with a specific user.
@@ -26,38 +21,39 @@ import '../utils/config.dart';
 /// * The authentication fails
 Future<List<Location>> getAllLocationsOfUserAPI(User user) async {
   final uri = Uri.parse('${APIConfig.baseURI}/locations');
+  final response = await http.get(
+    uri,
+    headers: {
+      'Authorization': user.id!,
+      'Content-Type': 'application/json',
+    },
+  );
+  return List<Location>.from(jsonDecode(response.body)
+      .map((e) => LocationDTO.fromJson(e).location)
+      .toList());
+}
 
-  try {
-    final response = await http.get(
-      uri,
-      headers: {
-        'Authorization' : user.id!,
-        'Content-Type': 'application/json',
-      },
-    );
-    return List<Location>.from(
-        jsonDecode(response.body).map((e) => LocationDTO.fromJson(e).location).toList());
-  }
-Future<LocationDTO> saveLocationAPI(Location location, List<Coordinate> coordinates) async {
+Future<LocationDTO> saveLocationAPI(
+    Location location, List<Coordinate> coordinates) async {
   final uri = Uri.parse('${APIConfig.baseURI}/locations');
 
-    final dto = {
-      'location': Location.toJson(location),
-      'coordinates': coordinates.map((c) => Coordinate.toJson(c)).toList(),
-    };
+  final dto = {
+    'location': Location.toJson(location),
+    'coordinates': coordinates.map((c) => Coordinate.toJson(c)).toList(),
+  };
 
-    final response = await http.post(
-      uri,
-      headers: {
-        'Authorization': location.user.id!,
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode(dto),
-    );
+  final response = await http.post(
+    uri,
+    headers: {
+      'Authorization': location.user.id!,
+      'Content-Type': 'application/json',
+    },
+    body: jsonEncode(dto),
+  );
 
-    if (response.statusCode != 200) {
-      throw Exception('Server returned status code: ${response.statusCode}');
-    }
+  if (response.statusCode != 200) {
+    throw Exception('Server returned status code: ${response.statusCode}');
+  }
 
-    return LocationDTO.fromJson(jsonDecode(response.body));
+  return LocationDTO.fromJson(jsonDecode(response.body));
 }
